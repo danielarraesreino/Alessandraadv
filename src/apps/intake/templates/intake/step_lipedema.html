@@ -1,0 +1,22 @@
+<div id="bot-content">
+    <h3 style="margin-bottom: 2rem;">Olá, {{ name }}! Sobre o Lipedema...</h3>
+    <form hx-post="/api/intake/step-2/" hx-target="#bot-content" hx-ext="json-enc">
+        <input type="hidden" name="session_id" value="{{ session_id }}">
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; margin-bottom: 0.5rem;">O plano de saúde negou o tratamento?</label>
+            <select name="negativa" class="form-input">
+                <option value="sim">Sim, já tenho negativa</option>
+                <option value="nao">Não, ainda não pedi</option>
+            </select>
+        </div>
+
+        <div style="margin-bottom: 2rem;">
+            <label style="display: block; margin-bottom: 0.5rem;">Seu melhor WhatsApp para retorno:</label>
+            <input type="text" name="contact" required class="form-input" placeholder="(19) 90000-0000">
+        </div>
+
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">Enviar para Dra.
+            Alessandra</button>
+    </form>
+</div>

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}In Brief - Alessandra Donadon{% endblock %}
+
+{% block content %}
+<section class="in-brief-header" style="text-align: center; margin-bottom: 3rem;">
+    <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--color-black);">In Brief</h1>
+    <p style="color: var(--color-text-muted);">Atualizações jurídicas e insights do escritório.</p>
+</section>
+
+<div class="article-grid"
+    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
+    {% for article in articles %}
+    <article class="card"
+        style="background: var(--bg-card); padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <div style="margin-bottom: 0.5rem;">
+            {% for cat in article.categories.all %}
+            <span
+                style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--color-text-muted);">{{
+                cat.name }}</span>
+            {% endfor %}
+        </div>
+        <h2 style="font-size: 1.25rem; margin: 0.5rem 0; font-weight: 600;">
+            <a href="#" style="text-decoration: none; color: var(--color-text-main);">{{ article.title }}</a>
+        </h2>
+        <p style="font-size: 0.95rem; color: #555; line-height: 1.5;">
+            {{ article.summary }}
+        </p>
+        <div style="margin-top: 1.5rem;">
+            <a href="#" class="btn-primary" style="font-size: 0.9rem;">Ler mais</a>
+        </div>
+    </article>
+    {% empty %}
+    <p>Nenhum artigo publicado ainda.</p>
+    {% endfor %}
+</div>
+{% endblock %}

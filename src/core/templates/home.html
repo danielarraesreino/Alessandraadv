@@ -1,0 +1,441 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Fluid -->
+<!-- Hero Fluid -->
+<section class="hero">
+    <div class="hero-bg-container">
+        <img src="{% static 'images/office_hero.jpg' %}" alt="Escritório" class="hero-bg">
+    </div>
+    <div class="hero-content animate-fade-up">
+        <blockquote>
+            "Teu dever é lutar pelo Direito; mas, quando encontrares em conflito o Direito e a Justiça, luta pela
+            Justiça."
+            <footer>- Eduardo Juan Couture Etcheverry</footer>
+        </blockquote>
+        <a href="#contato" class="btn-primary">Fale Conosco</a>
+    </div>
+</section>
+
+<!-- Essência - Fluid Split -->
+<section class="section-full section-white">
+    <div class="container-fluid">
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); align-items: center; gap: var(--space-xl);">
+            <div class="animate-fade-up">
+                <h2 style="margin-bottom: 2rem;">Nossa Essência</h2>
+                <p style="font-size: 1.2rem; color: var(--color-gray-dark); margin-bottom: 1.5rem;">
+                    <span class="drop-cap">A</span>
+                    advocacia, para nós, é um espaço de escuta e transformação. Cada caso é único — e cada pessoa, um
+                    universo que merece atenção genuína.
+                </p>
+                <p style="font-size: 1.2rem; color: var(--color-gray-dark); margin-bottom: 1.5rem;">
+                    Unimos técnica e sensibilidade para construir soluções jurídicas que respeitam histórias, promovem
+                    justiça e transformam realidades.
+                </p>
+                <p style="font-size: 1.2rem; color: var(--color-gray-dark);">
+                    Nosso compromisso é com uma advocacia de impacto: humana, estratégica e socialmente engajada.
+                </p>
+            </div>
+            <div class="animate-fade-up delay-200">
+                <img src="{% static 'images/signing_hand.jpg' %}" alt="Assinatura"
+                    style="width: 100%; border-radius: 4px; box-shadow: var(--shadow-elevated);">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Diferenciais e Compromissos -->
+<section class="section-full section-creme">
+    <div class="container-fluid">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;">
+            <div class="animate-fade-up">
+                <h2 style="margin-bottom: 2rem;">Nossos Diferenciais</h2>
+                <p style="color: var(--color-gray-dark); margin-bottom: 1.5rem;">
+                    Trabalhamos com propósito e olhar atento ao detalhe. Valorizamos trajetórias singulares —
+                    acadêmicas, profissionais e pessoais — que enriquecem a forma como pensamos o Direito.
+                </p>
+                <p style="color: var(--color-gray-dark);">
+                    Aqui, a atuação é colaborativa e o aprendizado é constante: estimulamos reflexão crítica, autonomia
+                    e a busca por soluções inovadoras, sem abrir mão da empatia e do cuidado em cada relação.
+                </p>
+            </div>
+            <div class="animate-fade-up delay-200">
+                <h2 style="margin-bottom: 2rem;">Nossos Compromissos</h2>
+                <p style="color: var(--color-gray-dark); margin-bottom: 1.5rem;">
+                    Acreditamos em uma advocacia comprometida com o bem comum. Nosso trabalho busca não apenas
+                    resultados jurídicos, mas também promover equidade, sustentabilidade e responsabilidade social.
+                </p>
+                <p style="color: var(--color-gray-dark);">
+                    Apoiamos e participamos de iniciativas voltadas à educação, inclusão e fortalecimento de
+                    comunidades, entendendo que o Direito é uma ferramenta potente de transformação.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Areas - Fluid Circles Layout -->
+<section class="section-full section-creme" style="padding-bottom: 4rem;">
+    <div class="container-fluid animate-fade-up">
+        <h2 style="text-align: center; margin-bottom: 5rem; font-size: var(--font-size-2xl);">Áreas de Atuação</h2>
+    </div>
+
+    <div class="container-fluid">
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 4rem; text-align: center;">
+
+            <!-- Terceiro Setor / Cultural -->
+            <div class="animate-fade-up delay-100 group">
+                <div class="icon-circle">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" class="icon-svg">
+                        <path
+                            d="M2 22H22M12 2L2 7V10H4V19H20V10H22V7L12 2ZM6 10H8V19H6V10ZM10 10H12V19H10V10ZM14 10H16V19H14V10Z"
+                            fill="black" />
+                    </svg>
+                </div>
+                <h3 style="margin-top: 1.5rem; font-size: 1.5rem;">Terceiro Setor & Cultural</h3>
+                <p style="font-size: 1rem; color: var(--color-gray-dark); margin-top: 0.5rem; line-height: 1.6;">
+                    Assessoria a associações, fundações e organizações sociais. Regularização documental para fomento
+                    cultural (Lei Rouanet) e fortalecimento de comunidades.</p>
+            </div>
+
+            <!-- Direito da Saúde (Lipedema) -->
+            <div class="animate-fade-up delay-200 group">
+                <div class="icon-circle">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" class="icon-svg">
+                        <path
+                            d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM10 17H8V13H4V11H8V7H10V11H14V13H10V17ZM16 17H12V15H16V17ZM20 17H18V15H20V17ZM20 13H16V11H20V13ZM18 9H12V7H18V9Z"
+                            fill="black" />
+                    </svg>
+                </div>
+                <h3 style="margin-top: 1.5rem; font-size: 1.5rem;">Saúde & Lipedema</h3>
+                <p style="font-size: 1rem; color: var(--color-gray-dark); margin-top: 0.5rem; line-height: 1.6;">Atuação
+                    especializada em Direito da Saúde, com foco em Lipedema e defesa contra abusividades e negativas de
+                    cobertura por planos de saúde.</p>
+            </div>
+
+            <!-- Consumidor (Superendividamento) -->
+            <div class="animate-fade-up delay-300 group">
+                <div class="icon-circle">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" class="icon-svg">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z"
+                            fill="black" />
+                        <path d="M12.5 7H11V13L16.25 16.15L17 14.92L12.5 12.25V7Z" fill="black" />
+                    </svg>
+                </div>
+                <h3 style="margin-top: 1.5rem; font-size: 1.5rem;">Consumidor & Dívidas</h3>
+                <p style="font-size: 1rem; color: var(--color-gray-dark); margin-top: 0.5rem; line-height: 1.6;">
+                    Reorganização financeira e aplicação da Lei do Superendividamento para garantir a dignidade da
+                    pessoa humana e a repactuação de débitos.</p>
+            </div>
+
+            <!-- Cível & Empresarial -->
+            <div class="animate-fade-up delay-100 group">
+                <div class="icon-circle">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" class="icon-svg">
+                        <path
+                            d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM13 17H11V15H13V17ZM13 13H11V11H13V13ZM13 9H11V7H13V9ZM17 17H15V15H17V17ZM17 13H15V11H17V13ZM17 9H15V7H17V9Z"
+                            fill="black" />
+                    </svg>
+                </div>
+                <h3 style="margin-top: 1.5rem; font-size: 1.5rem;">Cível & Empresarial</h3>
+                <p style="font-size: 1rem; color: var(--color-gray-dark); margin-top: 0.5rem; line-height: 1.6;">
+                    Consultoria e contencioso estratégico com foco em contratos, relações civis e assessoria empresarial
+                    para negócios de impacto.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Bio - Fluid Side-by-Side -->
+<section class="section-full section-white">
+    <div class="container-fluid">
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: var(--space-xl); align-items: start;">
+            <div style="position: sticky; top: 120px; text-align: center;" class="animate-fade-up">
+                <div style="position: relative; display: inline-block;">
+                    <img src="{% static 'images/alessandra_bio.png' %}" alt="Alessandra Donadon"
+                        style="width: 300px; height: 300px; object-fit: cover; border-radius: 50%; border: 1px solid var(--color-salmon);">
+                </div>
+                <!-- Authority Badges - Gold/Salmon -->
+                <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <span
+                        style="background: var(--color-salmon-light); color: var(--color-black); padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.9rem; font-weight: 600;">25
+                        Anos de Experiência</span>
+                    <span
+                        style="background: var(--color-black); color: var(--color-creme); padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.9rem; letter-spacing: 1px;">Doutora
+                        em Direito</span>
+                </div>
+            </div>
+            <div class="animate-fade-up delay-200">
+                <h2 style="font-size: 4rem; margin-bottom: 0.5rem;">Alessandra Donadon</h2>
+                <h3
+                    style="font-family: 'Inter'; font-weight: 300; font-size: 1.5rem; color: var(--color-gray); margin-bottom: 3rem;">
+                    Founder & Head Legal</h3>
+
+                <p style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--color-gray-dark);">
+                    Alessandra é fundadora do escritório e atua há mais de 25 anos na advocacia. Ao longo de sua
+                    trajetória, foi especialista jurídica em empresas e escritórios de renome internacional, construindo
+                    sólida experiência nas áreas Cível e Empresarial, tanto no contencioso quanto no consultivo.
+                </p>
+
+                <p style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--color-gray-dark);">
+                    Possui ampla vivência no Terceiro Setor, onde liderou projetos de grande relevância — desde a
+                    regularização de movimentos sociais até a consolidação de instituições com aporte governamental.
+                </p>
+
+                <p style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--color-gray-dark);">
+                    Graduada em Direito pela Universidade São Francisco (1998), é especialista em Direito Empresarial e
+                    concluiu Mestrado e Doutorado com foco em Contratos Empresariais.
+                </p>
+
+                <p style="margin-bottom: 2rem; font-size: 1.1rem; color: var(--color-gray-dark);">
+                    Formanda em Letras, também é professora de redação e de escrita jurídica, unindo técnica e
+                    sensibilidade na formação de novos profissionais.
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem;">
+                    <div>
+                        <h4 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--color-black);">Expertise</h4>
+                        <ul style="list-style: none; padding: 0; color: var(--color-gray-dark);">
+                            <li style="margin-bottom: 0.5rem;">• Direito Cível e Empresarial</li>
+                            <li style="margin-bottom: 0.5rem;">• Terceiro Setor e ONGs</li>
+                            <li style="margin-bottom: 0.5rem;">• Direito da Saúde (Lipedema)</li>
+                            <li>• Contratos Estratégicos</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--color-black);">Formação</h4>
+                        <ul style="list-style: none; padding: 0; color: var(--color-gray-dark);">
+                            <li style="margin-bottom: 0.5rem;">• Doutora em Direito (Contratos)</li>
+                            <li style="margin-bottom: 0.5rem;">• Mestra em Direito Empresarial</li>
+                            <li>• Formação em Letras</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Carousel -->
+<section class="section-full section-creme">
+    <div class="container-fluid animate-fade-up">
+        <h2 style="text-align: center; margin-bottom: 3rem;">O Que Dizem Nossos Clientes</h2>
+
+        <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+            <div class="testimonial-slide active" style="padding: 2rem;">
+                <p
+                    style="font-family: var(--font-primary); font-size: 1.8rem; font-style: italic; margin-bottom: 1.5rem;">
+                    "O que mais me conquistou foi sua empatia — é nítido o quanto ela realmente se importa e se dedica a
+                    ajudar... Sua eficiência é admirável."
+                </p>
+                <cite style="font-style: normal; font-weight: bold; color: var(--color-salmon-dark);">- Leandro Kil (CEO
+                    da Quasar Connect)</cite>
+            </div>
+            <div class="testimonial-slide" style="padding: 2rem; display:none;">
+                <p
+                    style="font-family: var(--font-primary); font-size: 1.8rem; font-style: italic; margin-bottom: 1.5rem;">
+                    "Defensora incansável da causa animal, ela une sensibilidade e competência jurídica de forma
+                    inspiradora. Transforma desafios em soluções."
+                </p>
+                <cite style="font-style: normal; font-weight: bold; color: var(--color-salmon-dark);">- ONG Adotar Pet
+                    Campinas</cite>
+            </div>
+            <div class="testimonial-slide" style="padding: 2rem; display:none;">
+                <p
+                    style="font-family: var(--font-primary); font-size: 1.8rem; font-style: italic; margin-bottom: 1.5rem;">
+                    "Ela tem um dom raro: o de acalmar, orientar e trazer clareza mesmo nos momentos mais turbulentos.
+                    Ética e brilhante."
+                </p>
+                <cite style="font-style: normal; font-weight: bold; color: var(--color-salmon-dark);">- Lúcia Helena
+                    Pereira</cite>
+            </div>
+            <div class="testimonial-slide" style="padding: 2rem; display:none;">
+                <p
+                    style="font-family: var(--font-primary); font-size: 1.8rem; font-style: italic; margin-bottom: 1.5rem;">
+                    "Admiro sua ética, competência, compromisso e acima de tudo, a forma humana com que acolhe as
+                    pessoas."
+                </p>
+                <cite style="font-style: normal; font-weight: bold; color: var(--color-salmon-dark);">- Rosana Ocampos
+                    (VP ONG Adotar Pet)</cite>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 2rem;">
+            <span style="font-size: 2rem; color: var(--color-salmon); cursor: pointer;"
+                onclick="currentSlide(1)">●</span>
+            <span style="font-size: 2rem; color: var(--color-gray-light); cursor: pointer;"
+                onclick="currentSlide(2)">●</span>
+            <span style="font-size: 2rem; color: var(--color-gray-light); cursor: pointer;"
+                onclick="currentSlide(3)">●</span>
+            <span style="font-size: 2rem; color: var(--color-gray-light); cursor: pointer;"
+                onclick="currentSlide(4)">●</span>
+        </div>
+    </div>
+</section>
+
+<!-- Script for Automatic Testimonial Carousel -->
+<script>
+    let slideIndex = 0;
+    let autoPlay;
+
+    function showSlides(n) {
+        let slides = document.querySelectorAll('.testimonial-slide');
+        let dots = document.querySelectorAll('.section-full.section-creme span[onclick]');
+
+        if (n !== undefined) { slideIndex = n - 1; }
+        else { slideIndex++; }
+
+        if (slideIndex >= slides.length) { slideIndex = 0; }
+        if (slideIndex < 0) { slideIndex = slides.length - 1; }
+
+        slides.forEach(s => { s.style.display = 'none'; s.classList.remove('active'); });
+        dots.forEach(d => { d.style.color = 'var(--color-gray-light)'; });
+
+        slides[slideIndex].style.display = 'block';
+        slides[slideIndex].classList.add('active');
+        dots[slideIndex].style.color = 'var(--color-salmon)';
+    }
+
+    function currentSlide(n) {
+        clearInterval(autoPlay);
+        showSlides(n);
+        startAutoPlay();
+    }
+
+    function startAutoPlay() {
+        autoPlay = setInterval(() => showSlides(), 5000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        showSlides(1);
+        startAutoPlay();
+    });
+</script>
+
+<!-- Na Mídia -->
+<section class="section-full section-white">
+    <div class="container-fluid animate-fade-up">
+        <h2 style="text-align: center; margin-bottom: 4rem;">Na Mídia</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            <a href="https://portalporque.com.br" target="_blank" style="text-decoration: none; color: inherit;"
+                class="media-card">
+                <div
+                    style="background: var(--color-creme); padding: 2rem; border-radius: 8px; border: 1px solid var(--color-gray-light);">
+                    <span style="color: var(--color-salmon); font-weight: 600; font-size: 0.9rem;">PORTAL PORQUE</span>
+                    <h3 style="margin-top: 1rem; font-size: 1.25rem;">Impacto ambiental e podas de árvores em Campinas
+                    </h3>
+                </div>
+            </a>
+            <a href="https://tab.uol.com.br" target="_blank" style="text-decoration: none; color: inherit;"
+                class="media-card">
+                <div
+                    style="background: var(--color-creme); padding: 2rem; border-radius: 8px; border: 1px solid var(--color-gray-light);">
+                    <span style="color: var(--color-salmon); font-weight: 600; font-size: 0.9rem;">TAB UOL</span>
+                    <h3 style="margin-top: 1rem; font-size: 1.25rem;">Denúncias envolvendo comunidades religiosas</h3>
+                </div>
+            </a>
+            <a href="https://www.migalhas.com.br" target="_blank" style="text-decoration: none; color: inherit;"
+                class="media-card">
+                <div
+                    style="background: var(--color-creme); padding: 2rem; border-radius: 8px; border: 1px solid var(--color-gray-light);">
+                    <span style="color: var(--color-salmon); font-weight: 600; font-size: 0.9rem;">PORTAL
+                        MIGALHAS</span>
+                    <h3 style="margin-top: 1rem; font-size: 1.25rem;">Análise de casos jurídicos históricos</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- In Brief - Fluid -->
+<section class="section-full section-creme">
+    <div class="container-fluid animate-fade-up"
+        style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem;">
+        <div>
+            <span style="color: var(--color-salmon-dark); letter-spacing: 2px; font-size: 0.9rem;">ATUALIZAÇÕES</span>
+            <h2>In Brief</h2>
+        </div>
+        <a href="/in-brief"
+            style="text-decoration: none; border-bottom: 1px solid var(--color-black); color: var(--color-black); padding-bottom: 5px;">Ver
+            todos os artigos &rarr;</a>
+    </div>
+    <div class="container-fluid">
+        <div
+            style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--color-black);">
+            <div class="animate-fade-up delay-100"
+                style="padding: 2rem; border-right: 1px solid var(--color-black); transition: background 0.3s;"
+                onmouseover="this.style.background='white'" onmouseout="this.style.background='transparent'">
+                <div style="color: var(--color-gray); margin-bottom: 1rem; font-size: 0.9rem;">Cultural</div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;"><a href="/in-brief/lei-rouanet"
+                        style="text-decoration: none; color: black;">Lei Rouanet</a></h3>
+                <p style="color: var(--color-gray-dark);">O impacto da regularização documental no acesso a recursos.
+                </p>
+            </div>
+            <div class="animate-fade-up delay-200"
+                style="padding: 2rem; border-right: 1px solid var(--color-black); transition: background 0.3s;"
+                onmouseover="this.style.background='white'" onmouseout="this.style.background='transparent'">
+                <div style="color: var(--color-gray); margin-bottom: 1rem; font-size: 0.9rem;">Saúde</div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;"><a href="/in-brief/lipedema"
+                        style="text-decoration: none; color: black;">Lipedema</a></h3>
+                <p style="color: var(--color-gray-dark);">Direitos do paciente frente às negativas dos convênios.</p>
+            </div>
+            <div class="animate-fade-up delay-300" style="padding: 2rem; transition: background 0.3s;"
+                onmouseover="this.style.background='white'" onmouseout="this.style.background='transparent'">
+                <div style="color: var(--color-gray); margin-bottom: 1rem; font-size: 0.9rem;">Consumidor</div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;"><a href="/in-brief/superendividamento"
+                        style="text-decoration: none; color: black;">Dívidas</a></h3>
+                <p style="color: var(--color-gray-dark);">A Lei do Superendividamento como ferramenta de dignidade.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Programa de Estágio -->
+<section class="section-full section-white">
+    <div class="container-fluid animate-fade-up">
+        <div
+            style="background: var(--color-black); color: var(--color-creme); padding: 4rem; border-radius: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+            <div>
+                <h2 style="color: var(--color-salmon); margin-bottom: 2rem;">Programa de Estágio</h2>
+                <p style="font-size: 1.25rem; line-height: 1.6;">
+                    "O programa é voltado ao desenvolvimento integral — técnico, ético e humano — de novos talentos.
+                    Mais do que ensinar Direito, queremos inspirar uma prática jurídica comprometida com a escuta, o
+                    senso crítico e a transformação da realidade à nossa volta."
+                </p>
+            </div>
+            <div style="text-align: center;">
+                <a href="mailto:amdonadonadvocacia@adv.oabsp.org.br?subject=Programa de Estagio" class="btn-primary"
+                    style="background: var(--color-salmon); color: var(--color-black); display: inline-flex;">Candidatar-se
+                    &rarr;</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Scroll Animation Script -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-fade-up').forEach(el => {
+            observer.observe(el);
+        });
+    });
+</script>
+{% endblock %}

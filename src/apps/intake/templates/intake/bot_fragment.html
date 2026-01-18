@@ -1,0 +1,32 @@
+{% load static %}
+<div id="intake-bot" class="animate-fade-up"
+    style="background: white; padding: 2rem; border-radius: 20px; box-shadow: var(--shadow-elevated);">
+    <div id="bot-content">
+        <h3 style="margin-bottom: 2rem; font-size: 1.5rem;">Olá! Como a Dra. Alessandra pode te ajudar hoje?</h3>
+
+        <form hx-post="/api/intake/step-1/" hx-target="#bot-content" hx-swap="innerHTML" hx-ext="json-enc">
+            {% csrf_token %}
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Seu Nome:</label>
+                <input type="text" name="name" required
+                    style="width: 100%; padding: 0.8rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Qual o assunto do seu
+                    caso?</label>
+                <select name="case_type" required
+                    style="width: 100%; padding: 0.8rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
+                    <option value="">Selecione...</option>
+                    <option value="LIPEDEMA">Lipedema / Saúde</option>
+                    <option value="SUPER">Superendividamento</option>
+                    <option value="CULTURAL">Lei Rouanet / Cultural</option>
+                    <option value="OTHER">Outros Assuntos</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">Continuar
+                &rarr;</button>
+        </form>
+    </div>
+</div>

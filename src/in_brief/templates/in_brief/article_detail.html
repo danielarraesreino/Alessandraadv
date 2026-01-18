@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="section section-white">
+    <div class="container" style="max-width: 800px;">
+        <span
+            style="color: var(--color-gold-dark); font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">In
+            Brief</span>
+        <h1 style="font-size: var(--font-size-3xl); margin: var(--space-sm) 0;">{{ title }}</h1>
+        <div style="width: 60px; height: 4px; background: var(--color-gold); margin-bottom: var(--space-md);"></div>
+
+        <div class="article-content"
+            style="font-size: var(--font-size-lg); line-height: 1.8; color: var(--color-gray-dark);">
+            {% if content %}
+            {{ content|linebreaks }}
+            {% else %}
+            <p><em>Conteúdo completo do artigo será disponibilizado em breve.</em></p>
+            <p>Estamos finalizando a curadoria deste material para entregar a melhor informação jurídica para você.</p>
+            {% endif %}
+        </div>
+
+        <div
+            style="margin-top: var(--space-xl); padding-top: var(--space-md); border-top: 1px solid var(--border-soft);">
+            <a href="/" class="btn-primary"
+                style="background: white; color: var(--color-black); border: 1px solid var(--border-soft);">
+                &larr; Voltar para Home
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

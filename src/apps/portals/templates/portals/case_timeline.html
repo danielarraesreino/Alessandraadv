@@ -1,0 +1,387 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal do Cliente - Dra. Alessandra Donadon</title>
+    <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+    <style>
+        /* Portal-specific styles */
+        .portal-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--color-creme);
+            min-height: 100vh;
+        }
+
+        .portal-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--color-salmon);
+        }
+
+        .portal-header h1 {
+            font-family: 'Playfair Display', serif;
+            color: var(--color-black);
+            margin-bottom: 0.5rem;
+        }
+
+        .portal-header p {
+            color: var(--color-gray);
+            font-size: 1.1rem;
+        }
+
+        /* Timeline Kanban */
+        .timeline-kanban {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin: 3rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-subtle);
+            position: relative;
+        }
+
+        .timeline-kanban::before {
+            content: '';
+            position: absolute;
+            top: 60px;
+            left: 5%;
+            right: 5%;
+            height: 2px;
+            background: var(--color-gray-light);
+            z-index: 0;
+        }
+
+        .timeline-stage {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stage-indicator {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--color-gray-light);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .timeline-stage.completed .stage-indicator {
+            background: var(--color-salmon);
+            color: white;
+        }
+
+        .timeline-stage.completed .stage-indicator::after {
+            content: '✓';
+        }
+
+        .timeline-stage.active .stage-indicator {
+            background: var(--color-salmon);
+            color: white;
+            box-shadow: 0 0 0 4px var(--color-salmon-light);
+            animation: pulse 2s infinite;
+        }
+
+        .timeline-stage.active .stage-indicator::after {
+            content: '●';
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 4px var(--color-salmon-light);
+            }
+
+            50% {
+                box-shadow: 0 0 0 8px var(--color-salmon-light);
+            }
+        }
+
+        .stage-label {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            color: var(--color-gray-dark);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .stage-date {
+            font-size: 0.8rem;
+            color: var(--color-gray);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 24px;
+            background: var(--color-gray-light);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-salmon), var(--color-salmon-dark));
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.5rem;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* Document Library */
+        .document-library {
+            margin: 3rem 0;
+        }
+
+        .document-card {
+            background: white;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .document-card:hover {
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-2px);
+        }
+
+        .document-info h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--color-black);
+        }
+
+        .document-meta {
+            font-size: 0.9rem;
+            color: var(--color-gray);
+        }
+
+        .document-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--color-salmon-light);
+            color: var(--color-salmon-dark);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .btn-download {
+            padding: 0.75rem 1.5rem;
+            background: var(--color-salmon);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-download:hover {
+            background: var(--color-salmon-dark);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="portal-container">
+        <div class="portal-header">
+            <h1>Portal do Cliente</h1>
+            <p>Acompanhe o progresso do seu caso em tempo real</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-label">
+                <span>Progresso do Caso</span>
+                <span id="progress-percentage">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%;">
+                    <span id="progress-text"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Kanban -->
+        <div class="timeline-kanban" id="timeline-kanban">
+            <!-- Stages will be populated by JavaScript -->
+        </div>
+
+        <!-- Milestone History -->
+        <div class="document-library">
+            <h2 style="font-family: 'Playfair Display', serif; margin-bottom: 1.5rem;">Histórico de Marcos</h2>
+            <div id="milestones-container">
+                <!-- Milestones will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Document Library -->
+        <div class="document-library">
+            <h2 style="font-family: 'Playfair Display', serif; margin-bottom: 1.5rem;">Documentos do Caso</h2>
+            <div id="documents-container">
+                <!-- Documents will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get access token from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const accessToken = urlParams.get('token');
+
+        if (!accessToken) {
+            alert('Token de acesso não fornecido');
+            window.location.href = '/';
+        }
+
+        // Stage labels
+        const stageLabels = {
+            'INTAKE': 'Triagem',
+            'ANALYSIS': 'Análise',
+            'PETITION': 'Petição',
+            'FILED': 'Protocolo',
+            'DISCOVERY': 'Instrução',
+            'HEARING': 'Audiência',
+            'DECISION': 'Sentença',
+            'APPEAL': 'Recurso',
+            'CLOSED': 'Encerrado'
+        };
+
+        // Load timeline data
+        fetch(`/api/portals/timeline/${accessToken}/`)
+            .then(response => response.json())
+            .then(data => {
+                // Update progress bar
+                const percentage = data.progress_percentage;
+                document.getElementById('progress-percentage').textContent = `${percentage}%`;
+                document.getElementById('progress-fill').style.width = `${percentage}%`;
+                document.getElementById('progress-text').textContent = `${percentage}%`;
+
+                // Render timeline
+                const kanban = document.getElementById('timeline-kanban');
+                const stages = Object.keys(stageLabels);
+                const completedStages = data.milestones.map(m => m.stage);
+
+                stages.forEach(stage => {
+                    const isCompleted = completedStages.includes(stage);
+                    const isActive = stage === data.current_stage;
+
+                    const stageDiv = document.createElement('div');
+                    stageDiv.className = `timeline-stage ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}`;
+
+                    stageDiv.innerHTML = `
+                        <div class="stage-indicator"></div>
+                        <div class="stage-label">${stageLabels[stage]}</div>
+                        <div class="stage-date">${isCompleted ? getMilestoneDate(data.milestones, stage) : ''}</div>
+                    `;
+
+                    kanban.appendChild(stageDiv);
+                });
+
+                // Render milestones
+                const milestonesContainer = document.getElementById('milestones-container');
+                data.milestones.reverse().forEach(milestone => {
+                    const card = document.createElement('div');
+                    card.className = 'document-card';
+                    card.innerHTML = `
+                        <div class="document-info">
+                            <h4>${stageLabels[milestone.stage]}</h4>
+                            <p class="document-meta">
+                                <span class="document-badge">${new Date(milestone.date).toLocaleDateString('pt-BR')}</span>
+                                ${milestone.notes}
+                            </p>
+                            <p class="document-meta" style="margin-top: 0.5rem;">
+                                Atualizado por: ${milestone.updated_by}
+                            </p>
+                        </div>
+                    `;
+                    milestonesContainer.appendChild(card);
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao carregar timeline:', error);
+                alert('Erro ao carregar dados do caso');
+            });
+
+        // Load documents
+        fetch(`/api/portals/documents/${accessToken}/`)
+            .then(response => response.json())
+            .then(documents => {
+                const container = document.getElementById('documents-container');
+
+                if (documents.length === 0) {
+                    container.innerHTML = '<p style="color: var(--color-gray);">Nenhum documento disponível no momento.</p>';
+                    return;
+                }
+
+                documents.forEach(doc => {
+                    const card = document.createElement('div');
+                    card.className = 'document-card';
+                    card.innerHTML = `
+                        <div class="document-info">
+                            <h4>${doc.title}</h4>
+                            <p class="document-meta">
+                                <span class="document-badge">${doc.document_type}</span>
+                                Enviado em ${new Date(doc.uploaded_at).toLocaleDateString('pt-BR')} por ${doc.uploaded_by}
+                            </p>
+                            ${doc.description ? `<p class="document-meta" style="margin-top: 0.5rem;">${doc.description}</p>` : ''}
+                        </div>
+                        <a href="${doc.file_url}" class="btn-download" download>Baixar</a>
+                    `;
+                    container.appendChild(card);
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao carregar documentos:', error);
+            });
+
+        function getMilestoneDate(milestones, stage) {
+            const milestone = milestones.find(m => m.stage === stage);
+            return milestone ? new Date(milestone.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) : '';
+        }
+    </script>
+</body>
+
+</html>

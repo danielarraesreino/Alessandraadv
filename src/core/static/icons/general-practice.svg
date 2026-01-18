@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <g id="icon">
+    <!-- Scale of justice -->
+    <path d="M32 12 L32 52"/>
+    <path d="M20 52 L44 52"/>
+    <!-- Left scale -->
+    <path d="M16 24 L28 24 L22 32 Z"/>
+    <!-- Right scale -->
+    <path d="M36 24 L48 24 L42 32 Z"/>
+    <!-- Balance beam -->
+    <path d="M16 24 L48 24"/>
+    <circle cx="32" cy="24" r="2"/>
+  </g>
+</svg>

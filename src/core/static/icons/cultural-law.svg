@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <g id="icon">
+    <!-- Theater masks -->
+    <circle cx="24" cy="28" r="12"/>
+    <circle cx="40" cy="28" r="12"/>
+    <!-- Smile/Frown -->
+    <path d="M20 30 Q24 34, 28 30"/>
+    <path d="M36 26 Q40 22, 44 26"/>
+    <!-- Cultural ribbon -->
+    <path d="M16 44 Q32 52, 48 44" stroke-width="3"/>
+  </g>
+</svg>
