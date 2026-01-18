@@ -1,0 +1,66 @@
+{% extends "admin_portal/base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Dashboard</h1>
+    <p class="page-subtitle">Visão geral do escritório</p>
+</div>
+
+<!-- Metrics Grid -->
+<div class="metrics-grid">
+    <div class="metric-card">
+        <div class="metric-label">Leads Hoje</div>
+        <div class="metric-value">{{ leads_today }}</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-label">Leads (7 dias)</div>
+        <div class="metric-value">{{ leads_week }}</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-label">Leads (30 dias)</div>
+        <div class="metric-value">{{ leads_month }}</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-label">Leads Qualificados</div>
+        <div class="metric-value">{{ leads_qualified }}</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-label">Casos Ativos</div>
+        <div class="metric-value">{{ active_cases }}</div>
+    </div>
+</div>
+
+<!-- Cases by Area -->
+<div class="card">
+    <h2 class="card-title">Casos por Área de Atuação</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        {% for area in cases_by_area %}
+        <div style="padding: 1rem; background: var(--color-creme); border-radius: 8px; text-align: center;">
+            <div style="font-size: 2rem; font-weight: 700; color: var(--color-salmon);">{{ area.count }}</div>
+            <div style="font-size: 0.9rem; color: var(--color-gray); margin-top: 0.5rem;">{{
+                area.get_area_display|default:area.area }}</div>
+        </div>
+        {% empty %}
+        <p style="color: var(--color-gray);">Nenhum caso cadastrado ainda.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="card">
+    <h2 class="card-title">Ações Rápidas</h2>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="{% url 'admin_portal:leads_kanban' %}" class="btn btn-primary">
+            Ver Leads
+        </a>
+        <a href="/admin/apps/clients/client/" class="btn btn-secondary" target="_blank">
+            Gerenciar Clientes
+        </a>
+        <a href="/admin/apps/legal_cases/legalcase/" class="btn btn-secondary" target="_blank">
+            Gerenciar Casos
+        </a>
+    </div>
+</div>
+{% endblock %}

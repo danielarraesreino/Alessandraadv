@@ -1,0 +1,74 @@
+{% extends "admin_portal/base.html" %}
+
+{% block title %}Leads - Kanban{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Gestão de Leads</h1>
+    <p class="page-subtitle">Organize e converta seus leads</p>
+</div>
+
+<div class="kanban-board">
+    <!-- Novos Leads -->
+    <div class="kanban-column">
+        <div class="kanban-header">
+            📥 Novos ({{ new_leads.count }})
+        </div>
+        {% for lead in new_leads %}
+        <div class="kanban-card" onclick="window.location.href='{% url 'admin_portal:lead_detail' lead.id %}'">
+            <div class="lead-name">{{ lead.full_name }}</div>
+            <div class="lead-type">{{ lead.get_case_type_display }}</div>
+            <div class="lead-score">Score: {{ lead.score }}</div>
+            <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--color-gray);">
+                {{ lead.created_at|date:"d/m/Y H:i" }}
+            </div>
+        </div>
+        {% empty %}
+        <p style="color: var(--color-gray); font-size: 0.9rem; text-align: center; padding: 2rem 0;">
+            Nenhum lead novo
+        </p>
+        {% endfor %}
+    </div>
+
+    <!-- Qualificados -->
+    <div class="kanban-column">
+        <div class="kanban-header">
+            ⭐ Qualificados ({{ qualified_leads.count }})
+        </div>
+        {% for lead in qualified_leads %}
+        <div class="kanban-card" onclick="window.location.href='{% url 'admin_portal:lead_detail' lead.id %}'">
+            <div class="lead-name">{{ lead.full_name }}</div>
+            <div class="lead-type">{{ lead.get_case_type_display }}</div>
+            <div class="lead-score">Score: {{ lead.score }}</div>
+            <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--color-gray);">
+                {{ lead.created_at|date:"d/m/Y H:i" }}
+            </div>
+        </div>
+        {% empty %}
+        <p style="color: var(--color-gray); font-size: 0.9rem; text-align: center; padding: 2rem 0;">
+            Nenhum lead qualificado
+        </p>
+        {% endfor %}
+    </div>
+
+    <!-- Convertidos -->
+    <div class="kanban-column">
+        <div class="kanban-header">
+            ✅ Convertidos ({{ converted_leads.count }})
+        </div>
+        {% for lead in converted_leads %}
+        <div class="kanban-card" onclick="window.location.href='{% url 'admin_portal:lead_detail' lead.id %}'">
+            <div class="lead-name">{{ lead.full_name }}</div>
+            <div class="lead-type">{{ lead.get_case_type_display }}</div>
+            <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--color-gray);">
+                Convertido em {{ lead.created_at|date:"d/m/Y" }}
+            </div>
+        </div>
+        {% empty %}
+        <p style="color: var(--color-gray); font-size: 0.9rem; text-align: center; padding: 2rem 0;">
+            Nenhum lead convertido
+        </p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

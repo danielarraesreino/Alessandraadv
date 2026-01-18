@@ -21,4 +21,5 @@ urlpatterns = [
     path("api/", api.urls), # Main API
     path("api/whatsapp/", whatsapp_api.urls), # WhatsApp API Instance
     path("in-brief/", include("in_brief.urls")),
+    path("portal-admin/", include("admin_portal.urls")),
 ]

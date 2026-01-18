@@ -1,0 +1,94 @@
+{% extends "admin_portal/base.html" %}
+
+{% block title %}{{ lead.full_name }} - Detalhes{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">{{ lead.full_name }}</h1>
+    <p class="page-subtitle">{{ lead.get_case_type_display }}</p>
+</div>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-lg);">
+    <!-- Main Info -->
+    <div>
+        <div class="card">
+            <h2 class="card-title">Informações do Lead</h2>
+            <div style="display: grid; gap: var(--space-md);">
+                <div>
+                    <strong>Nome:</strong> {{ lead.full_name }}
+                </div>
+                <div>
+                    <strong>Contato:</strong> {{ lead.contact_info }}
+                </div>
+                <div>
+                    <strong>Tipo de Caso:</strong> {{ lead.get_case_type_display }}
+                </div>
+                <div>
+                    <strong>Score de Prioridade:</strong>
+                    <span class="lead-score">{{ lead.score }}</span>
+                </div>
+                <div>
+                    <strong>Status:</strong>
+                    {% if lead.external_id %}
+                    <span style="color: green; font-weight: 600;">✅ Convertido</span>
+                    {% elif lead.is_qualified %}
+                    <span style="color: orange; font-weight: 600;">⭐ Qualificado</span>
+                    {% else %}
+                    <span style="color: blue; font-weight: 600;">📥 Novo</span>
+                    {% endif %}
+                </div>
+                <div>
+                    <strong>Recebido em:</strong> {{ lead.created_at|date:"d/m/Y às H:i" }}
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">Dados da Triagem</h2>
+            {% if lead.triage_data %}
+            <div style="background: var(--color-creme); padding: var(--space-md); border-radius: 8px;">
+                <pre
+                    style="white-space: pre-wrap; font-family: 'Inter', sans-serif; font-size: 0.9rem;">{{ lead.triage_data|pprint }}</pre>
+            </div>
+            {% else %}
+            <p style="color: var(--color-gray);">Nenhum dado de triagem disponível.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Actions Sidebar -->
+    <div>
+        <div class="card">
+            <h2 class="card-title">Ações</h2>
+            <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+                {% if not lead.external_id %}
+                <form method="POST" action="{% url 'admin_portal:convert_lead' lead.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        Converter em Cliente
+                    </button>
+                </form>
+                {% endif %}
+
+                <a href="https://wa.me/{{ lead.contact_info|cut:'+' }}" target="_blank" class="btn btn-secondary"
+                    style="text-align: center;">
+                    💬 WhatsApp
+                </a>
+
+                <a href="{% url 'admin_portal:leads_kanban' %}" class="btn btn-secondary" style="text-align: center;">
+                    ← Voltar para Kanban
+                </a>
+            </div>
+        </div>
+
+        {% if lead.external_id %}
+        <div class="card" style="background: var(--color-salmon-light);">
+            <h3 style="font-size: 1rem; margin-bottom: var(--space-sm);">✅ Lead Convertido</h3>
+            <p style="font-size: 0.9rem; color: var(--color-gray-dark);">
+                Este lead já foi convertido em cliente.
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

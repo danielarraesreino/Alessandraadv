@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'apps.whatsapp',
     'apps.integrations',
     'apps.portals',
+    'admin_portal',
 ]
 
 MIDDLEWARE = [
