@@ -174,3 +174,7 @@ CLIO_ACCESS_TOKEN = None  # Set via environment variable in production
 # Jestor Configuration (alternative)
 # JESTOR_API_URL = os.getenv('JESTOR_API_URL')
 # JESTOR_API_KEY = os.getenv('JESTOR_API_KEY')
+
+# [NEW] Login Configuration
+LOGIN_URL = '/admin/login/'
+LOGIN_REDIRECT_URL = '/portal-admin/'
