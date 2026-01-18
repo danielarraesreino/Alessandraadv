@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: alessandra-adv
+    env: python
+    buildCommand: pip install -r requirements.txt && python src/manage.py collectstatic --noinput && python src/manage.py migrate
+    startCommand: gunicorn core.wsgi:application --chdir src
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DJANGO_SETTINGS_MODULE
+        value: core.settings
