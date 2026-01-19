@@ -26,6 +26,18 @@
         <div class="metric-label">Leads Qualificados</div>
         <div class="metric-value">{{ leads_qualified }}</div>
     </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ total_clients }}</div>
+        <div class="stat-label">Total de Clientes</div>
+    </div>
+    <div class="stat-card" style="border-left: 4px solid var(--color-salmon);">
+        <div class="stat-value">R$ {{ finance_total_pending }}</div>
+        <div class="stat-label">Contas a Pagar</div>
+    </div>
+    <div class="stat-card" style="border-left: 4px solid #e53e3e;">
+        <div class="stat-value">{{ finance_late_count }}</div>
+        <div class="stat-label">Contas em Atraso</div>
+    </div>
     <div class="metric-card">
         <div class="metric-label">Casos Ativos</div>
         <div class="metric-value">{{ active_cases }}</div>

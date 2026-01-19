@@ -20,4 +20,9 @@ urlpatterns = [
     path('cases/<int:case_id>/', views.case_detail, name='case_detail'),
     path('cases/<int:case_id>/edit/', views.case_edit, name='case_edit'),
     path('cases/create/', views.case_create, name='case_create'),
+    
+    # Finance
+    path('finance/', views.finance_list, name='finance_list'),
+    path('finance/create/', views.finance_create, name='finance_create'),
+    path('finance/<int:item_id>/pay/', views.finance_pay, name='finance_pay'),
 ]

@@ -8,6 +8,8 @@ from apps.integrations.api.router import router as integrations_router
 from apps.portals.api.router import router as portals_router
 from apps.whatsapp.api import api as whatsapp_api
 
+from apps.portals import views as portals_views
+
 # Define Main API
 api = NinjaAPI(title="Alessandra Donadon API", version="1.0.0")
 api.add_router("/in-brief", in_brief_router)
@@ -22,4 +24,8 @@ urlpatterns = [
     path("api/whatsapp/", whatsapp_api.urls), # WhatsApp API Instance
     path("in-brief/", include("in_brief.urls")),
     path("portal-admin/", include("admin_portal.urls")),
+    path("acesso/", include([
+        path("", portals_views.client_login, name="client_login"),
+    ])),
+    path("portal/", include("apps.portals.urls")),
 ]

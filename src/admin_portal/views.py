@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Sum
 from django.utils import timezone
 from datetime import timedelta
 from apps.intake.models import Lead
@@ -29,6 +30,10 @@ def dashboard(request):
     # Total de clientes
     total_clients = Client.objects.count()
     
+    # Métricas Financeiras
+    finance_total_pending = AccountPayable.objects.filter(status='PENDING').aggregate(Sum('amount'))['amount__sum'] or 0
+    finance_late_count = AccountPayable.objects.filter(status='PENDING', due_date__lt=today).count()
+    
     context = {
         'leads_today': leads_today,
         'leads_week': leads_week,
@@ -37,6 +42,8 @@ def dashboard(request):
         'cases_by_area': cases_by_area,
         'active_cases': active_cases,
         'total_clients': total_clients,
+        'finance_total_pending': finance_total_pending,
+        'finance_late_count': finance_late_count,
     }
     
     return render(request, 'admin_portal/dashboard.html', context)
@@ -241,3 +248,64 @@ def case_edit(request, case_id):
     clients = Client.objects.all().order_by('full_name')
     
     return render(request, 'admin_portal/case_form.html', {'case': case, 'clients': clients})
+
+# ============ FINANCE VIEWS ============
+from apps.finance.models import AccountPayable
+
+@login_required
+def finance_list(request):
+    """Lista de contas a pagar com filtros."""
+    status_filter = request.GET.get('status', '')
+    category_filter = request.GET.get('category', '')
+    
+    items = AccountPayable.objects.all()
+    
+    if status_filter:
+        items = items.filter(status=status_filter)
+    if category_filter:
+        items = items.filter(category=category_filter)
+        
+    items = items.order_by('due_date')
+    
+    context = {
+        'items': items,
+        'status_filter': status_filter,
+        'category_filter': category_filter,
+        'STATUS_CHOICES': AccountPayable.STATUS_CHOICES,
+        'CATEGORY_CHOICES': AccountPayable.CATEGORY_CHOICES,
+    }
+    
+    return render(request, 'admin_portal/finance_list.html', context)
+
+@login_required
+def finance_create(request):
+    """Criar nova conta a pagar."""
+    if request.method == 'POST':
+        item = AccountPayable.objects.create(
+            description=request.POST.get('description'),
+            supplier=request.POST.get('supplier', ''),
+            amount=request.POST.get('amount'),
+            due_date=request.POST.get('due_date'),
+            category=request.POST.get('category', 'OTHER'),
+            status='PENDING',
+            notes=request.POST.get('notes', ''),
+        )
+        return redirect('admin_portal:finance_list')
+    
+    context = {
+        'CATEGORY_CHOICES': AccountPayable.CATEGORY_CHOICES,
+    }
+    
+    return render(request, 'admin_portal/finance_form.html', context)
+
+@login_required
+def finance_pay(request, item_id):
+    """Marcar conta como paga (suporta HTMX)."""
+    item = get_object_or_404(AccountPayable, id=item_id)
+    item.status = 'PAID'
+    item.save()
+    
+    if request.headers.get('HX-Request'):
+        return HttpResponse(f'<span class="badge badge-success">Pago</span>')
+    
+    return redirect('admin_portal:finance_list')

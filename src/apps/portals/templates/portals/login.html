@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="section-full section-white"
+    style="min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+    <div class="container-fluid" style="max-width: 500px; width: 100%;">
+        <div
+            style="background: var(--color-creme); padding: 3rem; border-radius: 20px; box-shadow: var(--shadow-elevated); text-align: center; border: 1px solid var(--color-salmon-light);">
+
+            <h1 style="margin-bottom: 1rem; font-size: 2.5rem;">Área do Cliente</h1>
+            <p style="color: var(--color-gray-dark); margin-bottom: 2.5rem;">Acompanhe a sua jornada jurídica com
+                transparência e segurança.</p>
+
+            {% if messages %}
+            <div style="margin-bottom: 2rem;">
+                {% for message in messages %}
+                <div
+                    style="padding: 1rem; border-radius: 8px; font-size: 0.95rem; {% if message.tags == 'error' %}background: #fee2e2; color: #991b1b; border: 1px solid #f87171;{% else %}background: #dcfce7; color: #166534; border: 1px solid #4ade80;{% endif %}">
+                    {{ message.message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <form method="POST" style="display: grid; gap: 1.5rem; text-align: left;">
+                {% csrf_token %}
+                <div>
+                    <label for="access_token"
+                        style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Token
+                        de Acesso</label>
+                    <input type="text" id="access_token" name="access_token" required
+                        placeholder="Cole aqui o token recebido pelo WhatsApp"
+                        style="width: 100%; padding: 1rem; border: 2px solid var(--color-gray-light); border-radius: 12px; font-size: 1.1rem; text-align: center; font-family: 'Inter', sans-serif;">
+                </div>
+
+                <button type="submit" class="btn-primary"
+                    style="width: 100%; justify-content: center; padding: 1.25rem; font-size: 1.1rem; border: none; cursor: pointer;">
+                    Acessar meu Processo
+                </button>
+            </form>
+
+            <div style="margin-top: 3rem; font-size: 0.85rem; color: var(--color-gray);">
+                <p>Esqueceu ou não recebeu seu token?</p>
+                <a href="https://wa.me/5519988014465" target="_blank"
+                    style="color: var(--color-salmon); font-weight: 600; text-decoration: none;">Entre em contato
+                    conosco &rarr;</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Ensure styles from core are consistent */
+    .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        background-color: var(--color-black);
+        color: var(--color-creme);
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 1px solid var(--color-black);
+    }
+
+    .btn-primary:hover {
+        background-color: var(--color-salmon);
+        border-color: var(--color-salmon);
+        color: var(--color-black);
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}

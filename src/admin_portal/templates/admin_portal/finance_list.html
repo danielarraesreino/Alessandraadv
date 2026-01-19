@@ -1,0 +1,114 @@
+{% extends "admin_portal/base.html" %}
+
+{% block title %}Financeiro{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1 class="page-title">Financeiro</h1>
+            <p class="page-subtitle">Gestão de contas a pagar e despesas</p>
+        </div>
+        <a href="{% url 'admin_portal:finance_create' %}" class="btn btn-primary">+ Nova Conta</a>
+    </div>
+</div>
+
+<!-- Filters -->
+<div class="card" style="margin-bottom: var(--space-lg);">
+    <form method="GET" style="display: flex; gap: var(--space-md);">
+        <div style="flex: 1;">
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Status</label>
+            <select name="status" onchange="this.form.submit()"
+                style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
+                <option value="">Todos os Status</option>
+                {% for code, name in STATUS_CHOICES %}
+                <option value="{{ code }}" {% if status_filter==code %}selected{% endif %}>{{ name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="flex: 1;">
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Categoria</label>
+            <select name="category" onchange="this.form.submit()"
+                style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
+                <option value="">Todas as Categorias</option>
+                {% for code, name in CATEGORY_CHOICES %}
+                <option value="{{ code }}" {% if category_filter==code %}selected{% endif %}>{{ name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </form>
+</div>
+
+<!-- Finance Table -->
+<div class="card">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--color-gray-light);">
+                <th style="padding: 1rem; text-align: left;">Vencimento</th>
+                <th style="padding: 1rem; text-align: left;">Descrição</th>
+                <th style="padding: 1rem; text-align: left;">Categoria</th>
+                <th style="padding: 1rem; text-align: left;">Valor</th>
+                <th style="padding: 1rem; text-align: left;">Status</th>
+                <th style="padding: 1rem; text-align: left;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr
+                style="border-bottom: 1px solid var(--color-gray-light); {% if item.is_late %}background-color: #fff5f5;{% endif %}">
+                <td style="padding: 1rem;">
+                    <span style="font-weight: 600; {% if item.is_late %}color: #e53e3e;{% endif %}">
+                        {{ item.due_date|date:"d/m/Y" }}
+                    </span>
+                    {% if item.is_late %}
+                    <br><small style="color: #e53e3e; font-weight: 700;">ATRASADO</small>
+                    {% endif %}
+                </td>
+                <td style="padding: 1rem;">
+                    <strong>{{ item.description }}</strong>
+                    <div style="font-size: 0.85rem; color: var(--color-gray);">{{ item.supplier }}</div>
+                </td>
+                <td style="padding: 1rem;">
+                    <span
+                        style="font-size: 0.85rem; background: var(--color-creme); padding: 0.25rem 0.5rem; border-radius: 4px;">
+                        {{ item.get_category_display }}
+                    </span>
+                </td>
+                <td style="padding: 1rem; font-weight: 600;">
+                    R$ {{ item.amount }}
+                </td>
+                <td style="padding: 1rem;" id="status-{{ item.id }}">
+                    {% if item.status == 'PAID' %}
+                    <span
+                        style="background: #dcfce7; color: #166534; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">Pago</span>
+                    {% elif item.status == 'PENDING' %}
+                    <span
+                        style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">Pendente</span>
+                    {% else %}
+                    <span
+                        style="background: var(--color-gray-light); color: var(--color-gray); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">{{
+                        item.get_status_display }}</span>
+                    {% endif %}
+                </td>
+                <td style="padding: 1rem;">
+                    {% if item.status == 'PENDING' %}
+                    <button hx-post="{% url 'admin_portal:finance_pay' item.id %}" hx-target="#status-{{ item.id }}"
+                        hx-swap="innerHTML" class="btn btn-secondary"
+                        style="font-size: 0.8rem; padding: 0.4rem 0.8rem;">
+                        Marcar Pago
+                    </button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" style="padding: 3rem; text-align: center; color: var(--color-gray);">
+                    Nenhuma conta encontrada para os filtros selecionados.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
