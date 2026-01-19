@@ -1,0 +1,103 @@
+{% extends "admin_portal/base.html" %}
+
+{% block title %}Configurações & Integrações{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Configurações & Integrações</h1>
+    <p class="page-subtitle">Gerencie as conexões externas e parâmetros do sistema</p>
+</div>
+
+<div style="display: grid; gap: var(--space-lg); grid-template-columns: 2fr 1fr;">
+    <!-- Main Settings -->
+    <div style="display: grid; gap: var(--space-lg);">
+        <div class="card">
+            <h3 style="margin-bottom: var(--space-md); font-family: 'Playfair Display', serif;">Integrações Ativas</h3>
+            <div style="display: grid; gap: var(--space-md);">
+                {% for integration in integrations %}
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--color-creme); border-radius: 12px; border: 1px solid var(--color-gray-light);">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div
+                            style="width: 40px; height: 40px; background: var(--color-black); color: var(--color-creme); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                            {{ integration.name|slice:":1" }}
+                        </div>
+                        <div>
+                            <strong>{{ integration.name }}</strong>
+                            <div style="font-size: 0.8rem; color: var(--color-gray);">Tipo: {{ integration.type }}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <span
+                                class="{% if integration.status == 'CONECTADO' %}status-connected{% else %}status-pending{% endif %}"
+                                style="font-size: 0.8rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 20px;">
+                                {{ integration.status }}
+                            </span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="margin-bottom: var(--space-md); font-family: 'Playfair Display', serif;">Acesso do Cliente
+                </h3>
+                <p style="color: var(--color-gray); margin-bottom: 2rem;">Configure os parâmetros padrão para o portal
+                    do
+                    cliente.</p>
+
+                <div style="display: grid; gap: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>Notificações Automáticas</strong>
+                            <div style="font-size: 0.85rem; color: var(--color-gray);">Enviar WhatsApp quando houver
+                                atualização na timeline.</div>
+                        </div>
+                        <div
+                            style="width: 50px; height: 26px; background: #10b981; border-radius: 13px; position: relative;">
+                            <div
+                                style="width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; right: 3px; top: 3px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>Validade do Token</strong>
+                            <div style="font-size: 0.85rem; color: var(--color-gray);">Tempo padrão de expiração de
+                                novos
+                                tokens.</div>
+                        </div>
+                        <select style="padding: 0.5rem; border-radius: 8px; border: 1px solid var(--color-gray-light);">
+                            <option>30 dias</option>
+                            <option>90 dias</option>
+                            <option>Indeterminado</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Info -->
+        <div>
+            <div class="card" style="background: var(--color-black); color: var(--color-creme);">
+                <h4 style="color: var(--color-salmon); margin-bottom: 1rem;">Status do Robô</h4>
+                <div style="display: grid; gap: 1rem;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                        <span>Intake Lead</span>
+                        <span style="color: #4ade80;">● Online</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                        <span>Timeline Sync</span>
+                        <span style="color: #facc15;">● Pausado</span>
+                    </div>
+                    <hr style="border: 0; border-top: 1px solid #333; margin: 0.5rem 0;">
+                    <button class="btn btn-secondary"
+                        style="width: 100%; font-size: 0.85rem; color: #fff; border-color: #444;">Reiniciar
+                        Robôs</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

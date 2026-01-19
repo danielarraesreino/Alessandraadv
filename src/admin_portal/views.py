@@ -309,3 +309,17 @@ def finance_pay(request, item_id):
         return HttpResponse(f'<span class="badge badge-success">Pago</span>')
     
     return redirect('admin_portal:finance_list')
+
+# ============ SETTINGS VIEWS ============
+
+@login_required
+def settings_general(request):
+    """Painel de configurações e integrações."""
+    context = {
+        'integrations': [
+            {'name': 'WhatsApp (WPPConnect)', 'status': 'CONECTADO', 'type': 'MOCK'},
+            {'name': 'Clio (Legal Ops)', 'status': 'AGUARDANDO CONFIG', 'type': 'MOCK'},
+            {'name': 'Jestor (Database)', 'status': 'AGUARDANDO CONFIG', 'type': 'MOCK'},
+        ]
+    }
+    return render(request, 'admin_portal/settings_general.html', context)

@@ -54,10 +54,10 @@
         </thead>
         <tbody>
             {% for item in items %}
-            <tr
-                style="border-bottom: 1px solid var(--color-gray-light); {% if item.is_late %}background-color: #fff5f5;{% endif %}">
+            <tr class="{% if item.is_late %}row-late{% endif %}"
+                style="border-bottom: 1px solid var(--color-gray-light);">
                 <td style="padding: 1rem;">
-                    <span style="font-weight: 600; {% if item.is_late %}color: #e53e3e;{% endif %}">
+                    <span class="{% if item.is_late %}text-late{% endif %}" style="font-weight: 600;">
                         {{ item.due_date|date:"d/m/Y" }}
                     </span>
                     {% if item.is_late %}

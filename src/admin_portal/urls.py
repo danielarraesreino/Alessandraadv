@@ -25,4 +25,7 @@ urlpatterns = [
     path('finance/', views.finance_list, name='finance_list'),
     path('finance/create/', views.finance_create, name='finance_create'),
     path('finance/<int:item_id>/pay/', views.finance_pay, name='finance_pay'),
+    
+    # Settings
+    path('settings/', views.settings_general, name='settings_general'),
 ]
