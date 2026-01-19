@@ -1,0 +1,69 @@
+{% extends "admin_portal/base.html" %}
+
+{% block title %}{% if client %}Editar Cliente{% else %}Novo Cliente{% endif %}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">{% if client %}Editar Cliente{% else %}Novo Cliente{% endif %}</h1>
+    <p class="page-subtitle">Preencha os dados do cliente</p>
+</div>
+
+<div style="max-width: 800px;">
+    <div class="card">
+        <form method="POST">
+            {% csrf_token %}
+
+            <div style="display: grid; gap: var(--space-lg);">
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Nome Completo *</label>
+                    <input type="text" name="full_name" value="{{ client.full_name|default:'' }}" required
+                        style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Tipo *</label>
+                    <select name="client_type" required
+                        style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
+                        <option value="PF" {% if client.client_type=='PF' or not client %}selected{% endif %}>Pessoa
+                            Física</option>
+                        <option value="PJ" {% if client.client_type=='PJ' %}selected{% endif %}>Pessoa Jurídica</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">CPF/CNPJ *</label>
+                    <input type="text" name="cpf_cnpj" value="{{ client.cpf_cnpj|default:'' }}" required
+                        placeholder="000.000.000-00 ou 00.000.000/0000-00"
+                        style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
+                    <small style="color: var(--color-gray); font-size: 0.85rem;">Dados criptografados (LGPD)</small>
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Telefone/WhatsApp *</label>
+                    <input type="text" name="phone" value="{{ client.phone|default:'' }}" required
+                        placeholder="(19) 98801-4465"
+                        style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
+                    <small style="color: var(--color-gray); font-size: 0.85rem;">Dados criptografados (LGPD)</small>
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email</label>
+                    <input type="email" name="email" value="{{ client.email|default:'' }}"
+                        placeholder="cliente@email.com"
+                        style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
+                </div>
+
+                <div style="display: flex; gap: var(--space-md); margin-top: var(--space-md);">
+                    <button type="submit" class="btn btn-primary">
+                        {% if client %}💾 Salvar Alterações{% else %}➕ Criar Cliente{% endif %}
+                    </button>
+                    <a href="{% if client %}{% url 'admin_portal:client_detail' client.id %}{% else %}{% url 'admin_portal:clients_list' %}{% endif %}"
+                        class="btn btn-secondary">
+                        Cancelar
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

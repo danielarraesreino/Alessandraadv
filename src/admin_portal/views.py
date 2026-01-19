@@ -26,6 +26,9 @@ def dashboard(request):
     # Casos ativos
     active_cases = LegalCase.objects.filter(status='ACTIVE').count()
     
+    # Total de clientes
+    total_clients = Client.objects.count()
+    
     context = {
         'leads_today': leads_today,
         'leads_week': leads_week,
@@ -33,6 +36,7 @@ def dashboard(request):
         'leads_qualified': leads_qualified,
         'cases_by_area': cases_by_area,
         'active_cases': active_cases,
+        'total_clients': total_clients,
     }
     
     return render(request, 'admin_portal/dashboard.html', context)
@@ -83,6 +87,81 @@ def convert_lead(request, lead_id):
         lead.external_id = f'CLIENT_{client.id}'
         lead.save()
         
-        return redirect('admin_portal:leads_kanban')
+        return redirect('admin_portal:client_detail', client_id=client.id)
     
     return redirect('admin_portal:lead_detail', lead_id=lead_id)
+
+# ============ CLIENTS VIEWS ============
+
+@login_required
+def clients_list(request):
+    """Lista de clientes com busca."""
+    search_query = request.GET.get('search', '')
+    client_type = request.GET.get('type', '')
+    
+    clients = Client.objects.all()
+    
+    # Busca por nome, email
+    if search_query:
+        clients = clients.filter(
+            Q(full_name__icontains=search_query) |
+            Q(email__icontains=search_query)
+        )
+    
+    # Filtro por tipo
+    if client_type:
+        clients = clients.filter(client_type=client_type)
+    
+    clients = clients.order_by('-created_at')
+    
+    context = {
+        'clients': clients,
+        'search_query': search_query,
+        'client_type': client_type,
+    }
+    
+    return render(request, 'admin_portal/clients_list.html', context)
+
+@login_required
+def client_detail(request, client_id):
+    """Perfil completo do cliente."""
+    client = get_object_or_404(Client, id=client_id)
+    cases = client.cases.all().order_by('-entry_date')
+    
+    context = {
+        'client': client,
+        'cases': cases,
+    }
+    
+    return render(request, 'admin_portal/client_detail.html', context)
+
+@login_required
+def client_create(request):
+    """Criar novo cliente."""
+    if request.method == 'POST':
+        client = Client.objects.create(
+            full_name=request.POST.get('full_name'),
+            client_type=request.POST.get('client_type', 'PF'),
+            cpf_cnpj=request.POST.get('cpf_cnpj'),
+            phone=request.POST.get('phone'),
+            email=request.POST.get('email', ''),
+        )
+        return redirect('admin_portal:client_detail', client_id=client.id)
+    
+    return render(request, 'admin_portal/client_form.html', {'client': None})
+
+@login_required
+def client_edit(request, client_id):
+    """Editar cliente existente."""
+    client = get_object_or_404(Client, id=client_id)
+    
+    if request.method == 'POST':
+        client.full_name = request.POST.get('full_name')
+        client.client_type = request.POST.get('client_type')
+        client.cpf_cnpj = request.POST.get('cpf_cnpj')
+        client.phone = request.POST.get('phone')
+        client.email = request.POST.get('email', '')
+        client.save()
+        return redirect('admin_portal:client_detail', client_id=client.id)
+    
+    return render(request, 'admin_portal/client_form.html', {'client': client})

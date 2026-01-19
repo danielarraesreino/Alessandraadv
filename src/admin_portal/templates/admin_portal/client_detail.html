@@ -1,0 +1,102 @@
+{% extends "admin_portal/base.html" %}
+
+{% block title %}{{ client.full_name }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">{{ client.full_name }}</h1>
+    <p class="page-subtitle">{{ client.get_client_type_display }}</p>
+</div>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-lg);">
+    <!-- Main Info -->
+    <div>
+        <div class="card">
+            <h2 class="card-title">Informações do Cliente</h2>
+            <div style="display: grid; gap: var(--space-md);">
+                <div>
+                    <strong>Nome Completo:</strong> {{ client.full_name }}
+                </div>
+                <div>
+                    <strong>Tipo:</strong> {{ client.get_client_type_display }}
+                </div>
+                <div>
+                    <strong>CPF/CNPJ:</strong> {{ client.cpf_cnpj }}
+                </div>
+                <div>
+                    <strong>Telefone:</strong> {{ client.phone }}
+                </div>
+                <div>
+                    <strong>Email:</strong> {{ client.email|default:"-" }}
+                </div>
+                <div>
+                    <strong>Cadastrado em:</strong> {{ client.created_at|date:"d/m/Y às H:i" }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Cases -->
+        <div class="card">
+            <h2 class="card-title">Casos ({{ cases.count }})</h2>
+            {% if cases %}
+            <div style="display: grid; gap: var(--space-sm);">
+                {% for case in cases %}
+                <div style="padding: var(--space-md); background: var(--color-creme); border-radius: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div>
+                            <strong>{{ case.title }}</strong>
+                            <div style="font-size: 0.9rem; color: var(--color-gray); margin-top: 0.25rem;">
+                                {{ case.get_area_display }} • {{ case.get_status_display }}
+                            </div>
+                        </div>
+                        <span
+                            style="background: var(--color-salmon-light); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">
+                            {{ case.get_status_display }}
+                        </span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p style="color: var(--color-gray); text-align: center; padding: 2rem;">
+                Nenhum caso cadastrado para este cliente.
+            </p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Actions Sidebar -->
+    <div>
+        <div class="card">
+            <h2 class="card-title">Ações</h2>
+            <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+                <a href="{% url 'admin_portal:client_edit' client.id %}" class="btn btn-primary"
+                    style="text-align: center;">
+                    ✏️ Editar Cliente
+                </a>
+
+                <a href="https://wa.me/{{ client.phone|cut:'+' }}" target="_blank" class="btn btn-secondary"
+                    style="text-align: center;">
+                    💬 WhatsApp
+                </a>
+
+                <a href="{% url 'admin_portal:clients_list' %}" class="btn btn-secondary" style="text-align: center;">
+                    ← Voltar para Lista
+                </a>
+            </div>
+        </div>
+
+        <div class="card" style="background: var(--color-creme);">
+            <h3 style="font-size: 1rem; margin-bottom: var(--space-sm);">📊 Estatísticas</h3>
+            <div style="font-size: 0.9rem; color: var(--color-gray-dark);">
+                <div style="margin-bottom: 0.5rem;">
+                    <strong>Total de Casos:</strong> {{ cases.count }}
+                </div>
+                <div>
+                    <strong>Cliente desde:</strong> {{ client.created_at|date:"d/m/Y" }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
