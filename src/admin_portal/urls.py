@@ -14,4 +14,10 @@ urlpatterns = [
     path('clients/<int:client_id>/', views.client_detail, name='client_detail'),
     path('clients/<int:client_id>/edit/', views.client_edit, name='client_edit'),
     path('clients/create/', views.client_create, name='client_create'),
+    
+    # Cases
+    path('cases/', views.cases_kanban, name='cases_kanban'),
+    path('cases/<int:case_id>/', views.case_detail, name='case_detail'),
+    path('cases/<int:case_id>/edit/', views.case_edit, name='case_edit'),
+    path('cases/create/', views.case_create, name='case_create'),
 ]

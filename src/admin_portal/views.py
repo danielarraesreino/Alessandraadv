@@ -165,3 +165,79 @@ def client_edit(request, client_id):
         return redirect('admin_portal:client_detail', client_id=client.id)
     
     return render(request, 'admin_portal/client_form.html', {'client': client})
+
+# ============ CASES VIEWS ============
+
+@login_required
+def cases_kanban(request):
+    """Kanban board de casos por status."""
+    analysis_cases = LegalCase.objects.filter(status='ANALYSIS').order_by('-entry_date')
+    active_cases = LegalCase.objects.filter(status='ACTIVE').order_by('-entry_date')
+    suspended_cases = LegalCase.objects.filter(status='SUSPENDED').order_by('-entry_date')
+    archived_cases = LegalCase.objects.filter(status='ARCHIVED').order_by('-entry_date')
+    
+    context = {
+        'analysis_cases': analysis_cases,
+        'active_cases': active_cases,
+        'suspended_cases': suspended_cases,
+        'archived_cases': archived_cases,
+    }
+    
+    return render(request, 'admin_portal/cases_kanban.html', context)
+
+@login_required
+def case_detail(request, case_id):
+    """Detalhes do caso com timeline."""
+    case = get_object_or_404(LegalCase, id=case_id)
+    
+    # Tentar pegar timeline se existir
+    timeline = None
+    if hasattr(case, 'timeline'):
+        timeline = case.timeline
+    
+    context = {
+        'case': case,
+        'timeline': timeline,
+    }
+    
+    return render(request, 'admin_portal/case_detail.html', context)
+
+@login_required
+def case_create(request):
+    """Criar novo caso."""
+    if request.method == 'POST':
+        client_id = request.POST.get('client_id')
+        client = get_object_or_404(Client, id=client_id)
+        
+        case = LegalCase.objects.create(
+            client=client,
+            title=request.POST.get('title'),
+            area=request.POST.get('area'),
+            status=request.POST.get('status', 'ANALYSIS'),
+            process_number=request.POST.get('process_number', ''),
+            description=request.POST.get('description', ''),
+        )
+        return redirect('admin_portal:case_detail', case_id=case.id)
+    
+    # Lista de clientes para o formulário
+    clients = Client.objects.all().order_by('full_name')
+    
+    return render(request, 'admin_portal/case_form.html', {'case': None, 'clients': clients})
+
+@login_required
+def case_edit(request, case_id):
+    """Editar caso existente."""
+    case = get_object_or_404(LegalCase, id=case_id)
+    
+    if request.method == 'POST':
+        case.title = request.POST.get('title')
+        case.area = request.POST.get('area')
+        case.status = request.POST.get('status')
+        case.process_number = request.POST.get('process_number', '')
+        case.description = request.POST.get('description', '')
+        case.save()
+        return redirect('admin_portal:case_detail', case_id=case.id)
+    
+    clients = Client.objects.all().order_by('full_name')
+    
+    return render(request, 'admin_portal/case_form.html', {'case': case, 'clients': clients})

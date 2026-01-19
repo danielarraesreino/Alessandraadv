@@ -1,0 +1,109 @@
+{% extends "admin_portal/base.html" %}
+
+{% block title %}Casos - Kanban{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1 class="page-title">Casos Jurídicos</h1>
+            <p class="page-subtitle">Gerencie seus casos por status</p>
+        </div>
+        <a href="{% url 'admin_portal:case_create' %}" class="btn btn-primary">+ Novo Caso</a>
+    </div>
+</div>
+
+<div class="kanban-board">
+    <!-- Em Análise -->
+    <div class="kanban-column">
+        <div class="kanban-header">
+            🔍 Em Análise ({{ analysis_cases.count }})
+        </div>
+        {% for case in analysis_cases %}
+        <div class="kanban-card" onclick="window.location.href='{% url 'admin_portal:case_detail' case.id %}'">
+            <div class="lead-name">{{ case.title }}</div>
+            <div class="lead-type">{{ case.client.full_name }}</div>
+            <div style="margin-top: 0.5rem;">
+                <span class="lead-score">{{ case.get_area_display }}</span>
+            </div>
+            <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--color-gray);">
+                {{ case.entry_date|date:"d/m/Y" }}
+            </div>
+        </div>
+        {% empty %}
+        <p style="color: var(--color-gray); font-size: 0.9rem; text-align: center; padding: 2rem 0;">
+            Nenhum caso em análise
+        </p>
+        {% endfor %}
+    </div>
+
+    <!-- Ativo -->
+    <div class="kanban-column">
+        <div class="kanban-header">
+            ⚡ Ativo ({{ active_cases.count }})
+        </div>
+        {% for case in active_cases %}
+        <div class="kanban-card" onclick="window.location.href='{% url 'admin_portal:case_detail' case.id %}'">
+            <div class="lead-name">{{ case.title }}</div>
+            <div class="lead-type">{{ case.client.full_name }}</div>
+            <div style="margin-top: 0.5rem;">
+                <span class="lead-score">{{ case.get_area_display }}</span>
+            </div>
+            <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--color-gray);">
+                {{ case.entry_date|date:"d/m/Y" }}
+            </div>
+        </div>
+        {% empty %}
+        <p style="color: var(--color-gray); font-size: 0.9rem; text-align: center; padding: 2rem 0;">
+            Nenhum caso ativo
+        </p>
+        {% endfor %}
+    </div>
+
+    <!-- Suspenso -->
+    <div class="kanban-column">
+        <div class="kanban-header">
+            ⏸️ Suspenso ({{ suspended_cases.count }})
+        </div>
+        {% for case in suspended_cases %}
+        <div class="kanban-card" onclick="window.location.href='{% url 'admin_portal:case_detail' case.id %}'">
+            <div class="lead-name">{{ case.title }}</div>
+            <div class="lead-type">{{ case.client.full_name }}</div>
+            <div style="margin-top: 0.5rem;">
+                <span class="lead-score">{{ case.get_area_display }}</span>
+            </div>
+            <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--color-gray);">
+                {{ case.entry_date|date:"d/m/Y" }}
+            </div>
+        </div>
+        {% empty %}
+        <p style="color: var(--color-gray); font-size: 0.9rem; text-align: center; padding: 2rem 0;">
+            Nenhum caso suspenso
+        </p>
+        {% endfor %}
+    </div>
+
+    <!-- Arquivado -->
+    <div class="kanban-column">
+        <div class="kanban-header">
+            📦 Arquivado ({{ archived_cases.count }})
+        </div>
+        {% for case in archived_cases %}
+        <div class="kanban-card" onclick="window.location.href='{% url 'admin_portal:case_detail' case.id %}'">
+            <div class="lead-name">{{ case.title }}</div>
+            <div class="lead-type">{{ case.client.full_name }}</div>
+            <div style="margin-top: 0.5rem;">
+                <span class="lead-score">{{ case.get_area_display }}</span>
+            </div>
+            <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--color-gray);">
+                Arquivado em {{ case.last_update|date:"d/m/Y" }}
+            </div>
+        </div>
+        {% empty %}
+        <p style="color: var(--color-gray); font-size: 0.9rem; text-align: center; padding: 2rem 0;">
+            Nenhum caso arquivado
+        </p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "admin_portal/base.html" %}
+
+{% block title %}{{ case.title }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">{{ case.title }}</h1>
+    <p class="page-subtitle">{{ case.get_area_display }} • {{ case.get_status_display }}</p>
+</div>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-lg);">
+    <!-- Main Info -->
+    <div>
+        <div class="card">
+            <h2 class="card-title">Informações do Caso</h2>
+            <div style="display: grid; gap: var(--space-md);">
+                <div>
+                    <strong>Título:</strong> {{ case.title }}
+                </div>
+                <div>
+                    <strong>Cliente:</strong>
+                    <a href="{% url 'admin_portal:client_detail' case.client.id %}"
+                        style="color: var(--color-salmon); text-decoration: none;">
+                        {{ case.client.full_name }}
+                    </a>
+                </div>
+                <div>
+                    <strong>Área:</strong> {{ case.get_area_display }}
+                </div>
+                <div>
+                    <strong>Status:</strong>
+                    <span style="background: var(--color-salmon-light); padding: 0.25rem 0.5rem; border-radius: 4px;">
+                        {{ case.get_status_display }}
+                    </span>
+                </div>
+                {% if case.process_number %}
+                <div>
+                    <strong>Número do Processo:</strong> {{ case.process_number }}
+                </div>
+                {% endif %}
+                <div>
+                    <strong>Data de Entrada:</strong> {{ case.entry_date|date:"d/m/Y" }}
+                </div>
+                <div>
+                    <strong>Última Atualização:</strong> {{ case.last_update|date:"d/m/Y às H:i" }}
+                </div>
+            </div>
+        </div>
+
+        {% if case.description %}
+        <div class="card">
+            <h2 class="card-title">Descrição / Anotações</h2>
+            <div
+                style="background: var(--color-creme); padding: var(--space-md); border-radius: 8px; white-space: pre-wrap;">
+                {{ case.description }}</div>
+        </div>
+        {% endif %}
+
+        {% if timeline %}
+        <div class="card">
+            <h2 class="card-title">Timeline do Caso</h2>
+            <div style="background: var(--color-creme); padding: var(--space-md); border-radius: 8px;">
+                <div style="margin-bottom: var(--space-sm);">
+                    <strong>Etapa Atual:</strong> {{ timeline.get_current_stage_display }}
+                </div>
+                <div>
+                    <strong>Progresso:</strong> {{ timeline.progress_percentage }}%
+                </div>
+                {% if timeline.milestones %}
+                <div style="margin-top: var(--space-md);">
+                    <strong>Marcos:</strong>
+                    <div style="margin-top: 0.5rem;">
+                        {% for milestone in timeline.milestones %}
+                        <div style="padding: 0.5rem; background: white; margin-bottom: 0.5rem; border-radius: 4px;">
+                            <div style="font-weight: 600;">{{ milestone.stage }}</div>
+                            <div style="font-size: 0.85rem; color: var(--color-gray);">{{ milestone.date }} - {{
+                                milestone.updated_by }}</div>
+                            {% if milestone.notes %}
+                            <div style="font-size: 0.9rem; margin-top: 0.25rem;">{{ milestone.notes }}</div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Actions Sidebar -->
+    <div>
+        <div class="card">
+            <h2 class="card-title">Ações</h2>
+            <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+                <a href="{% url 'admin_portal:case_edit' case.id %}" class="btn btn-primary"
+                    style="text-align: center;">
+                    ✏️ Editar Caso
+                </a>
+
+                <a href="{% url 'admin_portal:client_detail' case.client.id %}" class="btn btn-secondary"
+                    style="text-align: center;">
+                    👤 Ver Cliente
+                </a>
+
+                <a href="{% url 'admin_portal:cases_kanban' %}" class="btn btn-secondary" style="text-align: center;">
+                    ← Voltar para Kanban
+                </a>
+            </div>
+        </div>
+
+        <div class="card" style="background: var(--color-creme);">
+            <h3 style="font-size: 1rem; margin-bottom: var(--space-sm);">📊 Informações</h3>
+            <div style="font-size: 0.9rem; color: var(--color-gray-dark);">
+                <div style="margin-bottom: 0.5rem;">
+                    <strong>Status:</strong> {{ case.get_status_display }}
+                </div>
+                <div style="margin-bottom: 0.5rem;">
+                    <strong>Área:</strong> {{ case.get_area_display }}
+                </div>
+                <div>
+                    <strong>Entrada:</strong> {{ case.entry_date|date:"d/m/Y" }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

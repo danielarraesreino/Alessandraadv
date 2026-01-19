@@ -1,0 +1,96 @@
+{% extends "admin_portal/base.html" %}
+
+{% block title %}{% if case %}Editar Caso{% else %}Novo Caso{% endif %}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">{% if case %}Editar Caso{% else %}Novo Caso{% endif %}</h1>
+    <p class="page-subtitle">Preencha os dados do caso jurídico</p>
+</div>
+
+<div style="max-width: 800px;">
+    <div class="card">
+        <form method="POST">
+            {% csrf_token %}
+
+            <div style="display: grid; gap: var(--space-lg);">
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Cliente *</label>
+                    <select name="client_id" required {% if case %}disabled{% endif %}
+                        style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
+                        {% if case %}
+                        <option value="{{ case.client.id }}" selected>{{ case.client.full_name }}</option>
+                        {% else %}
+                        <option value="">Selecione um cliente...</option>
+                        {% for client in clients %}
+                        <option value="{{ client.id }}">{{ client.full_name }}</option>
+                        {% endfor %}
+                        {% endif %}
+                    </select>
+                    {% if case %}
+                    <small style="color: var(--color-gray); font-size: 0.85rem;">Cliente não pode ser alterado após
+                        criação</small>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Título do Caso *</label>
+                    <input type="text" name="title" value="{{ case.title|default:'' }}" required
+                        placeholder="Ex: Ação de Indenização por Danos Morais"
+                        style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Área de Atuação *</label>
+                    <select name="area" required
+                        style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
+                        <option value="CIVIL" {% if case.area=='CIVIL' or not case %}selected{% endif %}>Cível</option>
+                        <option value="BUSINESS" {% if case.area=='BUSINESS' %}selected{% endif %}>Empresarial</option>
+                        <option value="HEALTH" {% if case.area=='HEALTH' %}selected{% endif %}>Saúde (Lipedema)</option>
+                        <option value="THIRD_SECTOR" {% if case.area=='THIRD_SECTOR' %}selected{% endif %}>Terceiro
+                            Setor (Lei Rouanet)</option>
+                        <option value="OTHER" {% if case.area=='OTHER' %}selected{% endif %}>Outros</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Status *</label>
+                    <select name="status" required
+                        style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
+                        <option value="ANALYSIS" {% if case.status=='ANALYSIS' or not case %}selected{% endif %}>Em
+                            Análise</option>
+                        <option value="ACTIVE" {% if case.status=='ACTIVE' %}selected{% endif %}>Ativo</option>
+                        <option value="SUSPENDED" {% if case.status=='SUSPENDED' %}selected{% endif %}>Suspenso</option>
+                        <option value="ARCHIVED" {% if case.status=='ARCHIVED' %}selected{% endif %}>Arquivado</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Número do Processo</label>
+                    <input type="text" name="process_number" value="{{ case.process_number|default:'' }}"
+                        placeholder="0000000-00.0000.0.00.0000"
+                        style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
+                    <small style="color: var(--color-gray); font-size: 0.85rem;">Dados criptografados (LGPD)</small>
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Descrição /
+                        Anotações</label>
+                    <textarea name="description" rows="6" placeholder="Detalhes do caso, anotações importantes..."
+                        style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px; font-family: inherit;">{{ case.description|default:'' }}</textarea>
+                </div>
+
+                <div style="display: flex; gap: var(--space-md); margin-top: var(--space-md);">
+                    <button type="submit" class="btn btn-primary">
+                        {% if case %}💾 Salvar Alterações{% else %}➕ Criar Caso{% endif %}
+                    </button>
+                    <a href="{% if case %}{% url 'admin_portal:case_detail' case.id %}{% else %}{% url 'admin_portal:cases_kanban' %}{% endif %}"
+                        class="btn btn-secondary">
+                        Cancelar
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
