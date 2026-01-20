@@ -9,7 +9,6 @@
     .django-ckeditor-widget {
         width: 100% !important;
     }
-
     .ck-editor__editable {
         min-height: 400px;
     }
@@ -19,8 +18,7 @@
 {% block content %}
 <div class="page-header">
     <h1 class="page-title">{% if article %}Editar Artigo{% else %}Novo Artigo{% endif %}</h1>
-    <p class="page-subtitle">Preencha os campos abaixo para {% if article %}atualizar o{% else %}criar um novo{% endif
-        %} artigo.</p>
+    <p class="page-subtitle">Preencha os campos abaixo para {% if article %}atualizar o{% else %}criar um novo{% endif %} artigo.</p>
 </div>
 
 <div class="card">
@@ -28,37 +26,28 @@
         {% csrf_token %}
 
         <div style="margin-bottom: 1.5rem;">
-            <label for="{{ form.title.id_for_label }}"
-                style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Título</label>
+            <label for="{{ form.title.id_for_label }}" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Título</label>
             {{ form.title }}
-            {% if form.title.errors %}<p style="color: red; font-size: 0.85rem;">{{ form.title.errors.0 }}</p>{% endif
-            %}
+            {% if form.title.errors %}<p style="color: red; font-size: 0.85rem;">{{ form.title.errors.0 }}</p>{% endif %}
         </div>
 
         <div style="margin-bottom: 1.5rem;">
-            <label for="{{ form.categories.id_for_label }}"
-                style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Categorias</label>
+            <label for="{{ form.categories.id_for_label }}" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Categorias</label>
             {{ form.categories }}
-            <small style="color: var(--color-gray); font-size: 0.85rem;">Mantenha pressionado Ctrl (ou Cmd) para
-                selecionar múltiplas.</small>
-            {% if form.categories.errors %}<p style="color: red; font-size: 0.85rem;">{{ form.categories.errors.0 }}</p>
-            {% endif %}
+            <small style="color: var(--color-gray); font-size: 0.85rem;">Mantenha pressionado Ctrl (ou Cmd) para selecionar múltiplas.</small>
+            {% if form.categories.errors %}<p style="color: red; font-size: 0.85rem;">{{ form.categories.errors.0 }}</p>{% endif %}
         </div>
 
         <div style="margin-bottom: 1.5rem;">
-            <label for="{{ form.summary.id_for_label }}"
-                style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Resumo (Início do Artigo)</label>
+            <label for="{{ form.summary.id_for_label }}" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Resumo (Início do Artigo)</label>
             {{ form.summary }}
-            {% if form.summary.errors %}<p style="color: red; font-size: 0.85rem;">{{ form.summary.errors.0 }}</p>{%
-            endif %}
+            {% if form.summary.errors %}<p style="color: red; font-size: 0.85rem;">{{ form.summary.errors.0 }}</p>{% endif %}
         </div>
 
         <div style="margin-bottom: 1.5rem;">
-            <label for="{{ form.content.id_for_label }}"
-                style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Conteúdo (Editor Rico)</label>
+            <label for="{{ form.content.id_for_label }}" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Conteúdo (Editor Rico)</label>
             {{ form.content }}
-            {% if form.content.errors %}<p style="color: red; font-size: 0.85rem;">{{ form.content.errors.0 }}</p>{%
-            endif %}
+            {% if form.content.errors %}<p style="color: red; font-size: 0.85rem;">{{ form.content.errors.0 }}</p>{% endif %}
         </div>
 
         <div style="margin-bottom: 2rem;">
