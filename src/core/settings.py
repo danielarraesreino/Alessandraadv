@@ -54,8 +54,6 @@ INSTALLED_APPS = [
     # Allauth
     "allauth",
     "allauth.account",
-    "allauth.socialaccount",
-    "allauth.socialaccount.providers.google",
     
     # CRM & Finance Modules (Bounded Contexts)
     'apps.clients',
@@ -224,19 +222,6 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SITE_ID = 1
-
-# Provider specific settings
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        }
-    }
-}
 
 # Redirect to home or admin after login
 LOGIN_REDIRECT_URL = '/'
