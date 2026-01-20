@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     "django_htmx",
     "django_extensions",
     "in_brief",
+    "ckeditor",
+    "ckeditor_uploader",
+    "crispy_forms",
+    "crispy_tailwind",
     
     # CRM & Finance Modules (Bounded Contexts)
     'apps.clients',
@@ -51,6 +55,7 @@ INSTALLED_APPS = [
     'apps.integrations',
     'apps.portals',
     'admin_portal',
+    'apps.observatory',
 ]
 
 MIDDLEWARE = [
@@ -160,21 +165,36 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ENCRYPTION_KEY = Fernet.generate_key() # In production, use os.getenv('ENCRYPTION_KEY')
 
 # [NEW] WhatsApp Configuration
-WHATSAPP_DECISOR_NUMBER = "+5519988014465"
+WHATSAPP_DECISOR_NUMBER = os.getenv('WHATSAPP_DECISOR_NUMBER', "+5519988014465")
 # Para usar Twilio, configure:
-# TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
-# TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
-# TWILIO_WHATSAPP_NUMBER = os.getenv('TWILIO_WHATSAPP_NUMBER')
+TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
+TWILIO_WHATSAPP_NUMBER = os.getenv('TWILIO_WHATSAPP_NUMBER')
 
-# [NEW] Legal Ops Integration
-LEGAL_OPS_PROVIDER = 'clio'  # Options: 'clio', 'jestor', 'custom'
-# Clio Configuration
-CLIO_API_URL = 'https://app.clio.com/api/v4'
-CLIO_ACCESS_TOKEN = None  # Set via environment variable in production
-# Jestor Configuration (alternative)
-# JESTOR_API_URL = os.getenv('JESTOR_API_URL')
-# JESTOR_API_KEY = os.getenv('JESTOR_API_KEY')
+# [NEW] Legal Ops Integration (Baterias do Django - Pivado do Clio/Jestor)
+LEGAL_OPS_PROVIDER = 'native'  # Pivado: agora o CRM é nativo
+# Clio/Jestor mantidos apenas como referência caso volte atrás
+# CLIO_ACCESS_TOKEN = os.getenv('CLIO_ACCESS_TOKEN')
 
 # [NEW] Login Configuration
 LOGIN_URL = '/admin/login/'
-LOGIN_REDIRECT_URL = '/portal-admin/'
+LOGIN_REDIRECT_URL = '/role-redirect/'
+
+# [NEW] Media Configuration
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# [NEW] CKEditor Configuration
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': '100%',
+    },
+}
+
+# [NEW] Crispy Forms Configuration
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+CRISPY_TEMPLATE_PACK = "tailwind"

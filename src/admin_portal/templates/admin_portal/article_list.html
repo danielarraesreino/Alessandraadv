@@ -1,0 +1,78 @@
+{% extends 'admin_portal/base.html' %}
+
+{% block title %}Artigos - In Brief{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1 class="page-title">In Brief</h1>
+            <p class="page-subtitle">Gerenciar artigos e novidades do escritório.</p>
+        </div>
+        <a href="{% url 'admin_portal:article_create' %}" class="btn btn-primary">Novo Artigo</a>
+    </div>
+</div>
+
+{% if messages %}
+{% for message in messages %}
+<div class="card"
+    style="background: #f0fdf4; border-left: 4px solid #166534; padding: 1rem; margin-bottom: 2rem; color: #166534;">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="card">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--color-creme); text-align: left;">
+                <th style="padding: 1rem;">Título</th>
+                <th style="padding: 1rem;">Categoria</th>
+                <th style="padding: 1rem;">Status</th>
+                <th style="padding: 1rem;">Data</th>
+                <th style="padding: 1rem; text-align: right;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in articles %}
+            <tr style="border-bottom: 1px solid var(--color-creme);">
+                <td style="padding: 1rem; font-weight: 600;">{{ article.title }}</td>
+                <td style="padding: 1rem;">
+                    {% for cat in article.categories.all %}
+                    <span class="badge"
+                        style="background: var(--color-creme); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">{{
+                        cat.name }}</span>
+                    {% empty %}
+                    -
+                    {% endfor %}
+                </td>
+                <td style="padding: 1rem;">
+                    {% if article.is_published %}
+                    <span style="color: #166534; font-weight: 600;">Publicado</span>
+                    {% else %}
+                    <span style="color: var(--color-gray);">Rascunho</span>
+                    {% endif %}
+                </td>
+                <td style="padding: 1rem; color: var(--color-gray);">{{ article.created_at|date:"d/m/Y" }}</td>
+                <td style="padding: 1rem; text-align: right;">
+                    <a href="{% url 'admin_portal:article_edit' article.id %}"
+                        style="color: var(--color-salmon); text-decoration: none; margin-right: 1rem; font-weight: 600;">Editar</a>
+                    <form action="{% url 'admin_portal:article_delete' article.id %}" method="POST"
+                        style="display: inline;"
+                        onsubmit="return confirm('Tem certeza que deseja excluir este artigo?')">
+                        {% csrf_token %}
+                        <button type="submit"
+                            style="background: none; border: none; color: #dc2626; cursor: pointer; font-weight: 600; font-family: inherit;">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="padding: 2rem; text-align: center; color: var(--color-gray);">Nenhum artigo
+                    encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

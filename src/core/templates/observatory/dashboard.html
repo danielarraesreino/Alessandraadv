@@ -1,0 +1,167 @@
+{% extends "admin_portal/base.html" %}
+{% load static %}
+
+{% block title %}Observatório de Direitos Humanos{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Gráfico de Período
+        const ctxPeriod = document.getElementById('periodChart').getContext('2d');
+        new Chart(ctxPeriod, {
+            type: 'doughnut',
+            data: {
+                labels: {{ period_labels| safe }},
+        datasets: [{
+            data: {{ period_data| safe }},
+        backgroundColor: ['#2A2A2A', '#E35D5B'], // Black and Salmon
+        borderWidth: 0
+                }]
+            },
+        options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'bottom' },
+            title: { display: true, text: 'Distribuição por Século' }
+        }
+    }
+        });
+
+    // Gráfico de Tipos
+    const ctxType = document.getElementById('typeChart').getContext('2d');
+    new Chart(ctxType, {
+        type: 'bar',
+        data: {
+            labels: {{ type_labels| safe }},
+        datasets: [{
+            label: 'Casos Registrados',
+            data: {{ type_data| safe }},
+        backgroundColor: '#166534',
+        borderRadius: 4
+                }]
+            },
+        options: {
+        responsive: true,
+        indexAxis: 'y',
+        plugins: {
+            legend: { display: false },
+            title: { display: true, text: 'Principais Violações' }
+        }
+    }
+        });
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Observatório de Direitos Humanos</h1>
+    <p class="page-subtitle">Memória, Verdade e Justiça: Monitoramento histórico de violações no Brasil.</p>
+</div>
+
+<!-- KPIs -->
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
+    <div class="card" style="border-left: 4px solid var(--color-black);">
+        <h3 style="font-size: 0.9rem; color: var(--color-gray); text-transform: uppercase; letter-spacing: 0.05em;">
+            Total de Casos</h3>
+        <p style="font-size: 2.5rem; font-weight: 700; margin: 0.5rem 0;">{{ total_cases }}</p>
+        <span style="font-size: 0.8rem;">Séculos XX e XXI</span>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--color-salmon);">
+        <h3 style="font-size: 0.9rem; color: var(--color-gray); text-transform: uppercase; letter-spacing: 0.05em;">Em
+            Análise</h3>
+        <p style="font-size: 2.5rem; font-weight: 700; margin: 0.5rem 0;">{{ all_cases|length }}</p>
+        <!-- Simplificação -->
+        <span style="font-size: 0.8rem;">Monitoramento Ativo</span>
+    </div>
+    <div class="card" style="border-left: 4px solid #166534;">
+        <h3 style="font-size: 0.9rem; color: var(--color-gray); text-transform: uppercase; letter-spacing: 0.05em;">
+            Vidas Impactadas</h3>
+        <p style="font-size: 2.5rem; font-weight: 700; margin: 0.5rem 0;">Múltiplas</p>
+        <span style="font-size: 0.8rem;">Histórias Preservadas</span>
+    </div>
+</div>
+
+<!-- Charts Row -->
+<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem; margin-bottom: 2rem;">
+    <div class="card">
+        <canvas id="periodChart"></canvas>
+    </div>
+    <div class="card">
+        <canvas id="typeChart"></canvas>
+    </div>
+</div>
+
+<!-- Memória Viva Section -->
+<h2
+    style="font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 1rem; border-bottom: 2px solid var(--color-salmon); display: inline-block; padding-bottom: 0.5rem;">
+    Memória Viva</h2>
+
+<div
+    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+    {% for case in highlight_cases %}
+    <div class="card" style="transition: transform 0.2s; cursor: default;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+            <h3 style="font-weight: 700; font-size: 1.1rem; color: var(--color-black);">{{ case.name }}</h3>
+            {% if case.period == 'SEC_20' %}
+            <span
+                style="background: #e5e7eb; color: #374151; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 600;">SÉC
+                XX</span>
+            {% else %}
+            <span
+                style="background: #fee2e2; color: #991b1b; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 600;">SÉC
+                XXI</span>
+            {% endif %}
+        </div>
+        <p style="font-size: 0.8rem; color: var(--color-gray); margin-bottom: 0.5rem;">
+            <strong>{{ case.date_event|date:"Y" }}</strong> • {{ case.location }}
+        </p>
+        <p style="font-size: 0.9rem; line-height: 1.5; color: #4b5563; margin-bottom: 1rem;">
+            {{ case.description|truncatechars:100 }}
+        </p>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <span
+                style="background: var(--color-creme); border: 1px solid var(--color-gray-light); padding: 2px 8px; border-radius: 12px; font-size: 0.75rem;">
+                {{ case.get_violation_type_display }}
+            </span>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Tabela Completa -->
+<div class="card">
+    <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 1.5rem;">Registro Geral de Casos</h3>
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--color-gray-light);">
+                <th style="text-align: left; padding: 1rem;">Data</th>
+                <th style="text-align: left; padding: 1rem;">Nome</th>
+                <th style="text-align: left; padding: 1rem;">Tipo de Violação</th>
+                <th style="text-align: left; padding: 1rem;">Local</th>
+                <th style="text-align: left; padding: 1rem;">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for case in all_cases %}
+            <tr style="border-bottom: 1px solid var(--color-gray-light);">
+                <td style="padding: 1rem;">{{ case.date_event|date:"d/m/Y" }}</td>
+                <td style="padding: 1rem; font-weight: 600;">{{ case.name }}</td>
+                <td style="padding: 1rem;">{{ case.get_violation_type_display }}</td>
+                <td style="padding: 1rem;">{{ case.location }}</td>
+                <td style="padding: 1rem;">
+                    <span
+                        style="font-size: 0.85rem; padding: 2px 8px; border-radius: 4px; 
+                        background: {% if case.status == 'RECONHECIDO' %}#dcfce7{% elif case.status == 'IMPUNE' %}#fee2e2{% else %}#f3f4f6{% endif %};
+                        color: {% if case.status == 'RECONHECIDO' %}#166534{% elif case.status == 'IMPUNE' %}#991b1b{% else %}#374151{% endif %};">
+                        {{ case.get_status_display }}
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

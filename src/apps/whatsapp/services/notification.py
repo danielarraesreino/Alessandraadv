@@ -38,13 +38,16 @@ class WhatsAppNotificationService:
         
         if self.provider == 'mock':
             return self._send_mock(message, lead)
-        elif self.provider == 'twilio':
+        
+        # Only send real notifications for Score > 60
+        if lead.score < 60:
+            logger.info(f"Lead {lead.id} score {lead.score} too low for WhatsApp notification")
+            return False
+
+        if self.provider == 'twilio':
             return self._send_twilio(message)
         elif self.provider == 'evolution':
             return self._send_evolution(message)
-        else:
-            logger.error(f"Provider desconhecido: {self.provider}")
-            return False
     
     def _format_lead_message(self, lead) -> str:
         """Formata a mensagem de notificação com linguagem profissional."""
@@ -142,7 +145,8 @@ Score de Qualificação: {lead.score}/100
                 json={
                     'number': self.decisor_number.replace('+', ''),
                     'text': message
-                }
+                },
+                timeout=10
             )
             
             if response.status_code == 200:

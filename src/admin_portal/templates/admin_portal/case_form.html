@@ -44,12 +44,12 @@
                     <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Área de Atuação *</label>
                     <select name="area" required
                         style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
-                        <option value="CIVIL" {% if case.area=='CIVIL' or not case %}selected{% endif %}>Cível</option>
-                        <option value="BUSINESS" {% if case.area=='BUSINESS' %}selected{% endif %}>Empresarial</option>
-                        <option value="HEALTH" {% if case.area=='HEALTH' %}selected{% endif %}>Saúde (Lipedema)</option>
-                        <option value="THIRD_SECTOR" {% if case.area=='THIRD_SECTOR' %}selected{% endif %}>Terceiro
+                        <option value="CIVIL" {% if case.area == 'CIVIL' or not case %}selected{% endif %}>Cível</option>
+                        <option value="BUSINESS" {% if case.area == 'BUSINESS' %}selected{% endif %}>Empresarial</option>
+                        <option value="HEALTH" {% if case.area == 'HEALTH' %}selected{% endif %}>Saúde (Lipedema)</option>
+                        <option value="THIRD_SECTOR" {% if case.area == 'THIRD_SECTOR' %}selected{% endif %}>Terceiro
                             Setor (Lei Rouanet)</option>
-                        <option value="OTHER" {% if case.area=='OTHER' %}selected{% endif %}>Outros</option>
+                        <option value="OTHER" {% if case.area == 'OTHER' %}selected{% endif %}>Outros</option>
                     </select>
                 </div>
 
@@ -57,11 +57,11 @@
                     <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Status *</label>
                     <select name="status" required
                         style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
-                        <option value="ANALYSIS" {% if case.status=='ANALYSIS' or not case %}selected{% endif %}>Em
+                        <option value="ANALYSIS" {% if case.status == 'ANALYSIS' or not case %}selected{% endif %}>Em
                             Análise</option>
-                        <option value="ACTIVE" {% if case.status=='ACTIVE' %}selected{% endif %}>Ativo</option>
-                        <option value="SUSPENDED" {% if case.status=='SUSPENDED' %}selected{% endif %}>Suspenso</option>
-                        <option value="ARCHIVED" {% if case.status=='ARCHIVED' %}selected{% endif %}>Arquivado</option>
+                        <option value="ACTIVE" {% if case.status == 'ACTIVE' %}selected{% endif %}>Ativo</option>
+                        <option value="SUSPENDED" {% if case.status == 'SUSPENDED' %}selected{% endif %}>Suspenso</option>
+                        <option value="ARCHIVED" {% if case.status == 'ARCHIVED' %}selected{% endif %}>Arquivado</option>
                     </select>
                 </div>
 

@@ -10,3 +10,7 @@ pydantic>=2.12.5
 whitenoise>=6.9.0
 requests>=2.30.0
 twilio>=8.0.0
+django-ckeditor>=6.7.0
+django-crispy-forms>=2.0
+crispy-tailwind>=1.0
+pillow>=10.0.0

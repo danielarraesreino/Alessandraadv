@@ -85,7 +85,7 @@ class WhatsAppNotificationTestCase(TestCase):
         self.assertIn("Ana Costa", message)
         self.assertIn("SUPERENDIVIDAMENTO", message)
         self.assertIn("85/100", message)
-        self.assertIn("PRIORIDADE ALTA", message)
+        self.assertIn("ALTA PRIORIDADE", message)
 
 
 class TriageSessionTestCase(TestCase):

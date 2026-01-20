@@ -1,0 +1,10 @@
+{% for doc in documents %}
+<div class="document-card">
+    <span class="doc-type">{{ doc.get_document_type_display }}</span>
+    <span class="doc-title">{{ doc.title }}</span>
+    <a href="{{ doc.file.url }}" class="btn-action" download>Visualizar Documento</a>
+</div>
+{% empty %}
+<p style="grid-column: 1/-1; text-align: center; color: var(--color-gray); padding: 2rem;">Ainda não há documentos
+    disponíveis para visualização.</p>
+{% endfor %}

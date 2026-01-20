@@ -1,0 +1,22 @@
+{% for stage in stages %}
+<div class="timeline-item {% if stage.is_completed %}completed{% endif %} {% if stage.is_active %}active{% endif %}">
+    <div class="timeline-marker">
+        <i data-lucide="{{ stage.icon }}" style="width: 16px; height: 16px;"></i>
+    </div>
+    <div class="timeline-content">
+        <div class="timeline-title">{{ stage.label }}</div>
+        <div class="timeline-desc">{{ stage.desc }}</div>
+        {% if stage.is_completed %}
+        <span class="timeline-date">Concluído em {{ stage.date|date:"d/m/Y" }}</span>
+        {% endif %}
+        {% if stage.is_active %}
+        <span class="timeline-date" style="color: var(--color-salmon-dark); font-weight: 700;">Estamos aqui
+            agora.</span>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+
+<script>
+    lucide.createIcons();
+</script>

@@ -1,14 +1,23 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Count, Q, Sum
 from django.utils import timezone
 from datetime import timedelta
 from apps.intake.models import Lead
 from apps.clients.models import Client
 from apps.legal_cases.models import LegalCase
+from .models import SystemSettings
+from in_brief.models import Article, Category
+from django.utils.text import slugify
+from django.contrib import messages
+import os
+
+def is_manager(user):
+    return user.is_superuser or user.groups.filter(name='Manager').exists()
 
 @login_required
+@user_passes_test(is_manager)
 def dashboard(request):
     """Dashboard principal com métricas."""
     today = timezone.now().date()
@@ -32,7 +41,16 @@ def dashboard(request):
     
     # Métricas Financeiras
     finance_total_pending = AccountPayable.objects.filter(status='PENDING').aggregate(Sum('amount'))['amount__sum'] or 0
+    finance_receivable_pending = AccountReceivable.objects.filter(status='PENDING').aggregate(Sum('amount'))['amount__sum'] or 0
     finance_late_count = AccountPayable.objects.filter(status='PENDING', due_date__lt=today).count()
+    
+    # Contingência de Risco
+    total_contingency = LegalCase.objects.aggregate(Sum('contingency_value'))['contingency_value__sum'] or 0
+    
+    # Métricas de Conteúdo (In Brief)
+    total_articles = Article.objects.count()
+    published_articles = Article.objects.filter(is_published=True).count()
+    categories_count = Category.objects.count()
     
     context = {
         'leads_today': leads_today,
@@ -43,7 +61,14 @@ def dashboard(request):
         'active_cases': active_cases,
         'total_clients': total_clients,
         'finance_total_pending': finance_total_pending,
+        'finance_receivable_pending': finance_receivable_pending,
         'finance_late_count': finance_late_count,
+        'total_contingency': total_contingency,
+        'total_articles': total_articles,
+        'published_articles': published_articles,
+        'categories_count': categories_count,
+        'leads_by_source': Lead.objects.values('source').annotate(count=Count('id')),
+        'leads_by_location': Lead.objects.values('location').annotate(count=Count('id')),
     }
     
     return render(request, 'admin_portal/dashboard.html', context)
@@ -119,15 +144,21 @@ def clients_list(request):
     if client_type:
         clients = clients.filter(client_type=client_type)
     
-    clients = clients.order_by('-created_at')
+    # Kanban Logic
+    prospects = clients.filter(status='PROSPECT').order_by('-created_at')
+    onboarding = clients.filter(status='ONBOARDING').order_by('-created_at')
+    active = clients.filter(status='ACTIVE').order_by('-created_at')
+    archived = clients.filter(status='ARCHIVED').order_by('-created_at')
     
     context = {
-        'clients': clients,
+        'prospects': prospects,
+        'onboarding': onboarding,
+        'active': active,
+        'archived': archived,
         'search_query': search_query,
-        'client_type': client_type,
     }
     
-    return render(request, 'admin_portal/clients_list.html', context)
+    return render(request, 'admin_portal/clients_kanban.html', context)
 
 @login_required
 def client_detail(request, client_id):
@@ -249,16 +280,24 @@ def case_edit(request, case_id):
     
     return render(request, 'admin_portal/case_form.html', {'case': case, 'clients': clients})
 
-# ============ FINANCE VIEWS ============
-from apps.finance.models import AccountPayable
+from apps.finance.models import AccountPayable, AccountReceivable
 
 @login_required
+@user_passes_test(is_manager)
 def finance_list(request):
-    """Lista de contas a pagar com filtros."""
+    """Lista de finanças (Pagar/Receber) com filtros."""
+    tab = request.GET.get('tab', 'payable')
     status_filter = request.GET.get('status', '')
     category_filter = request.GET.get('category', '')
     
-    items = AccountPayable.objects.all()
+    if tab == 'receivable':
+        items = AccountReceivable.objects.all()
+        status_choices = AccountReceivable.STATUS_CHOICES
+        category_choices = AccountReceivable.CATEGORY_CHOICES
+    else:
+        items = AccountPayable.objects.all()
+        status_choices = AccountPayable.STATUS_CHOICES
+        category_choices = AccountPayable.CATEGORY_CHOICES
     
     if status_filter:
         items = items.filter(status=status_filter)
@@ -269,10 +308,11 @@ def finance_list(request):
     
     context = {
         'items': items,
+        'tab': tab,
         'status_filter': status_filter,
         'category_filter': category_filter,
-        'STATUS_CHOICES': AccountPayable.STATUS_CHOICES,
-        'CATEGORY_CHOICES': AccountPayable.CATEGORY_CHOICES,
+        'STATUS_CHOICES': status_choices,
+        'CATEGORY_CHOICES': category_choices,
     }
     
     return render(request, 'admin_portal/finance_list.html', context)
@@ -300,26 +340,187 @@ def finance_create(request):
 
 @login_required
 def finance_pay(request, item_id):
-    """Marcar conta como paga (suporta HTMX)."""
-    item = get_object_or_404(AccountPayable, id=item_id)
-    item.status = 'PAID'
-    item.save()
+    """Marcar conta como paga ou recebida (suporta HTMX)."""
+    tab = request.GET.get('tab', 'payable')
+    
+    if tab == 'receivable':
+        item = get_object_or_404(AccountReceivable, id=item_id)
+        item.status = 'RECEIVED'
+        item.received_date = timezone.now().date()
+        item.save()
+        label = 'Recebido'
+    else:
+        item = get_object_or_404(AccountPayable, id=item_id)
+        item.status = 'PAID'
+        item.save()
+        label = 'Pago'
     
     if request.headers.get('HX-Request'):
-        return HttpResponse(f'<span class="badge badge-success">Pago</span>')
+        return HttpResponse(f'<span class="badge badge-success" style="background: #dcfce7; color: #166534; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">{label}</span>')
     
-    return redirect('admin_portal:finance_list')
+    return redirect(f"{reverse('admin_portal:finance_list')}?tab={tab}")
 
 # ============ SETTINGS VIEWS ============
 
 @login_required
+@user_passes_test(is_manager)
 def settings_general(request):
     """Painel de configurações e integrações."""
+    settings = SystemSettings.get_settings()
+    
+    if request.method == 'POST':
+        settings.whatsapp_enabled = request.POST.get('whatsapp_enabled') == 'on'
+        settings.clio_integration_active = request.POST.get('clio_integration_active') == 'on'
+        settings.jestor_integration_active = request.POST.get('jestor_integration_active') == 'on'
+        settings.client_notification_auto = request.POST.get('client_notification_auto') == 'on'
+        settings.token_validity_days = int(request.POST.get('token_validity_days', 30))
+        settings.office_name = request.POST.get('office_name', settings.office_name)
+        settings.save()
+        messages.success(request, "Configurações atualizadas com sucesso!")
+        return redirect('admin_portal:settings_general')
+
     context = {
+        'settings': settings,
         'integrations': [
-            {'name': 'WhatsApp (WPPConnect)', 'status': 'CONECTADO', 'type': 'MOCK'},
-            {'name': 'Clio (Legal Ops)', 'status': 'AGUARDANDO CONFIG', 'type': 'MOCK'},
-            {'name': 'Jestor (Database)', 'status': 'AGUARDANDO CONFIG', 'type': 'MOCK'},
+            {'name': 'WhatsApp (WPPConnect)', 'status': 'CONECTADO' if settings.whatsapp_enabled else 'DESCONECTADO', 'type': 'SISTEMA', 'enabled': settings.whatsapp_enabled},
+            {'name': 'Clio (Legal Ops)', 'status': 'CONECTADO' if settings.clio_integration_active else 'PENDENTE', 'type': 'MOCK', 'enabled': settings.clio_integration_active},
+            {'name': 'Jestor (Database)', 'status': 'CONECTADO' if settings.jestor_integration_active else 'PENDENTE', 'type': 'MOCK', 'enabled': settings.jestor_integration_active},
         ]
     }
     return render(request, 'admin_portal/settings_general.html', context)
+
+from apps.legal_cases.services.document_service import DocumentAutomationService
+from django.http import FileResponse
+
+@login_required
+def generate_document_action(request, case_id):
+    """Gera um documento .docx para o caso."""
+    case = get_object_or_404(LegalCase, id=case_id)
+    service = DocumentAutomationService()
+    
+    try:
+        output_path = service.generate_base_document(case)
+        return FileResponse(
+            open(output_path, 'rb'), 
+            as_attachment=True, 
+            filename=os.path.basename(output_path)
+        )
+    except Exception as e:
+        messages.error(request, f"Erro ao gerar documento: {e}")
+        return redirect('admin_portal:case_detail', case_id=case_id)
+
+# ============ ARTICLES VIEWS ============
+
+@login_required
+def article_list(request):
+    """Lista de artigos do In Brief."""
+    articles = Article.objects.all().order_by('-created_at')
+    return render(request, 'admin_portal/article_list.html', {'articles': articles})
+
+@login_required
+def article_create(request):
+    """Criar novo artigo."""
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        summary = request.POST.get('summary', '')
+        is_published = request.POST.get('is_published') == 'on'
+        category_id = request.POST.get('category')
+        
+        article = Article.objects.create(
+            title=title,
+            slug=slugify(title),
+            content=content,
+            summary=summary,
+            author=request.user,
+            is_published=is_published,
+            published_at=timezone.now() if is_published else None
+        )
+        
+        if category_id:
+            category = get_object_or_404(Category, id=category_id)
+            article.categories.add(category)
+            
+        messages.success(request, "Artigo criado com sucesso!")
+        return redirect('admin_portal:article_list')
+    
+    categories = Category.objects.all()
+    return render(request, 'admin_portal/article_form.html', {'categories': categories, 'article': None})
+
+@login_required
+def article_edit(request, article_id):
+    """Editar artigo existente."""
+    article = get_object_or_404(Article, id=article_id)
+    
+    if request.method == 'POST':
+        article.title = request.POST.get('title')
+        article.content = request.POST.get('content')
+        article.summary = request.POST.get('summary', '')
+        was_published = article.is_published
+        article.is_published = request.POST.get('is_published') == 'on'
+        
+        if article.is_published and not was_published:
+            article.published_at = timezone.now()
+            
+        category_id = request.POST.get('category')
+        if category_id:
+            category = get_object_or_404(Category, id=category_id)
+            article.categories.clear()
+            article.categories.add(category)
+            
+        article.save()
+        messages.success(request, "Artigo atualizado com sucesso!")
+        return redirect('admin_portal:article_list')
+    
+    categories = Category.objects.all()
+    return render(request, 'admin_portal/article_form.html', {'categories': categories, 'article': article})
+
+@login_required
+def article_delete(request, article_id):
+    """Excluir artigo."""
+    article = get_object_or_404(Article, id=article_id)
+    if request.method == 'POST':
+        article.delete()
+        messages.success(request, "Artigo excluído com sucesso!")
+        return redirect('admin_portal:article_list')
+    return render(request, 'admin_portal/article_confirm_delete.html', {'article': article})
+
+# ============ CATEGORIES VIEWS ============
+
+@login_required
+def category_list(request):
+    """Lista de categorias do In Brief."""
+    categories = Category.objects.annotate(article_count=Count('articles'))
+    return render(request, 'admin_portal/category_list.html', {'categories': categories})
+
+@login_required
+def category_create(request):
+    """Criar nova categoria."""
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        Category.objects.create(name=name, slug=slugify(name))
+        messages.success(request, "Categoria criada com sucesso!")
+        return redirect('admin_portal:category_list')
+    return render(request, 'admin_portal/category_form.html', {'category': None})
+
+@login_required
+def category_edit(request, category_id):
+    """Editar categoria existente."""
+    category = get_object_or_404(Category, id=category_id)
+    if request.method == 'POST':
+        category.name = request.POST.get('name')
+        category.slug = slugify(category.name)
+        category.save()
+        messages.success(request, "Categoria atualizada com sucesso!")
+        return redirect('admin_portal:category_list')
+    return render(request, 'admin_portal/category_form.html', {'category': category})
+
+@login_required
+def category_delete(request, category_id):
+    """Excluir categoria."""
+    category = get_object_or_404(Category, id=category_id)
+    if request.method == 'POST':
+        category.delete()
+        messages.success(request, "Categoria excluída com sucesso!")
+        return redirect('admin_portal:category_list')
+    return render(request, 'admin_portal/category_confirm_delete.html', {'category': category})

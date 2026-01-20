@@ -4,100 +4,153 @@
 
 {% block content %}
 <div class="page-header">
-    <h1 class="page-title">Configurações & Integrações</h1>
-    <p class="page-subtitle">Gerencie as conexões externas e parâmetros do sistema</p>
+    <h1 class="page-title">Configurações do Sistema</h1>
+    <p class="page-subtitle">Gerencie as conexões externas e parâmetros operacionais do escritório.</p>
 </div>
 
-<div style="display: grid; gap: var(--space-lg); grid-template-columns: 2fr 1fr;">
-    <!-- Main Settings -->
-    <div style="display: grid; gap: var(--space-lg);">
-        <div class="card">
-            <h3 style="margin-bottom: var(--space-md); font-family: 'Playfair Display', serif;">Integrações Ativas</h3>
-            <div style="display: grid; gap: var(--space-md);">
-                {% for integration in integrations %}
-                <div
-                    style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--color-creme); border-radius: 12px; border: 1px solid var(--color-gray-light);">
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <div
-                            style="width: 40px; height: 40px; background: var(--color-black); color: var(--color-creme); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold;">
-                            {{ integration.name|slice:":1" }}
+{% if messages %}
+{% for message in messages %}
+<div class="card"
+    style="background: #f0fdf4; border-left: 4px solid #166534; padding: 1rem; margin-bottom: 2rem; color: #166534;">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    <div style="display: grid; gap: var(--space-lg); grid-template-columns: 2fr 1fr;">
+        <!-- Principal -->
+        <div style="display: grid; gap: var(--space-lg);">
+            <div class="card">
+                <h3 style="margin-bottom: var(--space-md); font-family: 'Playfair Display', serif;">Integrações Ativas
+                </h3>
+                <div style="display: grid; gap: var(--space-md);">
+                    {% for integration in integrations %}
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: var(--color-creme); border-radius: 12px; border: 1px solid var(--color-gray-light);">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div
+                                style="width: 40px; height: 40px; background: var(--color-black); color: var(--color-creme); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                                {{ integration.name|slice:":1" }}
+                            </div>
+                            <div>
+                                <strong>{{ integration.name }}</strong>
+                                <div style="font-size: 0.8rem; color: var(--color-gray);">Status:
+                                    <span
+                                        class="{% if integration.enabled %}status-connected{% else %}status-pending{% endif %}"
+                                        style="padding: 2px 8px; border-radius: 10px; font-weight: 600;">
+                                        {{ integration.status }}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <strong>{{ integration.name }}</strong>
-                            <div style="font-size: 0.8rem; color: var(--color-gray);">Tipo: {{ integration.type }}</div>
-                        </div>
-                    </div>
-                    <div>
-                        <div>
+                        <label style="position: relative; display: inline-block; width: 50px; height: 26px;">
+                            <input type="checkbox"
+                                name="{% if 'WhatsApp' in integration.name %}whatsapp_enabled{% elif 'Clio' in integration.name %}clio_integration_active{% elif 'Jestor' in integration.name %}jestor_integration_active{% endif %}"
+                                {% if integration.enabled %}checked{% endif %} style="opacity: 0; width: 0; height: 0;">
                             <span
-                                class="{% if integration.status == 'CONECTADO' %}status-connected{% else %}status-pending{% endif %}"
-                                style="font-size: 0.8rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 20px;">
-                                {{ integration.status }}
+                                style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px;">
+                                <span
+                                    style="position: absolute; content: ''; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%;"></span>
                             </span>
-                        </div>
+                        </label>
                     </div>
                     {% endfor %}
                 </div>
             </div>
 
             <div class="card">
-                <h3 style="margin-bottom: var(--space-md); font-family: 'Playfair Display', serif;">Acesso do Cliente
+                <h3 style="margin-bottom: var(--space-md); font-family: 'Playfair Display', serif;">Identidade do
+                    Escritório</h3>
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="office_name" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Nome de
+                        Exibição</label>
+                    <input type="text" id="office_name" name="office_name" value="{{ settings.office_name }}"
+                        style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px; font-family: inherit;">
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar Todas as Configurações</button>
+            </div>
+        </div>
+
+        <!-- Sidebar Config -->
+        <div style="display: grid; gap: var(--space-lg);">
+            <div class="card">
+                <h3 style="margin-bottom: var(--space-md); font-family: 'Playfair Display', serif;">Portal do Cliente
                 </h3>
-                <p style="color: var(--color-gray); margin-bottom: 2rem;">Configure os parâmetros padrão para o portal
-                    do
-                    cliente.</p>
+                <p style="color: var(--color-gray); margin-bottom: 1.5rem; font-size: 0.9rem;">Configure como os
+                    clientes interagem com a plataforma.</p>
 
                 <div style="display: grid; gap: 1.5rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <strong>Notificações Automáticas</strong>
-                            <div style="font-size: 0.85rem; color: var(--color-gray);">Enviar WhatsApp quando houver
-                                atualização na timeline.</div>
-                        </div>
+                    <div>
                         <div
-                            style="width: 50px; height: 26px; background: #10b981; border-radius: 13px; position: relative;">
-                            <div
-                                style="width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; right: 3px; top: 3px;">
-                            </div>
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <strong>Notificações Auto</strong>
+                            <label style="position: relative; display: inline-block; width: 40px; height: 22px;">
+                                <input type="checkbox" name="client_notification_auto" {% if settings.client_notification_auto %}checked{% endif %}
+                                    style="opacity: 0; width: 0; height: 0;">
+                                <span
+                                    style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px;">
+                                    <span
+                                        style="position: absolute; content: ''; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%;"></span>
+                                </span>
+                            </label>
                         </div>
+                        <div style="font-size: 0.8rem; color: var(--color-gray);">Enviar WhatsApp automático em
+                            atualizações.</div>
                     </div>
 
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <strong>Validade do Token</strong>
-                            <div style="font-size: 0.85rem; color: var(--color-gray);">Tempo padrão de expiração de
-                                novos
-                                tokens.</div>
-                        </div>
-                        <select style="padding: 0.5rem; border-radius: 8px; border: 1px solid var(--color-gray-light);">
-                            <option>30 dias</option>
-                            <option>90 dias</option>
-                            <option>Indeterminado</option>
+                    <hr style="border: 0; border-top: 1px solid #eee;">
+
+                    <div>
+                        <label for="token_validity_days"
+                            style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Validade
+                            do Token (dias)</label>
+                        <select id="token_validity_days" name="token_validity_days"
+                            style="width: 100%; padding: 0.5rem; border-radius: 8px; border: 1px solid var(--color-gray-light);">
+                            <option value="30" {% if settings.token_validity_days == 30 %}selected{% endif %}>30 dias
+                            </option>
+                            <option value="90" {% if settings.token_validity_days == 90 %}selected{% endif %}>90 dias
+                            </option>
+                            <option value="365" {% if settings.token_validity_days == 365 %}selected{% endif %}>1 ano
+                            </option>
                         </select>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Sidebar Info -->
-        <div>
             <div class="card" style="background: var(--color-black); color: var(--color-creme);">
-                <h4 style="color: var(--color-salmon); margin-bottom: 1rem;">Status do Robô</h4>
-                <div style="display: grid; gap: 1rem;">
-                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
-                        <span>Intake Lead</span>
+                <h4 style="color: var(--color-salmon); margin-bottom: 1rem;">Status dos Robôs</h4>
+                <div style="display: grid; gap: 0.75rem;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                        <span>Intake Bot</span>
                         <span style="color: #4ade80;">● Online</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
-                        <span>Timeline Sync</span>
-                        <span style="color: #facc15;">● Pausado</span>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                        <span>Sync Timeline</span>
+                        <span style="color: #facc15;">● Em pausa</span>
                     </div>
-                    <hr style="border: 0; border-top: 1px solid #333; margin: 0.5rem 0;">
-                    <button class="btn btn-secondary"
-                        style="width: 100%; font-size: 0.85rem; color: #fff; border-color: #444;">Reiniciar
-                        Robôs</button>
+                    <button type="button" class="btn btn-secondary"
+                        style="width: 100%; font-size: 0.8rem; margin-top: 0.5rem; background: #333; color: white;">Ações
+                        do Desenvolvedor</button>
                 </div>
             </div>
         </div>
     </div>
-    {% endblock %}
+</form>
+
+<style>
+    input:checked+span {
+        background-color: var(--color-salmon) !important;
+    }
+
+    input:checked+span span {
+        transform: translateX(24px) !important;
+    }
+
+    /* Para o toggle menor na sidebar */
+    div:has(> label > input[name="client_notification_auto"]:checked) label span span {
+        transform: translateX(18px) !important;
+    }
+</style>
+{% endblock %}

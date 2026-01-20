@@ -98,6 +98,11 @@
                     ✏️ Editar Caso
                 </a>
 
+                <a href="{% url 'admin_portal:generate_document' case.id %}" class="btn btn-primary"
+                    style="text-align: center; background-color: var(--color-salmon); border-color: var(--color-salmon); color: var(--color-creme);">
+                    📄 Gerar Petição Base
+                </a>
+
                 <a href="{% url 'admin_portal:client_detail' case.client.id %}" class="btn btn-secondary"
                     style="text-align: center;">
                     👤 Ver Cliente

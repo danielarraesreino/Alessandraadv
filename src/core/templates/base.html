@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alessandra Donadon Advocacia | Estratégia e Humanidade</title>
+    <title>Alessandra M. Donadon Advocacia | Estratégia e Humanidade</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
         rel="stylesheet">
@@ -14,10 +14,23 @@
     <!-- HTMX Core & CSRF Setup -->
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
         document.addEventListener('htmx:configRequest', (event) => {
             event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
         });
+
+        // Service Worker Registration for Push Notifications
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/static/sw.js')
+                .then(function (registration) {
+                    console.log('Service Worker Registered');
+                })
+                .catch(function (error) {
+                    console.log('Service Worker Registration Failed:', error);
+                });
+        }
     </script>
 </head>
 
@@ -26,7 +39,7 @@
         <div class="container-fluid"
             style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; padding-bottom: 1rem;">
             <a href="/" class="logo" style="text-decoration: none; display: flex; align-items: center;">
-                <img src="{% static 'images/logo.png' %}" alt="Alessandra Donadon Advocacia"
+                <img src="{% static 'images/logo.png' %}" alt="Alessandra M. Donadon Advocacia"
                     style="height: 70px; width: auto;">
             </a>
             <nav style="display: flex; gap: 3rem; align-items: center;">
@@ -64,7 +77,7 @@
             </div>
         </div>
         <div style="text-align: center; margin-top: 4rem; color: var(--color-gray); font-size: 0.8rem;">
-            &copy; 2026 Alessandra Donadon Advocacia. | <a href="/politica-de-privacidade"
+            &copy; 2026 Alessandra M. Donadon Advocacia. | <a href="/politica-de-privacidade"
                 style="color: inherit; text-decoration: none;">Política de Privacidade (LGPD)</a>
         </div>
     </footer>

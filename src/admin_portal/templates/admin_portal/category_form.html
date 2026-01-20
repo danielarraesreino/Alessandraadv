@@ -1,0 +1,26 @@
+{% extends 'admin_portal/base.html' %}
+
+{% block title %}{% if category %}Editar Categoria{% else %}Nova Categoria{% endif %}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">{% if category %}Editar Categoria{% else %}Nova Categoria{% endif %}</h1>
+    <p class="page-subtitle">Configure as categorias para organizar o conteúdo do site.</p>
+</div>
+
+<div class="card">
+    <form method="POST">
+        {% csrf_token %}
+        <div style="margin-bottom: 2rem;">
+            <label for="name" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Nome da Categoria</label>
+            <input type="text" id="name" name="name" value="{{ category.name|default:'' }}" required
+                style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px; font-family: inherit;">
+        </div>
+
+        <div style="display: flex; gap: 1rem;">
+            <button type="submit" class="btn btn-primary">Salvar Categoria</button>
+            <a href="{% url 'admin_portal:category_list' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

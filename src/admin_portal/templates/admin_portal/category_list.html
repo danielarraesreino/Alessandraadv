@@ -1,0 +1,66 @@
+{% extends 'admin_portal/base.html' %}
+
+{% block title %}Categorias - In Brief{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1 class="page-title">Categorias</h1>
+            <p class="page-subtitle">Gerenciar categorias dos artigos do In Brief.</p>
+        </div>
+        <a href="{% url 'admin_portal:category_create' %}" class="btn btn-primary">Nova Categoria</a>
+    </div>
+</div>
+
+{% if messages %}
+{% for message in messages %}
+<div class="card"
+    style="background: #f0fdf4; border-left: 4px solid #166534; padding: 1rem; margin-bottom: 2rem; color: #166534;">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="card">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--color-creme); text-align: left;">
+                <th style="padding: 1rem;">Nome</th>
+                <th style="padding: 1rem;">Slug</th>
+                <th style="padding: 1rem;">Artigos</th>
+                <th style="padding: 1rem; text-align: right;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in categories %}
+            <tr style="border-bottom: 1px solid var(--color-creme);">
+                <td style="padding: 1rem; font-weight: 600;">{{ category.name }}</td>
+                <td style="padding: 1rem; color: var(--color-gray);">{{ category.slug }}</td>
+                <td style="padding: 1rem;">
+                    <span class="badge"
+                        style="background: var(--color-salmon-light); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">{{
+                        category.article_count }}</span>
+                </td>
+                <td style="padding: 1rem; text-align: right;">
+                    <a href="{% url 'admin_portal:category_edit' category.id %}"
+                        style="color: var(--color-salmon); text-decoration: none; margin-right: 1rem; font-weight: 600;">Editar</a>
+                    <form action="{% url 'admin_portal:category_delete' category.id %}" method="POST"
+                        style="display: inline;"
+                        onsubmit="return confirm('Tem certeza que deseja excluir esta categoria? Os artigos associados não serão excluídos.')">
+                        {% csrf_token %}
+                        <button type="submit"
+                            style="background: none; border: none; color: #dc2626; cursor: pointer; font-weight: 600; font-family: inherit;">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="padding: 2rem; text-align: center; color: var(--color-gray);">Nenhuma categoria
+                    encontrada.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -157,7 +157,7 @@
         <div style="display: grid; grid-template-columns: 1fr 2fr; gap: var(--space-xl); align-items: start;">
             <div style="position: sticky; top: 120px; text-align: center;" class="animate-fade-up">
                 <div style="position: relative; display: inline-block;">
-                    <img src="{% static 'images/alessandra_bio.png' %}" alt="Alessandra Donadon"
+                    <img src="{% static 'images/alessandra_bio.png' %}" alt="Alessandra M. Donadon"
                         style="width: 300px; height: 300px; object-fit: cover; border-radius: 50%; border: 1px solid var(--color-salmon);">
                 </div>
                 <!-- Authority Badges - Gold/Salmon -->
@@ -439,6 +439,16 @@
                     style="background: var(--color-salmon); color: var(--color-black); display: inline-flex;">Candidatar-se
                     &rarr;</a>
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- Ferramentas -->
+<section class="section-full section-creme">
+    <div class="container-fluid animate-fade-up">
+        <h2 style="text-align: center; margin-bottom: 2rem;">Ferramentas Jurídicas</h2>
+        <div style="display: flex; justify-content: center;">
+            {% include "widgets/deadline_calculator.html" %}
         </div>
     </div>
 </section>

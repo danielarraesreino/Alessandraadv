@@ -28,4 +28,17 @@ urlpatterns = [
     
     # Settings
     path('settings/', views.settings_general, name='settings_general'),
+    path('cases/<int:case_id>/generate-doc/', views.generate_document_action, name='generate_document'),
+
+    # Articles (In Brief)
+    path('articles/', views.article_list, name='article_list'),
+    path('articles/create/', views.article_create, name='article_create'),
+    path('articles/<int:article_id>/edit/', views.article_edit, name='article_edit'),
+    path('articles/<int:article_id>/delete/', views.article_delete, name='article_delete'),
+
+    # Categories (In Brief)
+    path('categories/', views.category_list, name='category_list'),
+    path('categories/create/', views.category_create, name='category_create'),
+    path('categories/<int:category_id>/edit/', views.category_edit, name='category_edit'),
+    path('categories/<int:category_id>/delete/', views.category_delete, name='category_delete'),
 ]

@@ -1,0 +1,59 @@
+{% extends 'admin_portal/base.html' %}
+
+{% block title %}{% if article %}Editar Artigo{% else %}Novo Artigo{% endif %} - In Brief{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">{% if article %}Editar Artigo{% else %}Novo Artigo{% endif %}</h1>
+    <p class="page-subtitle">Preencha os campos abaixo para {% if article %}atualizar o{% else %}criar um novo{% endif %} artigo.</p>
+</div>
+
+<div class="card">
+    <form method="POST">
+        {% csrf_token %}
+
+        <div style="margin-bottom: 1.5rem;">
+            <label for="title" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Título</label>
+            <input type="text" id="title" name="title" value="{{ article.title|default:'' }}" required
+                style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px; font-family: inherit;">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label for="category" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Categoria</label>
+            <select id="category" name="category"
+                style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px; font-family: inherit;">
+                <option value="">Selecione uma categoria...</option>
+                {% for category in categories %}
+                <option value="{{ category.id }}" {% if article and category in article.categories.all %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label for="summary" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Resumo (breve
+                descrição)</label>
+            <textarea id="summary" name="summary" rows="3"
+                style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px; font-family: inherit;">{{ article.summary|default:'' }}</textarea>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label for="content" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Conteúdo (HTML ou
+                Texto)</label>
+            <textarea id="content" name="content" rows="10" required
+                style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px; font-family: inherit;">{{ article.content|default:'' }}</textarea>
+        </div>
+
+        <div style="margin-bottom: 2rem;">
+            <label style="display: flex; align-items: center; cursor: pointer;">
+                <input type="checkbox" name="is_published" style="width: 20px; height: 20px; margin-right: 0.75rem;" {% if article.is_published %}checked{% endif %}>
+                <span style="font-weight: 600;">Publicar imediatamente</span>
+            </label>
+        </div>
+
+        <div style="display: flex; gap: 1rem;">
+            <button type="submit" class="btn btn-primary">Salvar Artigo</button>
+            <a href="{% url 'admin_portal:article_list' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

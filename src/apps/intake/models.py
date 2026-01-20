@@ -19,6 +19,10 @@ class Lead(models.Model):
     score = models.IntegerField(default=0)
     is_qualified = models.BooleanField(default=False)
     
+    # [NEW] Tracking distribution
+    source = models.CharField("Fonte do Lead", max_length=100, default="Orgânico", blank=True)
+    location = models.CharField("Localização (Cidade/Estado)", max_length=100, blank=True)
+    
     # [NEW] External system tracking
     external_id = models.CharField(
         "ID Externo (Clio/Jestor)", 

@@ -20,7 +20,8 @@
             🔍 Em Análise ({{ analysis_cases.count }})
         </div>
         {% for case in analysis_cases %}
-        <div class="kanban-card" onclick="window.location.href='{% url 'admin_portal:case_detail' case.id %}'">
+        <div class="kanban-card" data-url="{% url 'admin_portal:case_detail' case.id %}"
+            onclick="window.location.href=this.dataset.url;">
             <div class="lead-name">{{ case.title }}</div>
             <div class="lead-type">{{ case.client.full_name }}</div>
             <div style="margin-top: 0.5rem;">
@@ -43,7 +44,8 @@
             ⚡ Ativo ({{ active_cases.count }})
         </div>
         {% for case in active_cases %}
-        <div class="kanban-card" onclick="window.location.href='{% url 'admin_portal:case_detail' case.id %}'">
+        <div class="kanban-card" data-url="{% url 'admin_portal:case_detail' case.id %}"
+            onclick="window.location.href=this.dataset.url;">
             <div class="lead-name">{{ case.title }}</div>
             <div class="lead-type">{{ case.client.full_name }}</div>
             <div style="margin-top: 0.5rem;">
@@ -66,7 +68,8 @@
             ⏸️ Suspenso ({{ suspended_cases.count }})
         </div>
         {% for case in suspended_cases %}
-        <div class="kanban-card" onclick="window.location.href='{% url 'admin_portal:case_detail' case.id %}'">
+        <div class="kanban-card" data-url="{% url 'admin_portal:case_detail' case.id %}"
+            onclick="window.location.href=this.dataset.url;">
             <div class="lead-name">{{ case.title }}</div>
             <div class="lead-type">{{ case.client.full_name }}</div>
             <div style="margin-top: 0.5rem;">
@@ -89,7 +92,8 @@
             📦 Arquivado ({{ archived_cases.count }})
         </div>
         {% for case in archived_cases %}
-        <div class="kanban-card" onclick="window.location.href='{% url 'admin_portal:case_detail' case.id %}'">
+        <div class="kanban-card" data-url="{% url 'admin_portal:case_detail' case.id %}"
+            onclick="window.location.href=this.dataset.url;">
             <div class="lead-name">{{ case.title }}</div>
             <div class="lead-type">{{ case.client.full_name }}</div>
             <div style="margin-top: 0.5rem;">

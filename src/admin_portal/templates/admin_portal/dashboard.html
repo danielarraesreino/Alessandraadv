@@ -30,17 +30,37 @@
         <div class="stat-value">{{ total_clients }}</div>
         <div class="stat-label">Total de Clientes</div>
     </div>
+    <div class="stat-card" style="border-left: 4px solid #1a202c;">
+        <div class="stat-value">R$ {{ total_contingency }}</div>
+        <div class="stat-label">Valor em Contingência</div>
+    </div>
     <div class="stat-card" style="border-left: 4px solid var(--color-salmon);">
         <div class="stat-value">R$ {{ finance_total_pending }}</div>
-        <div class="stat-label">Contas a Pagar</div>
+        <div class="stat-label">Contas a Pagar (Pendente)</div>
+    </div>
+    <div class="stat-card" style="border-left: 4px solid #48bb78;">
+        <div class="stat-value">R$ {{ finance_receivable_pending }}</div>
+        <div class="stat-label">Contas a Receber (Pendente)</div>
     </div>
     <div class="stat-card" style="border-left: 4px solid #e53e3e;">
         <div class="stat-value">{{ finance_late_count }}</div>
         <div class="stat-label">Contas em Atraso</div>
     </div>
-    <div class="metric-card">
+    <div class="metric-card" style="border-left: 4px solid var(--color-black);">
         <div class="metric-label">Casos Ativos</div>
         <div class="metric-value">{{ active_cases }}</div>
+    </div>
+    <div class="metric-card" style="border-left: 4px solid var(--color-salmon);">
+        <div class="metric-label">Artigos (Total)</div>
+        <div class="metric-value">{{ total_articles }}</div>
+    </div>
+    <div class="metric-card" style="border-left: 4px solid #48bb78;">
+        <div class="metric-label">Artigos Publicados</div>
+        <div class="metric-value">{{ published_articles }}</div>
+    </div>
+    <div class="metric-card" style="border-left: 4px solid #ecc94b;">
+        <div class="metric-label">Categorias</div>
+        <div class="metric-value">{{ categories_count }}</div>
     </div>
 </div>
 
@@ -60,18 +80,60 @@
     </div>
 </div>
 
+<div
+    style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); margin-top: var(--space-lg); margin-bottom: var(--space-lg);">
+    <!-- Lead Source Distribution -->
+    <div class="card">
+        <h2 class="card-title">Origem dos Leads</h2>
+        <div style="display: grid; gap: 0.75rem;">
+            {% for source in leads_by_source %}
+            <div
+                style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--color-creme); border-radius: 4px;">
+                <span style="font-weight: 600;">{{ source.source|default:"Orgânico" }}</span>
+                <span class="badge"
+                    style="background: var(--color-salmon); color: black; padding: 2px 8px; border-radius: 10px;">{{
+                    source.count }}</span>
+            </div>
+            {% empty %}
+            <p style="color: var(--color-gray);">Sem dados de origem.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Lead Location Distribution -->
+    <div class="card">
+        <h2 class="card-title">Distribuição Geográfica</h2>
+        <div style="display: grid; gap: 0.75rem;">
+            {% for loc in leads_by_location %}
+            <div
+                style="display: flex; justify-content: space-between; padding: 0.5rem; background: var(--color-creme); border-radius: 4px;">
+                <span style="font-weight: 600;">{{ loc.location|default:"Brasil" }}</span>
+                <span class="badge"
+                    style="background: var(--color-black); color: white; padding: 2px 8px; border-radius: 10px;">{{
+                    loc.count }}</span>
+            </div>
+            {% empty %}
+            <p style="color: var(--color-gray);">Sem dados geográficos.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
 <!-- Quick Actions -->
 <div class="card">
     <h2 class="card-title">Ações Rápidas</h2>
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
         <a href="{% url 'admin_portal:leads_kanban' %}" class="btn btn-primary">
-            Ver Leads
+            Ver Kanban de Leads
         </a>
-        <a href="/admin/apps/clients/client/" class="btn btn-secondary" target="_blank">
+        <a href="{% url 'admin_portal:clients_list' %}" class="btn btn-secondary">
             Gerenciar Clientes
         </a>
-        <a href="/admin/apps/legal_cases/legalcase/" class="btn btn-secondary" target="_blank">
-            Gerenciar Casos
+        <a href="{% url 'admin_portal:cases_kanban' %}" class="btn btn-secondary">
+            Ver Painel de Casos
+        </a>
+        <a href="{% url 'admin_portal:article_list' %}" class="btn btn-secondary">
+            Gerenciar Conteúdo (Blog)
         </a>
     </div>
 </div>

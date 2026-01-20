@@ -21,8 +21,8 @@
             <select name="type"
                 style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
                 <option value="">Todos</option>
-                <option value="PF" {% if client_type=='PF' %}selected{% endif %}>Pessoa Física</option>
-                <option value="PJ" {% if client_type=='PJ' %}selected{% endif %}>Pessoa Jurídica</option>
+                <option value="PF" {% if client_type == 'PF' %}selected{% endif %}>Pessoa Física</option>
+                <option value="PJ" {% if client_type == 'PJ' %}selected{% endif %}>Pessoa Jurídica</option>
             </select>
         </div>
         <button type="submit" class="btn btn-primary">Buscar</button>

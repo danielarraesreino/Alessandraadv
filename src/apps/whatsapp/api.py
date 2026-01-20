@@ -28,7 +28,7 @@ def whatsapp_webhook(request: HttpRequest, payload: IncomingMessage):
     
     # Mock Response Logic
     response_text = (
-        "Olá! Sou a assistente virtual da Alessandra Donadon Advocacia.\n"
+        "Olá! Sou a assistente virtual da Alessandra M. Donadon Advocacia.\n"
         "Para agilizar seu atendimento, selecione uma área:\n\n"
         "1. Cível & Família\n"
         "2. Empresarial & Terceiro Setor\n"

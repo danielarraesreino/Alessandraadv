@@ -1,0 +1,103 @@
+{% extends "admin_portal/base.html" %}
+
+{% block title %}Clientes (Kanban){% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1 class="page-title">Gestão de Clientes</h1>
+            <p class="page-subtitle">Pipeline de relacionamento e status da carteira.</p>
+        </div>
+        <a href="{% url 'admin_portal:client_create' %}" class="btn btn-primary">+ Novo Cliente</a>
+    </div>
+</div>
+
+<!-- Search/Filter -->
+<div class="card" style="margin-bottom: var(--space-lg); padding: var(--space-md);">
+    <form method="get" style="display: flex; gap: 1rem;">
+        <input type="text" name="q" value="{{ search_query|default:'' }}"
+            placeholder="Buscar por nome, email ou telefone..."
+            style="flex: 1; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
+        <button type="submit" class="btn btn-secondary">Filtrar</button>
+    </form>
+</div>
+
+<!-- Kanban Board -->
+<div class="kanban-board" style="grid-template-columns: repeat(4, 1fr);">
+
+    <!-- Prospecção -->
+    <div class="kanban-column">
+        <div class="kanban-header" style="border-color: #94a3b8;">
+            Em Negociação <span
+                style="background: #e2e8f0; padding: 2px 6px; border-radius: 10px; font-size: 0.8rem;">{{
+                prospects.count }}</span>
+        </div>
+        {% for client in prospects %}
+        <div class="kanban-card" onclick="window.location='{% url 'admin_portal:client_detail' client.id %}'">
+            <div class="lead-name">{{ client.full_name }}</div>
+            <div class="lead-type">{{ client.get_client_type_display }}</div>
+            <div style="font-size: 0.8rem; color: var(--color-gray);">
+                {{ client.phone }}
+            </div>
+        </div>
+        {% empty %}
+        <div style="text-align: center; color: var(--color-gray); padding: 2rem 0; font-size: 0.9rem;">
+            Nenhum cliente em negociação.
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Onboarding -->
+    <div class="kanban-column">
+        <div class="kanban-header" style="border-color: #fbbf24;">
+            Onboarding <span style="background: #fef3c7; padding: 2px 6px; border-radius: 10px; font-size: 0.8rem;">{{
+                onboarding.count }}</span>
+        </div>
+        {% for client in onboarding %}
+        <div class="kanban-card" onclick="window.location='{% url 'admin_portal:client_detail' client.id %}'">
+            <div class="lead-name">{{ client.full_name }}</div>
+            <div class="lead-type">{{ client.get_client_type_display }}</div>
+            <div style="font-size: 0.8rem; color: var(--color-gray); margin-top: 5px;">
+                <span style="color: #d97706; background: #fffbeb; padding: 2px 5px; border-radius: 4px;">Entrada
+                    Recente</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Ativos -->
+    <div class="kanban-column">
+        <div class="kanban-header" style="border-color: #166534;">
+            Carteira Ativa <span
+                style="background: #dcfce7; padding: 2px 6px; border-radius: 10px; font-size: 0.8rem;">{{ active.count
+                }}</span>
+        </div>
+        {% for client in active %}
+        <div class="kanban-card" onclick="window.location='{% url 'admin_portal:client_detail' client.id %}'">
+            <div class="lead-name">{{ client.full_name }}</div>
+            <div class="lead-type">{{ client.get_client_type_display }}</div>
+            <div style="font-size: 0.8rem; color: var(--color-gray);">
+                {{ client.email|default:"Sem email"|truncatechars:25 }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Arquivados -->
+    <div class="kanban-column" style="opacity: 0.7;">
+        <div class="kanban-header" style="border-color: #64748b;">
+            Inativos/Arquivados <span
+                style="background: #f1f5f9; padding: 2px 6px; border-radius: 10px; font-size: 0.8rem;">{{ archived.count
+                }}</span>
+        </div>
+        {% for client in archived %}
+        <div class="kanban-card" onclick="window.location='{% url 'admin_portal:client_detail' client.id %}'">
+            <div class="lead-name" style="color: var(--color-gray);">{{ client.full_name }}</div>
+            <div class="lead-type">{{ client.get_client_type_display }}</div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

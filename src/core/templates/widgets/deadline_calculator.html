@@ -1,0 +1,42 @@
+<div x-data="{
+    startDate: '',
+    days: 15,
+    result: '',
+    calculate() {
+        if (!this.startDate) return;
+        let date = new Date(this.startDate);
+        let count = 0;
+        while (count < this.days) {
+            date.setDate(date.getDate() + 1);
+            // 0 = Sunday, 6 = Saturday
+            if (date.getDay() !== 0 && date.getDay() !== 6) {
+                count++;
+            }
+        }
+        this.result = date.toLocaleDateString('pt-BR');
+    }
+}" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-6 mt-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-4">Calculadora de Prazos (Novo CPC)</h3>
+    <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="start-date">
+            Data de Publicação
+        </label>
+        <input x-model="startDate" type="date" id="start-date"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+    </div>
+    <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="days">
+            Dias Úteis
+        </label>
+        <input x-model="days" type="number" id="days"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+    </div>
+    <button @click="calculate()"
+        class="bg-salmon hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Calcular Prazo
+    </button>
+    <div x-show="result" class="mt-4 p-4 bg-gray-100 rounded">
+        <p class="font-bold">Vencimento: <span x-text="result" class="text-salmon"></span></p>
+        <p class="text-xs text-gray-500 mt-1">*Cálculo simples de dias úteis (não considera feriados).</p>
+    </div>
+</div>

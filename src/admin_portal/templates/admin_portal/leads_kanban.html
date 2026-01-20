@@ -15,7 +15,8 @@
             📥 Novos ({{ new_leads.count }})
         </div>
         {% for lead in new_leads %}
-        <div class="kanban-card" onclick="window.location.href='{% url 'admin_portal:lead_detail' lead.id %}'">
+        <div class="kanban-card" data-url="{% url 'admin_portal:lead_detail' lead.id %}"
+            onclick="window.location.href=this.dataset.url;">
             <div class="lead-name">{{ lead.full_name }}</div>
             <div class="lead-type">{{ lead.get_case_type_display }}</div>
             <div class="lead-score">Score: {{ lead.score }}</div>
@@ -36,7 +37,8 @@
             ⭐ Qualificados ({{ qualified_leads.count }})
         </div>
         {% for lead in qualified_leads %}
-        <div class="kanban-card" onclick="window.location.href='{% url 'admin_portal:lead_detail' lead.id %}'">
+        <div class="kanban-card" data-url="{% url 'admin_portal:lead_detail' lead.id %}"
+            onclick="window.location.href=this.dataset.url;">
             <div class="lead-name">{{ lead.full_name }}</div>
             <div class="lead-type">{{ lead.get_case_type_display }}</div>
             <div class="lead-score">Score: {{ lead.score }}</div>
@@ -57,7 +59,8 @@
             ✅ Convertidos ({{ converted_leads.count }})
         </div>
         {% for lead in converted_leads %}
-        <div class="kanban-card" onclick="window.location.href='{% url 'admin_portal:lead_detail' lead.id %}'">
+        <div class="kanban-card" data-url="{% url 'admin_portal:lead_detail' lead.id %}"
+            onclick="window.location.href=this.dataset.url;">
             <div class="lead-name">{{ lead.full_name }}</div>
             <div class="lead-type">{{ lead.get_case_type_display }}</div>
             <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--color-gray);">

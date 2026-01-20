@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual do Projeto | Alessandra M. Donadon</title>
+    <style>
+        :root {
+            --color-salmon: #E89F71;
+            --color-black: #1A1A1A;
+            --color-creme: #FAF7F2;
+            --color-gray: #6B6B6B;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: var(--color-black);
+            background-color: var(--color-creme);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            background-color: var(--color-black);
+            color: var(--color-salmon);
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            color: white;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        section {
+            background: white;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: var(--color-salmon);
+            border-bottom: 2px solid var(--color-creme);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        h3 {
+            color: var(--color-black);
+            margin-top: 25px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #eee;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-box {
+            background-color: #fcf4ee;
+            border-left: 5px solid var(--color-salmon);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        code {
+            background: #eee;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--color-gray);
+            font-size: 0.9rem;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <h1>MANUAL DO PROJETO UNIFICADO</h1>
+            <p>Plataforma de Inteligência Jurídica - Alessandra M. Donadon</p>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <section id="visao-geral">
+            <h2>1. Administração Unificada</h2>
+            <p>Toda a gestão do escritório foi consolidada em um único portal administrativo simplificado, eliminando a
+                necessidade de acessar o painel padrão do Django. O acesso é feito via <code>/portal-admin/</code>.</p>
+            <div class="info-box">
+                <strong>Destaque:</strong> Você gerencia conteúdo, clientes e configurações no mesmo lugar.
+            </div>
+            <img src="images_projeto_walkthrough/admin_dashboard_final_1768680526443.png"
+                alt="Portal Administrativo Unificado">
+        </section>
+
+        <section id="dashboard-avancado">
+            <h2>2. Dashboard e Métricas</h2>
+            <p>O novo Dashboard apresenta uma visão 360º da operação:</p>
+            <ul>
+                <li><strong>Leads:</strong> Acompanhamento diário e mensal de novos interessados.</li>
+                <li><strong>Operação:</strong> Status de casos ativos e valor em contingência.</li>
+                <li><strong>Conteúdo:</strong> Quantidade de artigos publicados e categorias ativas.</li>
+                <li><strong>Financeiro:</strong> Resumo de contas a pagar, receber e atrasos.</li>
+            </ul>
+            <img src="images_projeto_walkthrough/admin_main_page_1768695226441.png" alt="Métricas e Dashboard">
+        </section>
+
+        <section id="gestao-conteudo">
+            <h2>3. Gestão de Conteúdo (WP-Style)</h2>
+            <p>O sistema "In Brief" agora permite gestão completa de posts e categorias:</p>
+            <ul>
+                <li><strong>Artigos:</strong> Crie, edite e publique textos diretamente pelo portal.</li>
+                <li><strong>Categorias:</strong> Organize seus textos por áreas do direito ou temas de interesse.</li>
+            </ul>
+            <div class="info-box">
+                Acesse <strong>Artigos</strong> ou <strong>Categorias</strong> na barra lateral para gerenciar o blog.
+            </div>
+            <img src="images_projeto_walkthrough/article_detail_page_1768672718628.png" alt="Visualização do Conteúdo">
+        </section>
+
+        <section id="configuracoes-reais">
+            <h2>4. Configurações do Sistema</h2>
+            <p>A página de <strong>Configurações</strong> deixou de ser apenas visual e agora é funcional:</p>
+            <ul>
+                <li><strong>Integrações:</strong> Ative ou desative o WhatsApp e outras ferramentas com um clique.</li>
+                <li><strong>Identidade:</strong> Altere o nome de exibição do escritório na plataforma.</li>
+                <li><strong>Automações:</strong> Controle se o cliente recebe notificações automáticas por WhatsApp.
+                </li>
+            </ul>
+            <div class="info-box">
+                As alterações feitas nesta página impactam diretamente o comportamento dos robôs e das integrações.
+            </div>
+        </section>
+
+        <div class="footer">
+            <p>&copy; 2026 Alessandra M. Donadon - Todos os direitos reservados.</p>
+            <p>Interface unificada para máxima eficiência jurídica.</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

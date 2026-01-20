@@ -15,6 +15,14 @@ class Client(models.Model):
     full_name = models.CharField("Nome Completo", max_length=255)
     client_type = models.CharField("Tipo", max_length=2, choices=TYPE_CHOICES, default='PF')
     
+    STATUS_CHOICES = [
+        ('PROSPECT', 'Potencial / Em Negociação'),
+        ('ONBOARDING', 'Onboarding / Entrada'),
+        ('ACTIVE', 'Ativo / Recorrente'),
+        ('ARCHIVED', 'Inativo / Arquivado'),
+    ]
+    status = models.CharField("Status", max_length=20, choices=STATUS_CHOICES, default='ACTIVE')
+    
     # PII - Personally Identifiable Information (Encrypted)
     cpf_cnpj = EncryptedField("CPF/CNPJ", max_length=255, unique=True, help_text="Stored encrypted")
     phone = EncryptedField("Telefone/WhatsApp", max_length=255, help_text="Stored encrypted")

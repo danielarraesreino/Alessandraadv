@@ -5,29 +5,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal do Cliente - Dra. Alessandra Donadon</title>
+    <title>Portal do Cliente - Dra. Alessandra M. Donadon</title>
     <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <style>
-        /* Portal-specific styles */
-        .portal-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            background: var(--color-creme);
-            min-height: 100vh;
+        :root {
+            --color-salmon: #E89F71;
+            --color-salmon-dark: #D68A5C;
+            --color-salmon-light: #F4C4A1;
+            --color-black: #1A1A1A;
+            --color-creme: #FAF7F2;
+            --color-white: #FFFFFF;
+            --color-gray: #6B6B6B;
+            --color-gray-dark: #4A4A4A;
+            --color-gray-light: #D1D1D1;
+            --glass: rgba(255, 255, 255, 0.7);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
         }
 
+        body {
+            background-color: var(--color-creme);
+            font-family: 'Inter', sans-serif;
+            color: var(--color-black);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .portal-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Header Premium */
         .portal-header {
             text-align: center;
             margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 2px solid var(--color-salmon);
         }
 
         .portal-header h1 {
             font-family: 'Playfair Display', serif;
-            color: var(--color-black);
+            font-size: 2.5rem;
             margin-bottom: 0.5rem;
+            color: var(--color-black);
         }
 
         .portal-header p {
@@ -35,314 +61,340 @@
             font-size: 1.1rem;
         }
 
-        /* Timeline Kanban */
-        .timeline-kanban {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin: 3rem 0;
+        /* Case Info Card */
+        .case-summary {
+            background: var(--glass);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
             padding: 2rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: var(--shadow-subtle);
-            position: relative;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
         }
 
-        .timeline-kanban::before {
+        .info-group label {
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            color: var(--color-salmon-dark);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-group span {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-black);
+        }
+
+        /* Vertical Timeline */
+        .vertical-timeline {
+            position: relative;
+            margin: 2rem 0;
+            padding-left: 3rem;
+        }
+
+        .vertical-timeline::before {
             content: '';
             position: absolute;
-            top: 60px;
-            left: 5%;
-            right: 5%;
-            height: 2px;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
             background: var(--color-gray-light);
-            z-index: 0;
         }
 
-        .timeline-stage {
-            flex: 1;
-            text-align: center;
+        .timeline-item {
             position: relative;
-            z-index: 1;
+            margin-bottom: 3rem;
+            padding-left: 1rem;
         }
 
-        .stage-indicator {
-            width: 48px;
-            height: 48px;
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: -48px;
+            top: 0;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            background: var(--color-gray-light);
-            margin: 0 auto 1rem;
+            background: var(--color-white);
+            border: 2px solid var(--color-gray-light);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-            position: relative;
+            z-index: 10;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .timeline-stage.completed .stage-indicator {
+        .timeline-item.completed .timeline-marker {
             background: var(--color-salmon);
+            border-color: var(--color-salmon);
             color: white;
         }
 
-        .timeline-stage.completed .stage-indicator::after {
-            content: '✓';
-        }
-
-        .timeline-stage.active .stage-indicator {
-            background: var(--color-salmon);
-            color: white;
+        .timeline-item.active .timeline-marker {
+            background: var(--color-white);
+            border-color: var(--color-salmon);
+            color: var(--color-salmon);
             box-shadow: 0 0 0 4px var(--color-salmon-light);
-            animation: pulse 2s infinite;
         }
 
-        .timeline-stage.active .stage-indicator::after {
-            content: '●';
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                box-shadow: 0 0 0 4px var(--color-salmon-light);
-            }
-
-            50% {
-                box-shadow: 0 0 0 8px var(--color-salmon-light);
-            }
-        }
-
-        .stage-label {
-            font-family: 'Playfair Display', serif;
-            font-size: 0.9rem;
-            color: var(--color-gray-dark);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .stage-date {
-            font-size: 0.8rem;
-            color: var(--color-gray);
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            margin: 2rem 0;
-            padding: 1.5rem;
+        .timeline-content {
             background: white;
-            border-radius: 12px;
-            box-shadow: var(--shadow-subtle);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.02);
         }
 
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
+        .timeline-item.active .timeline-content {
+            border-left: 4px solid var(--color-salmon);
+        }
+
+        .timeline-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
-            font-weight: 600;
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 24px;
-            background: var(--color-gray-light);
-            border-radius: 12px;
-            overflow: hidden;
+        .timeline-desc {
+            font-size: 0.95rem;
+            color: var(--color-gray-dark);
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--color-salmon), var(--color-salmon-dark));
-            transition: width 1s ease;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 0.5rem;
-            color: white;
-            font-weight: 600;
+        .timeline-date {
             font-size: 0.85rem;
+            color: var(--color-gray);
+            margin-top: 1rem;
+            display: block;
         }
 
-        /* Document Library */
-        .document-library {
-            margin: 3rem 0;
+        /* Documents Section */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin: 4rem 0 2rem;
+            text-align: center;
+        }
+
+        .document-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
         }
 
         .document-card {
             background: white;
             padding: 1.5rem;
-            margin-bottom: 1rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow-subtle);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .document-card:hover {
-            box-shadow: var(--shadow-medium);
-            transform: translateY(-2px);
+            transform: translateY(-5px);
         }
 
-        .document-info h4 {
-            margin: 0 0 0.5rem 0;
-            color: var(--color-black);
-        }
-
-        .document-meta {
-            font-size: 0.9rem;
-            color: var(--color-gray);
-        }
-
-        .document-badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: var(--color-salmon-light);
-            color: var(--color-salmon-dark);
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-right: 0.5rem;
-        }
-
-        .btn-download {
-            padding: 0.75rem 1.5rem;
+        .document-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
             background: var(--color-salmon);
+        }
+
+        .doc-type {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--color-salmon-dark);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .doc-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--color-black);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
             text-decoration: none;
+            display: block;
+            text-align: center;
+            transition: background 0.2s;
         }
 
-        .btn-download:hover {
-            background: var(--color-salmon-dark);
-            transform: scale(1.05);
+        .btn-action:hover {
+            background: #333;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .portal-header h1 {
+                font-size: 2rem;
+            }
+
+            .case-summary {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="portal-container">
-        <div class="portal-header">
-            <h1>Portal do Cliente</h1>
-            <p>Acompanhe o progresso do seu caso em tempo real</p>
+    <div class="portal-wrapper">
+        <header class="portal-header">
+            <h1>Sua Jornada Jurídica</h1>
+            <p>Dra. Alessandra M. Donadon | Advocacia Estratégica</p>
+        </header>
+
+        <!-- Summary Card -->
+        <section class="case-summary">
+            <div class="info-group">
+                <label>Cliente</label>
+                <span>{{ client.full_name }}</span>
+            </div>
+            <div class="info-group">
+                <label>Área de Atuação</label>
+                <span>{{ legal_case.get_area_display }}</span>
+            </div>
+            <div class="info-group">
+                <label>Status Atual</label>
+                <span>{{ legal_case.get_status_display }}</span>
+            </div>
+        </section>
+
+        <!-- Vertical Timeline Area -->
+        <h2 class="section-title">Evolução do Processo</h2>
+        <div class="vertical-timeline" id="timeline-container"
+            hx-get="/api/portals/timeline-fragment/{{ access_token }}/" hx-trigger="load" hx-push-url="true">
+            <div style="text-align: center; padding: 2rem;">Carregando sua jornada...</div>
         </div>
 
-        <!-- Progress Bar -->
-        <div class="progress-container">
-            <div class="progress-label">
-                <span>Progresso do Caso</span>
-                <span id="progress-percentage">0%</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill" style="width: 0%;">
-                    <span id="progress-text"></span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Timeline Kanban -->
-        <div class="timeline-kanban" id="timeline-kanban">
-            <!-- Stages will be populated by JavaScript -->
-        </div>
-
-        <!-- Milestone History -->
-        <div class="document-library">
-            <h2 style="font-family: 'Playfair Display', serif; margin-bottom: 1.5rem;">Histórico de Marcos</h2>
-            <div id="milestones-container">
-                <!-- Milestones will be populated by JavaScript -->
-            </div>
-        </div>
-
-        <!-- Document Library -->
-        <div class="document-library">
-            <h2 style="font-family: 'Playfair Display', serif; margin-bottom: 1.5rem;">Documentos do Caso</h2>
-            <div id="documents-container">
-                <!-- Documents will be populated by JavaScript -->
-            </div>
+        <!-- Documents Area -->
+        <h2 class="section-title">Acervo de Documentos</h2>
+        <div class="document-grid" id="documents-container" hx-get="/api/portals/documents-fragment/{{ access_token }}/"
+            hx-trigger="load">
+            <!-- Partials will be loaded here -->
         </div>
     </div>
 
     <script>
+        // Lucide icons initialization
+        lucide.createIcons();
+
         // Get access token from URL
         const urlParams = new URLSearchParams(window.location.search);
         const accessToken = urlParams.get('token');
 
-        if (!accessToken) {
-            alert('Token de acesso não fornecido');
-            window.location.href = '/';
-        }
-
-        // Stage labels
-        const stageLabels = {
-            'INTAKE': 'Triagem',
-            'ANALYSIS': 'Análise',
-            'PETITION': 'Petição',
-            'FILED': 'Protocolo',
-            'DISCOVERY': 'Instrução',
-            'HEARING': 'Audiência',
-            'DECISION': 'Sentença',
-            'APPEAL': 'Recurso',
-            'CLOSED': 'Encerrado'
+        // Human-centric stage mappings
+        const stageConfigs = {
+            'INTAKE': {
+                label: 'Acolhimento & Triagem',
+                desc: 'Recebemos seu caso e estamos analisando detalhadamente cada documento enviado para construir a melhor estratégia.',
+                icon: 'heart'
+            },
+            'ANALYSIS': {
+                label: 'Análise Estratégica',
+                desc: 'Nossa equipe está debruçada sobre os fundamentos jurídicos para garantir que seu direito seja plenamente defendido.',
+                icon: 'search'
+            },
+            'PETITION': {
+                label: 'Elaboração da Tese',
+                desc: 'Momento de escrita técnica. Estamos redigindo a peça que será apresentada ao juiz com todo o cuidado.',
+                icon: 'pen-tool'
+            },
+            'FILED': {
+                label: 'Protocolo na Justiça',
+                desc: 'Sucesso! Seu processo já foi enviado ao tribunal e agora aguarda a primeira análise do juiz.',
+                icon: 'file-check'
+            },
+            'DISCOVERY': {
+                label: 'Fase de Provas',
+                desc: 'Nesta etapa, o juiz analisa as evidências e ouve as partes envolvidas para formar seu convencimento.',
+                icon: 'layers'
+            },
+            'HEARING': {
+                label: 'Ocupação em Audiência',
+                desc: 'Agendamento de conversa direta com o juiz. Estaremos ao seu lado em cada palavra.',
+                icon: 'users'
+            },
+            'DECISION': {
+                label: 'Sentença Final',
+                desc: 'O juiz proferiu a decisão. Estamos analisando o resultado para definir os próximos passos.',
+                icon: 'gavel'
+            },
+            'APPEAL': {
+                label: 'Recurso',
+                desc: 'Estamos questionando pontos da decisão para buscar um resultado ainda mais favorável.',
+                icon: 'trending-up'
+            },
+            'CLOSED': {
+                label: 'Caso Encerrado',
+                desc: 'Seu processo chegou ao fim. Esperamos ter feito a diferença na sua trajetória.',
+                icon: 'check-circle'
+            }
         };
 
         // Load timeline data
         fetch(`/api/portals/timeline/${accessToken}/`)
             .then(response => response.json())
             .then(data => {
-                // Update progress bar
-                const percentage = data.progress_percentage;
-                document.getElementById('progress-percentage').textContent = `${percentage}%`;
-                document.getElementById('progress-fill').style.width = `${percentage}%`;
-                document.getElementById('progress-text').textContent = `${percentage}%`;
+                const container = document.getElementById('timeline-container');
+                const stages = Object.keys(stageConfigs);
+                const milestones = data.milestones || [];
 
-                // Render timeline
-                const kanban = document.getElementById('timeline-kanban');
-                const stages = Object.keys(stageLabels);
-                const completedStages = data.milestones.map(m => m.stage);
+                // Identify current progress
+                let currentReached = false;
 
                 stages.forEach(stage => {
-                    const isCompleted = completedStages.includes(stage);
+                    const config = stageConfigs[stage];
+                    const milestone = milestones.find(m => m.stage === stage);
+                    const isCompleted = !!milestone;
                     const isActive = stage === data.current_stage;
 
-                    const stageDiv = document.createElement('div');
-                    stageDiv.className = `timeline-stage ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}`;
+                    const item = document.createElement('div');
+                    item.className = `timeline-item ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}`;
 
-                    stageDiv.innerHTML = `
-                        <div class="stage-indicator"></div>
-                        <div class="stage-label">${stageLabels[stage]}</div>
-                        <div class="stage-date">${isCompleted ? getMilestoneDate(data.milestones, stage) : ''}</div>
-                    `;
-
-                    kanban.appendChild(stageDiv);
-                });
-
-                // Render milestones
-                const milestonesContainer = document.getElementById('milestones-container');
-                data.milestones.reverse().forEach(milestone => {
-                    const card = document.createElement('div');
-                    card.className = 'document-card';
-                    card.innerHTML = `
-                        <div class="document-info">
-                            <h4>${stageLabels[milestone.stage]}</h4>
-                            <p class="document-meta">
-                                <span class="document-badge">${new Date(milestone.date).toLocaleDateString('pt-BR')}</span>
-                                ${milestone.notes}
-                            </p>
-                            <p class="document-meta" style="margin-top: 0.5rem;">
-                                Atualizado por: ${milestone.updated_by}
-                            </p>
+                    item.innerHTML = `
+                        <div class="timeline-marker">
+                            <i data-lucide="${config.icon}" style="width: 16px; height: 16px;"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">${config.label}</div>
+                            <div class="timeline-desc">${config.desc}</div>
+                            ${isCompleted ? `<span class="timeline-date">Concluído em ${new Date(milestone.date).toLocaleDateString('pt-BR')}</span>` : ''}
+                            ${isActive ? `<span class="timeline-date" style="color: var(--color-salmon-dark); font-weight: 700;">Estamos aqui agora.</span>` : ''}
                         </div>
                     `;
-                    milestonesContainer.appendChild(card);
+                    container.appendChild(item);
                 });
-            })
-            .catch(error => {
-                console.error('Erro ao carregar timeline:', error);
-                alert('Erro ao carregar dados do caso');
+                lucide.createIcons();
             });
 
         // Load documents
@@ -350,37 +402,21 @@
             .then(response => response.json())
             .then(documents => {
                 const container = document.getElementById('documents-container');
-
                 if (documents.length === 0) {
-                    container.innerHTML = '<p style="color: var(--color-gray);">Nenhum documento disponível no momento.</p>';
-                    return;
+                    container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--color-gray); padding: 2rem;">Ainda não há documentos disponíveis para visualização.</p>';
+                } else {
+                    documents.forEach(doc => {
+                        const card = document.createElement('div');
+                        card.className = 'document-card';
+                        card.innerHTML = `
+                            <span class="doc-type">${doc.document_type}</span>
+                            <span class="doc-title">${doc.title}</span>
+                            <a href="${doc.file_url}" class="btn-action" download>Visualizar Documento</a>
+                        `;
+                        container.appendChild(card);
+                    });
                 }
-
-                documents.forEach(doc => {
-                    const card = document.createElement('div');
-                    card.className = 'document-card';
-                    card.innerHTML = `
-                        <div class="document-info">
-                            <h4>${doc.title}</h4>
-                            <p class="document-meta">
-                                <span class="document-badge">${doc.document_type}</span>
-                                Enviado em ${new Date(doc.uploaded_at).toLocaleDateString('pt-BR')} por ${doc.uploaded_by}
-                            </p>
-                            ${doc.description ? `<p class="document-meta" style="margin-top: 0.5rem;">${doc.description}</p>` : ''}
-                        </div>
-                        <a href="${doc.file_url}" class="btn-download" download>Baixar</a>
-                    `;
-                    container.appendChild(card);
-                });
-            })
-            .catch(error => {
-                console.error('Erro ao carregar documentos:', error);
             });
-
-        function getMilestoneDate(milestones, stage) {
-            const milestone = milestones.find(m => m.stage === stage);
-            return milestone ? new Date(milestone.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) : '';
-        }
     </script>
 </body>
 
