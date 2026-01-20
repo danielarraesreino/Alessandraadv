@@ -174,7 +174,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ENCRYPTION_KEY = Fernet.generate_key() # In production, use os.getenv('ENCRYPTION_KEY')
 
 # [NEW] WhatsApp Configuration
-WHATSAPP_DECISOR_NUMBER = os.getenv('WHATSAPP_DECISOR_NUMBER', "+5519988014465")
+WHATSAPP_DECISOR_NUMBER = os.getenv('WHATSAPP_DECISOR_NUMBER', "+5519993257342")
 # Para usar Twilio, configure:
 TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')

@@ -1,4 +1,6 @@
 from django.shortcuts import redirect
+from django.http import JsonResponse
+from django.db import connection
 from django.contrib.auth.decorators import login_required
 
 @login_required

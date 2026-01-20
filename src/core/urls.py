@@ -26,9 +26,7 @@ urlpatterns = [
     path("in-brief/", include("in_brief.urls")),
     path("portal-admin/", include("admin_portal.urls")),
     path("portal-admin/observatory/", include("apps.observatory.urls")),
-    path("acesso/", include([
-        path("", portals_views.client_login, name="client_login"),
-    ])),
+    path("acesso/", portals_views.client_login, name="client_login"),
     path("portal/", include("apps.portals.urls")),
     path("ckeditor/", include("ckeditor_uploader.urls")),
     path('accounts/', include('allauth.urls')), # [NEW] Allauth URLs
