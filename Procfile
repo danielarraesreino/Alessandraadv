@@ -1,2 +1,2 @@
-web: gunicorn --chdir src core.wsgi:application --bind 0.0.0.0:$PORT
+web: cd src && gunicorn core.wsgi:application --bind 0.0.0.0:$PORT --log-level debug --access-logfile - --error-logfile -
 release: python manage.py migrate --noinput
