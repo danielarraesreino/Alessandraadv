@@ -2,10 +2,25 @@
 
 {% block title %}{% if article %}Editar Artigo{% else %}Novo Artigo{% endif %} - In Brief{% endblock %}
 
+{% block extra_css %}
+{{ form.media }}
+<style>
+    /* Ajustes finos para o CKEditor no layout do portal */
+    .django-ckeditor-widget {
+        width: 100% !important;
+    }
+
+    .ck-editor__editable {
+        min-height: 400px;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="page-header">
     <h1 class="page-title">{% if article %}Editar Artigo{% else %}Novo Artigo{% endif %}</h1>
-    <p class="page-subtitle">Preencha os campos abaixo para {% if article %}atualizar o{% else %}criar um novo{% endif %} artigo.</p>
+    <p class="page-subtitle">Preencha os campos abaixo para {% if article %}atualizar o{% else %}criar um novo{% endif
+        %} artigo.</p>
 </div>
 
 <div class="card">
@@ -13,40 +28,43 @@
         {% csrf_token %}
 
         <div style="margin-bottom: 1.5rem;">
-            <label for="title" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Título</label>
-            <input type="text" id="title" name="title" value="{{ article.title|default:'' }}" required
-                style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px; font-family: inherit;">
+            <label for="{{ form.title.id_for_label }}"
+                style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Título</label>
+            {{ form.title }}
+            {% if form.title.errors %}<p style="color: red; font-size: 0.85rem;">{{ form.title.errors.0 }}</p>{% endif
+            %}
         </div>
 
         <div style="margin-bottom: 1.5rem;">
-            <label for="category" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Categoria</label>
-            <select id="category" name="category"
-                style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px; font-family: inherit;">
-                <option value="">Selecione uma categoria...</option>
-                {% for category in categories %}
-                <option value="{{ category.id }}" {% if article and category in article.categories.all %}selected{% endif %}>{{ category.name }}</option>
-                {% endfor %}
-            </select>
+            <label for="{{ form.categories.id_for_label }}"
+                style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Categorias</label>
+            {{ form.categories }}
+            <small style="color: var(--color-gray); font-size: 0.85rem;">Mantenha pressionado Ctrl (ou Cmd) para
+                selecionar múltiplas.</small>
+            {% if form.categories.errors %}<p style="color: red; font-size: 0.85rem;">{{ form.categories.errors.0 }}</p>
+            {% endif %}
         </div>
 
         <div style="margin-bottom: 1.5rem;">
-            <label for="summary" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Resumo (breve
-                descrição)</label>
-            <textarea id="summary" name="summary" rows="3"
-                style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px; font-family: inherit;">{{ article.summary|default:'' }}</textarea>
+            <label for="{{ form.summary.id_for_label }}"
+                style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Resumo (Início do Artigo)</label>
+            {{ form.summary }}
+            {% if form.summary.errors %}<p style="color: red; font-size: 0.85rem;">{{ form.summary.errors.0 }}</p>{%
+            endif %}
         </div>
 
         <div style="margin-bottom: 1.5rem;">
-            <label for="content" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Conteúdo (HTML ou
-                Texto)</label>
-            <textarea id="content" name="content" rows="10" required
-                style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px; font-family: inherit;">{{ article.content|default:'' }}</textarea>
+            <label for="{{ form.content.id_for_label }}"
+                style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Conteúdo (Editor Rico)</label>
+            {{ form.content }}
+            {% if form.content.errors %}<p style="color: red; font-size: 0.85rem;">{{ form.content.errors.0 }}</p>{%
+            endif %}
         </div>
 
         <div style="margin-bottom: 2rem;">
             <label style="display: flex; align-items: center; cursor: pointer;">
-                <input type="checkbox" name="is_published" style="width: 20px; height: 20px; margin-right: 0.75rem;" {% if article.is_published %}checked{% endif %}>
-                <span style="font-weight: 600;">Publicar imediatamente</span>
+                {{ form.is_published }}
+                <span style="font-weight: 600; margin-left: 0.75rem;">Publicar imediatamente</span>
             </label>
         </div>
 

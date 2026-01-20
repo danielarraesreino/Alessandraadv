@@ -9,8 +9,8 @@ from apps.clients.models import Client
 from apps.legal_cases.models import LegalCase
 from .models import SystemSettings
 from in_brief.models import Article, Category
-from django.utils.text import slugify
 from django.contrib import messages
+from .forms import ArticleForm
 import os
 
 def is_manager(user):
@@ -419,61 +419,45 @@ def article_list(request):
 
 @login_required
 def article_create(request):
-    """Criar novo artigo."""
+    """Criar novo artigo usando ArticleForm."""
     if request.method == 'POST':
-        title = request.POST.get('title')
-        content = request.POST.get('content')
-        summary = request.POST.get('summary', '')
-        is_published = request.POST.get('is_published') == 'on'
-        category_id = request.POST.get('category')
-        
-        article = Article.objects.create(
-            title=title,
-            slug=slugify(title),
-            content=content,
-            summary=summary,
-            author=request.user,
-            is_published=is_published,
-            published_at=timezone.now() if is_published else None
-        )
-        
-        if category_id:
-            category = get_object_or_404(Category, id=category_id)
-            article.categories.add(category)
-            
-        messages.success(request, "Artigo criado com sucesso!")
-        return redirect('admin_portal:article_list')
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.author = request.user
+            from django.utils.text import slugify
+            article.slug = slugify(article.title)
+            if article.is_published:
+                article.published_at = timezone.now()
+            article.save()
+            form.save_m2m() # Save categories
+            messages.success(request, "Artigo criado com sucesso!")
+            return redirect('admin_portal:article_list')
+    else:
+        form = ArticleForm()
     
-    categories = Category.objects.all()
-    return render(request, 'admin_portal/article_form.html', {'categories': categories, 'article': None})
+    return render(request, 'admin_portal/article_form.html', {'form': form, 'article': None})
 
 @login_required
 def article_edit(request, article_id):
-    """Editar artigo existente."""
+    """Editar artigo existente usando ArticleForm."""
     article = get_object_or_404(Article, id=article_id)
     
     if request.method == 'POST':
-        article.title = request.POST.get('title')
-        article.content = request.POST.get('content')
-        article.summary = request.POST.get('summary', '')
-        was_published = article.is_published
-        article.is_published = request.POST.get('is_published') == 'on'
-        
-        if article.is_published and not was_published:
-            article.published_at = timezone.now()
-            
-        category_id = request.POST.get('category')
-        if category_id:
-            category = get_object_or_404(Category, id=category_id)
-            article.categories.clear()
-            article.categories.add(category)
-            
-        article.save()
-        messages.success(request, "Artigo atualizado com sucesso!")
-        return redirect('admin_portal:article_list')
+        form = ArticleForm(request.POST, instance=article)
+        if form.is_valid():
+            was_published = article.is_published
+            article = form.save(commit=False)
+            if article.is_published and not was_published:
+                article.published_at = timezone.now()
+            article.save()
+            form.save_m2m()
+            messages.success(request, "Artigo atualizado com sucesso!")
+            return redirect('admin_portal:article_list')
+    else:
+        form = ArticleForm(instance=article)
     
-    categories = Category.objects.all()
-    return render(request, 'admin_portal/article_form.html', {'categories': categories, 'article': article})
+    return render(request, 'admin_portal/article_form.html', {'form': form, 'article': article})
 
 @login_required
 def article_delete(request, article_id):
