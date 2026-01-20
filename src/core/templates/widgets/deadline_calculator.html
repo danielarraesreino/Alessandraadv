@@ -15,28 +15,40 @@
         }
         this.result = date.toLocaleDateString('pt-BR');
     }
-}" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-6 mt-6">
-    <h3 class="text-lg font-semibold text-gray-900 mb-4">Calculadora de Prazos (Novo CPC)</h3>
-    <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="start-date">
-            Data de Publicação
-        </label>
-        <input x-model="startDate" type="date" id="start-date"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+}"
+    style="background: white; border-radius: 12px; padding: 2rem; box-shadow: var(--shadow-medium); width: 100%; max-width: 500px; text-align: left;">
+    <h3 style="font-family: var(--font-primary); font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--color-black);">
+        Calculadora de Prazos (Novo CPC)</h3>
+
+    <div style="margin-bottom: 1.5rem;">
+        <label
+            style="display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-gray-dark);">Data
+            de Publicação</label>
+        <input x-model="startDate" type="date"
+            style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 6px; font-family: inherit;">
     </div>
-    <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="days">
-            Dias Úteis
-        </label>
-        <input x-model="days" type="number" id="days"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+
+    <div style="margin-bottom: 1.5rem;">
+        <label
+            style="display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-gray-dark);">Dias
+            Úteis</label>
+        <input x-model="days" type="number"
+            style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 6px; font-family: inherit;">
     </div>
+
     <button @click="calculate()"
-        class="bg-salmon hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-        Calcular Prazo
+        style="width: 100%; background: var(--color-black); color: var(--color-salmon); padding: 1rem; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"
+        onmouseover="this.style.background='var(--color-salmon-dark)'; this.style.color='white'"
+        onmouseout="this.style.background='var(--color-black)'; this.style.color='var(--color-salmon)'">
+        Calcular Prazo Civil
     </button>
-    <div x-show="result" class="mt-4 p-4 bg-gray-100 rounded">
-        <p class="font-bold">Vencimento: <span x-text="result" class="text-salmon"></span></p>
-        <p class="text-xs text-gray-500 mt-1">*Cálculo simples de dias úteis (não considera feriados).</p>
+
+    <div x-show="result"
+        style="margin-top: 1.5rem; padding: 1rem; background: var(--color-creme); border-radius: 6px; border-left: 4px solid var(--color-salmon);">
+        <p style="margin: 0; font-weight: 600; color: var(--color-black);">Vencimento Previsto:</p>
+        <p x-text="result"
+            style="margin: 0.5rem 0 0 0; font-size: 2rem; color: var(--color-salmon-dark); font-weight: 700;"></p>
+        <p style="margin: 0.5rem 0 0 0; font-size: 0.75rem; color: var(--color-gray); font-style: italic;">*Cálculo em
+            dias úteis (não considera feriados locais).</p>
     </div>
 </div>

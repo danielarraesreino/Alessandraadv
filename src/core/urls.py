@@ -12,6 +12,7 @@ from apps.whatsapp.api import api as whatsapp_api
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
+    path("contato/", TemplateView.as_view(template_name="contact.html"), name="contact"),
     path("health/", views.health_check, name="health_check"),
     path("role-redirect/", role_based_redirect, name="role_redirect"),
     path("admin/", admin.site.urls),

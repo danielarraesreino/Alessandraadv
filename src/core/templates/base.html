@@ -49,7 +49,7 @@
                     style="display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--color-salmon); padding: 0.6rem 1.5rem; border-radius: 50px; color: var(--color-salmon); text-decoration: none; font-weight: 500; transition: all 0.3s ease;">
                     Área do Cliente
                 </a>
-                <a href="https://wa.me/5519988014465" style="text-decoration: none;">Contato</a>
+                <a href="{% url 'contact' %}" style="text-decoration: none;">Contato</a>
             </nav>
         </div>
     </header>
@@ -58,48 +58,9 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer id="contato">
-        <div class="container-fluid"
-            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem;">
-            <div>
-                <h2 style="color: var(--color-creme); font-size: 3rem; margin-bottom: 2rem;">Vamos escrever<br><span
-                        style="color: var(--color-salmon);">sua história?</span></h2>
-                <div style="font-size: 1.1rem; line-height: 2; margin-top: 1.5rem;">
-                    <p><a href="mailto:amdonadonadvocacia@adv.oabsp.org.br"
-                            style="color: var(--color-salmon); text-decoration: none; transition: color 0.3s ease;"
-                            onmouseover="this.style.color='var(--color-creme)'"
-                            onmouseout="this.style.color='var(--color-salmon)'">amdonadonadvocacia@adv.oabsp.org.br</a>
-                    </p>
-                    <p style="display: flex; align-items: center; gap: 1rem; margin-top: 1rem;">
-                        <a href="https://wa.me/5519993257342"
-                            style="color: var(--color-salmon); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;"
-                            onmouseover="this.style.color='var(--color-creme)'"
-                            onmouseout="this.style.color='var(--color-salmon)'">
-                            (19) 99325-7342
-                        </a>
-                        <span style="color: var(--color-gray);">|</span>
-                        <a href="https://www.linkedin.com/in/alessandradonadon/" target="_blank"
-                            style="color: var(--color-salmon); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;"
-                            onmouseover="this.style.color='var(--color-creme)'"
-                            onmouseout="this.style.color='var(--color-salmon)'">
-                            LinkedIn ↗
-                        </a>
-                    </p>
-                </div>
-            </div>
+    {% include "components/footer.html" %}
 
-            <!-- HTMX Robô de Intake - Placeholder Inclusion -->
-            <div id="intake-container">
-                {% include "intake/bot_fragment.html" %}
-            </div>
-        </div>
-        <div style="text-align: center; margin-top: 4rem; color: var(--color-gray); font-size: 0.8rem;">
-            &copy; 2026 Daniel Arraes Reino (Japa). | Todos os direitos reservados. | <a href="/politica-de-privacidade"
-                style="color: inherit; text-decoration: none;">Política de Privacidade (LGPD)</a>
-        </div>
-    </footer>
-
-    <a href="https://wa.me/5519993257342" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+    <a href="https://wa.me/5519988014465" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
         <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
             <path
                 d="M12.031 2c-5.511 0-9.993 4.481-9.993 9.993 0 1.763.461 3.475 1.332 4.978L2 22l5.148-1.351c1.455.794 3.09 1.211 4.757 1.211 5.511 0 9.993-4.482 9.993-9.993 0-5.512-4.482-9.993-9.993-9.993zM12.031 20.125c-1.552 0-3.041-.399-4.343-1.156l-.31-.184-3.228.847.861-3.14-.202-.321c-.822-1.31-1.256-2.83-1.256-4.388 0-4.469 3.636-8.106 8.106-8.106 4.471 0 8.106 3.637 8.106 8.106 0 4.47-3.635 8.102-8.106 8.102zM16.711 14.505c-.258-.129-1.521-.75-1.758-.836s-.41-.129-.582.129-.668.836-.819 1.011-.301.194-.559.065-1.09-.402-2.076-1.279c-.767-.684-1.284-1.53-1.434-1.789s-.016-.399.112-.527c.116-.115.258-.301.387-.451.129-.15.172-.258.258-.43s.043-.323-.021-.452c-.065-.129-.582-1.4-.798-1.92s-.421-.43-.582-.43-.323-.016-.516-.016-.516.065-.785.344-.1.355.021.516c.121.161.258.334.387.527s.129.28.194.43.043.258-.021.43c-.065.172-1.29 5.591-1.29 5.591.065-.129.344.602.818 1.161s1.075 1.011 2.581 1.634c.258.108.516.194.774.28 2.065.667 2.387.645 2.624.516.237-.129.753-.452.861-.882s.108-.796.065-.882c-.043-.086-.151-.129-.409-.258z" />

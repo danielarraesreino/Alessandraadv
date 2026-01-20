@@ -1,0 +1,50 @@
+<footer id="contato">
+    <div class="container-fluid"
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem;">
+        <div>
+            <h2 style="color: var(--color-creme); font-size: 3rem; margin-bottom: 2rem;">Vamos escrever<br><span
+                    style="color: var(--color-salmon);">sua história?</span></h2>
+            <div style="font-size: 1.1rem; line-height: 2; margin-top: 1.5rem;">
+                <p>
+                    <a href="mailto:amdonadonadvocacia@adv.oabsp.org.br"
+                        style="color: var(--color-salmon); text-decoration: none; transition: color 0.3s ease;"
+                        onmouseover="this.style.color='var(--color-creme)'"
+                        onmouseout="this.style.color='var(--color-salmon)'">
+                        amdonadonadvocacia@adv.oabsp.org.br
+                    </a>
+                </p>
+                <p style="display: flex; align-items: center; gap: 1rem; margin-top: 1rem;">
+                    <a href="https://wa.me/5519988014465"
+                        style="color: var(--color-salmon); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;"
+                        onmouseover="this.style.color='var(--color-creme)'"
+                        onmouseout="this.style.color='var(--color-salmon)'">
+                        (19) 98801-4465
+                    </a>
+                    <span style="color: var(--color-gray);">|</span>
+                    <a href="https://www.linkedin.com/in/alessandradonadon/" target="_blank"
+                        style="color: var(--color-salmon); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;"
+                        onmouseover="this.style.color='var(--color-creme)'"
+                        onmouseout="this.style.color='var(--color-salmon)'">
+                        LinkedIn ↗
+                    </a>
+                </p>
+                <p style="margin-top: 1.5rem; font-size: 0.95rem; color: var(--color-gray-light); opacity: 0.8;">
+                    Campinas, São Paulo. <br>
+                    Atendimento especializado em Terceiro Setor, Saúde e Direito do Consumidor.
+                </p>
+            </div>
+        </div>
+
+        <!-- HTMX Robô de Intake - Placeholder Inclusion -->
+        <div id="intake-container">
+            {% include "intake/bot_fragment.html" %}
+        </div>
+    </div>
+
+    <div
+        style="text-align: center; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); color: var(--color-gray); font-size: 0.8rem;">
+        &copy; 2026 Daniel Arraes Reino (Japa). | Todos os direitos reservados. |
+        <a href="/politica-de-privacidade" style="color: inherit; text-decoration: none;">Política de Privacidade
+            (LGPD)</a>
+    </div>
+</footer>

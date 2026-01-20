@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!-- Contact Header -->
+<section class="section-full section-white" style="padding-top: 8rem; padding-bottom: 4rem;">
+    <div class="container-fluid animate-fade-up" style="text-align: center;">
+        <span
+            style="color: var(--color-salmon-dark); letter-spacing: 2px; font-size: 0.9rem; text-transform: uppercase; font-weight: 600;">Atendimento
+            Especializado</span>
+        <h1 style="font-size: 4rem; margin-top: 1rem; margin-bottom: 2rem;">Contato</h1>
+        <div style="width: 60px; height: 4px; background: var(--color-salmon); margin: 0 auto 2rem;"></div>
+        <p
+            style="font-size: 1.25rem; color: var(--color-gray-dark); max-width: 800px; margin: 0 auto; line-height: 1.6;">
+            Estamos prontos para ouvir sua história e construir a melhor solução jurídica para o seu caso.
+        </p>
+    </div>
+</section>
+
+<!-- Contact Info & Map/Office -->
+<section class="section-full section-creme">
+    <div class="container-fluid">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 4rem;">
+            <!-- Informações de Contato -->
+            <div class="animate-fade-up"
+                style="background: white; padding: 3rem; border-radius: 20px; box-shadow: var(--shadow-medium);">
+                <h3 style="margin-bottom: 2rem;">Canais Diretos</h3>
+
+                <div style="margin-bottom: 2rem;">
+                    <h4
+                        style="font-size: 0.9rem; color: var(--color-gray); text-transform: uppercase; margin-bottom: 0.5rem;">
+                        WhatsApp</h4>
+                    <p style="font-size: 1.5rem; font-weight: 700;">
+                        <a href="https://wa.me/5519988014465"
+                            style="color: var(--color-salmon); text-decoration: none;">(19) 98801-4465</a>
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h4
+                        style="font-size: 0.9rem; color: var(--color-gray); text-transform: uppercase; margin-bottom: 0.5rem;">
+                        E-mail</h4>
+                    <p style="font-size: 1.2rem; font-weight: 600;">
+                        <a href="mailto:amdonadonadvocacia@adv.oabsp.org.br"
+                            style="color: var(--color-black); text-decoration: none;">amdonadonadvocacia@adv.oabsp.org.br</a>
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h4
+                        style="font-size: 0.9rem; color: var(--color-gray); text-transform: uppercase; margin-bottom: 0.5rem;">
+                        Localização</h4>
+                    <p style="font-size: 1.1rem; line-height: 1.6;">
+                        Atendimento presencial em Campinas - SP <br>
+                        (Mediante agendamento prévio)
+                    </p>
+                </div>
+
+                <div style="padding-top: 2rem; border-top: 1px solid var(--color-gray-light);">
+                    <h4
+                        style="font-size: 0.9rem; color: var(--color-gray); text-transform: uppercase; margin-bottom: 1rem;">
+                        Horário de Atendimento</h4>
+                    <p style="font-size: 1rem;">Segunda a Sexta: 09:00 às 18:00</p>
+                </div>
+            </div>
+
+            <!-- Escritório / Imagem -->
+            <div class="animate-fade-up delay-200">
+                <div
+                    style="background: var(--color-black); color: white; padding: 4rem; border-radius: 20px; height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                    <h2 style="color: var(--color-salmon); margin-bottom: 2rem;">Assessoria Jurídica de Impacto</h2>
+                    <p style="font-size: 1.2rem; line-height: 1.7; opacity: 0.9; margin-bottom: 2rem;">
+                        Unimos técnica, sensibilidade e estratégia para garantir que seus direitos sejam respeitados.
+                        Seja no Terceiro Setor, na Saúde ou em questões de Consumo, nossa missão é sua Justiça.
+                    </p>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="https://wa.me/5519988014465" class="btn-primary"
+                            style="background: var(--color-salmon); color: var(--color-black);">Iniciar Conversa agora
+                            &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ / Áreas Section -->
+<section class="section-full section-white">
+    <div class="container-fluid animate-fade-up" style="text-align: center;">
+        <h2 style="margin-bottom: 4rem;">Como podemos ajudar?</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+            <div style="padding: 2rem; background: var(--color-creme); border-radius: 12px;">
+                <h4 style="margin-bottom: 1rem; color: var(--color-salmon-dark);">Lipedema</h4>
+                <p style="font-size: 0.95rem;">Defesa contra negativas de planos de saúde para tratamento especializado.
+                </p>
+            </div>
+            <div style="padding: 2rem; background: var(--color-creme); border-radius: 12px;">
+                <h4 style="margin-bottom: 1rem; color: var(--color-salmon-dark);">Terceiro Setor</h4>
+                <p style="font-size: 0.95rem;">Regularização de ONGs, Coletivos e captação via leis de incentivo.</p>
+            </div>
+            <div style="padding: 2rem; background: var(--color-creme); border-radius: 12px;">
+                <h4 style="margin-bottom: 1rem; color: var(--color-salmon-dark);">Dívidas</h4>
+                <p style="font-size: 0.95rem;">Aplicação da Lei do Superendividamento e revisão de contratos bancários.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
