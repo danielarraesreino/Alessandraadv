@@ -15,3 +15,5 @@ django-ckeditor>=6.7.0
 django-crispy-forms>=2.0
 crispy-tailwind>=1.0
 pillow>=10.0.0
+python-docx>=1.1.0
+python-dotenv>=1.0.1
