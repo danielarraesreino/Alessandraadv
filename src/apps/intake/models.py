@@ -7,6 +7,8 @@ class Lead(models.Model):
         ('LIPEDEMA', 'Lipedema/Saúde'),
         ('SUPER', 'Superendividamento'),
         ('CULTURAL', 'Lei Rouanet/Cultural'),
+        ('CIVIL', 'Cível/Contratos'),
+        ('INTERNSHIP', 'Candidatura a Estágio'),
         ('OTHER', 'Outros Assuntos'),
     ]
 

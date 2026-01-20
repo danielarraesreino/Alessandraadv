@@ -5,9 +5,48 @@
 <!-- Hero Fluid -->
 <!-- Hero Fluid -->
 <section class="hero">
-    <div class="hero-bg-container">
-        <img src="{% static 'images/office_hero.jpg' %}" alt="Escritório" class="hero-bg">
+    <div class="hero-bg-container" id="hero-slider">
+        <img src="{% static 'images/office_hero.jpg' %}" alt="Escritório" class="hero-bg active">
+        <img src="{% static 'images/alessandra_hero.png' %}" alt="Alessandra" class="hero-bg">
     </div>
+
+    <style>
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            /* Hidden by default */
+            transition: opacity 1.5s ease-in-out;
+            /* Override theme.css which might set opacity: 0.5. We handle active state below */
+        }
+
+        .hero-bg.active {
+            opacity: 0.5;
+            /* Restore the design's semi-transparency */
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const images = document.querySelectorAll('#hero-slider .hero-bg');
+            let currentIndex = 0;
+            const intervalTime = 5000; // 5 seconds
+
+            if (images.length > 1) {
+                setInterval(() => {
+                    // Remove active from current
+                    images[currentIndex].classList.remove('active');
+
+                    // Calculate next
+                    currentIndex = (currentIndex + 1) % images.length;
+
+                    // Add active to next
+                    images[currentIndex].classList.add('active');
+                }, intervalTime);
+            }
+        });
+    </script>
     <div class="hero-content animate-fade-up">
         <blockquote>
             "Teu dever é lutar pelo Direito; mas, quando encontrares em conflito o Direito e a Justiça, luta pela

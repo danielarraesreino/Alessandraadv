@@ -3,22 +3,19 @@ from ninja import NinjaAPI
 _api = None
 
 def get_api():
-    """
-    Singleton for the main API instance. 
-    Ensures unique namespace and version to avoid conflicts.
-    """
     global _api
     if _api is not None:
         return _api
-        
-    for existing_api in NinjaAPI._registry:
-        if getattr(existing_api, "urls_namespace", None) == 'main':
-            _api = existing_api
+
+    # Check registry to prevent duplicate registration (ConfigError)
+    for existing in NinjaAPI._registry:
+        if getattr(existing, 'urls_namespace', None) == 'main':
+            _api = existing
             return _api
 
     _api = NinjaAPI(
         title="Legal Intelligence Platform API",
-        version="1.1.0",
+        version="1.0.0",
         urls_namespace='main'
     )
     
@@ -44,6 +41,13 @@ def get_api():
     try:
         from apps.portals.api.router import router as portals_router
         _api.add_router("/portals", portals_router)
+    except Exception:
+        pass
+
+    # [MERGED] Add WhatsApp router here to avoid multiple NinjaAPI instances
+    try:
+        from apps.whatsapp.api import router as whatsapp_router
+        _api.add_router("/whatsapp", whatsapp_router)
     except Exception:
         pass
                 

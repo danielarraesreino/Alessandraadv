@@ -17,6 +17,56 @@ class Step2Schema(Schema):
     urgencia: str = None
     contact: str = None
 
+class ContactFormSchema(Schema):
+    name: str = None
+    contact: str = None
+    subject: str = None
+    message: str = None
+
+@router.post("/submit-contact/")
+def submit_contact_form(request, data: ContactFormSchema):
+    """Handle direct contact form submission from Contact Page."""
+    from apps.intake.scoring import calculate_claim_score
+    
+    # Map subject to case_type
+    subject_map = {
+        'lipedema': 'LIPEDEMA',
+        'terceiro_setor': 'CULTURAL', # Assuming Cultural covers 3rd sector
+        'dividas': 'SUPER',
+        'civel': 'CIVIL',
+        'estagio': 'INTERNSHIP',
+        'outros': 'OTHER'
+    }
+    case_type = subject_map.get(data.subject, 'OTHER')
+    
+    lead = Lead.objects.create(
+        full_name=data.name,
+        contact_info=data.contact,
+        case_type=case_type,
+        triage_data={'message': data.message, 'source': 'Contact Page'},
+        source="Página de Contato"
+    )
+    
+    # Simple scoring or default
+    lead.score = calculate_claim_score(lead, {'message': data.message})
+    lead.save()
+    
+    if lead.is_qualified or case_type == 'INTERNSHIP': # Internships are always interesting to review
+        try:
+             # Placeholder for notification logic if needed
+             pass
+        except Exception:
+            pass
+
+    return HttpResponse(f"""
+        <div style='text-align:center; padding: 2rem; background: var(--color-creme); border-radius: 20px;'>
+            <h3 style='color: var(--color-salmon-dark); margin-bottom: 1rem;'>Mensagem Recebida!</h3>
+            <p>Obrigado, {data.name}. Nosso "Guardião da Marca" já registrou seu contato.</p>
+            <p>Em breve retornaremos pelo canal informado.</p>
+        </div>
+    """)
+
+
 @router.post("/step-1/")
 def intake_step_1(request, data: Step1Schema):
     """Step 1: Capture name and case type, create triage session."""
