@@ -5,11 +5,23 @@ from apps.clients.models import Client
 
 logger = logging.getLogger(__name__)
 
-api = NinjaAPI(
-    title="Alessandra M. Donadon WhatsApp API", 
-    version="1.1.0", 
-    urls_namespace='whatsapp'
-)
+# The key Ninja uses in its internal registry: "{urls_namespace}:{version}"
+API_REGISTRY_KEY = "whatsapp:1.1.0"
+
+def get_api_instance():
+    from ninja.main import api_registry
+    
+    # Check if already registered to avoid ConfigError on reload
+    if API_REGISTRY_KEY in api_registry:
+        return api_registry[API_REGISTRY_KEY]
+        
+    return NinjaAPI(
+        title="Alessandra M. Donadon WhatsApp API", 
+        version="1.1.0", 
+        urls_namespace='whatsapp'
+    )
+
+api = get_api_instance()
 
 class IncomingMessage(Schema):
     from_number: str
