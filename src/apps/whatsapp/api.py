@@ -1,18 +1,25 @@
 from ninja import NinjaAPI, Schema
 from ninja.errors import ConfigError
 import logging
-import uuid
 
 logger = logging.getLogger(__name__)
 
-# RANDOMIZED NAMESPACE HOTFIX:
-_unique_suffix = uuid.uuid4().hex[:8]
+_api = None
 
-api = NinjaAPI(
-    title="Legal Intelligence Platform WhatsApp API", 
-    version="3.3.0", 
-    urls_namespace=f'whatsapp_{_unique_suffix}'
-)
+def get_api():
+    global _api
+    if _api is None:
+        try:
+            _api = NinjaAPI(
+                title="Legal Intelligence Platform WhatsApp API",
+                version="4.0.0",
+                urls_namespace='whatsapp'
+            )
+        except ConfigError:
+            _api = NinjaAPI(urls_namespace='whatsapp_alt')
+    return _api
+
+api = get_api()
 
 class IncomingMessage(Schema):
     from_number: str
