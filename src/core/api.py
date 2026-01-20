@@ -26,22 +26,41 @@ api = get_api()
 # Function to attach routers, ensuring it only happens once per process/reload
 def setup_api():
     if api is None:
+        print(">>> NINJA API IS NONE, SKIPPING SETUP <<<")
         return
         
-    # Import routers here to avoid circular imports
-    from in_brief.api.endpoints import router as in_brief_router
-    from apps.intake.api.router import router as intake_router
-    from apps.integrations.api.router import router as integrations_router
-    from apps.portals.api.router import router as portals_router
-
-    # Ninja handles duplicate router attachment via ConfigError
+    print(">>> STARTING NINJA API ROUTER ATTACHMENT <<<")
+    
+    # Import and add routers one by one with logging
     try:
+        from in_brief.api.endpoints import router as in_brief_router
         api.add_router("/in-brief", in_brief_router)
+        print(">>> ATTACHED /in-brief <<<")
+    except Exception as e:
+        print(f">>> ERROR ATTACHING /in-brief: {e} <<<")
+
+    try:
+        from apps.intake.api.router import router as intake_router
         api.add_router("/intake", intake_router)
+        print(">>> ATTACHED /intake <<<")
+    except Exception as e:
+        print(f">>> ERROR ATTACHING /intake: {e} <<<")
+
+    try:
+        from apps.integrations.api.router import router as integrations_router
         api.add_router("/integrations", integrations_router)
+        print(">>> ATTACHED /integrations <<<")
+    except Exception as e:
+        print(f">>> ERROR ATTACHING /integrations: {e} <<<")
+
+    try:
+        from apps.portals.api.router import router as portals_router
         api.add_router("/portals", portals_router)
-    except ConfigError:
-        pass
+        print(">>> ATTACHED /portals <<<")
+    except Exception as e:
+        print(f">>> ERROR ATTACHING /portals: {e} <<<")
+
+    print(">>> FINISHED NINJA API ROUTER ATTACHMENT <<<")
 
 # Initialize it
 setup_api()
