@@ -1,6 +1,5 @@
 # Índice de Documentação - Plataforma de Inteligência Jurídica
-
-**Projeto:** Dra. Alessandra Donadon - Legal Intelligence Platform  
+**Proprietário:** Daniel Arraes Reino (Japa)  
 **Status:** Production Ready ✅  
 **Data:** 17 de Janeiro de 2026
 
@@ -153,10 +152,8 @@ alessandra-antigravity/
 ---
 
 ## 📞 Suporte
-
-**Desenvolvedor:** Dan  
-**Cliente:** Dra. Alessandra Donadon  
-**Email:** contato@alessandradonadon.adv.br
+**Proprietário:** Daniel Arraes Reino (Japa)  
+**WhatsApp:** (19) 99325-7342  
 
 ---
 

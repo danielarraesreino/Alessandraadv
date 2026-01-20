@@ -1,8 +1,7 @@
-# Plataforma de Inteligência Jurídica - Dra. Alessandra Donadon
-
-**Relatório Técnico Executivo**  
-Data: 17 de Janeiro de 2026  
-Desenvolvedor: Dan (com assistência Google Antigravity)  
+# Plataforma de Inteligência Jurídica
+**Propriedade Intelectual:** Daniel Arraes Reino (Japa)  
+Data: 20 de Janeiro de 2026  
+Desenvolvedor: Daniel Arraes Reino (Japa)  
 Status: **Phase 4 - Production Ready** ✅
 
 ---
@@ -402,10 +401,8 @@ gunicorn core.wsgi:application --bind 0.0.0.0:8000
 
 ## 📞 Contato & Suporte
 
-**Desenvolvedor:** Dan  
-**Cliente:** Dra. Alessandra Donadon  
-**Email:** contato@alessandradonadon.adv.br  
-**WhatsApp Decisor:** (19) 98801-4465
+**Propriedade & Suporte:** Daniel Arraes Reino (Japa)  
+**WhatsApp:** (19) 99325-7342  
 
 **Repositório:** (Privado)  
 **Documentação Completa:** `/brain/artifacts/walkthrough.md`
@@ -414,8 +411,9 @@ gunicorn core.wsgi:application --bind 0.0.0.0:8000
 
 ## 📝 Licença & Propriedade Intelectual
 
-Este projeto é propriedade exclusiva da **Dra. Alessandra Donadon Advocacia**.  
-Todos os direitos reservados © 2026.
+Este projeto é propriedade exclusiva de **Daniel Arraes Reino (Japa)**.  
+Todos os direitos reservados © 2026.  
+WhatsApp: (19) 99325-7342
 
 **Tecnologias Open Source Utilizadas:**
 - Django (BSD License)

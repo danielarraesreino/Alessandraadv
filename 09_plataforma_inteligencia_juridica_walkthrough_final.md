@@ -1,6 +1,5 @@
 # Plataforma de Inteligência Jurídica - Walkthrough Final
-
-**Projeto:** Dra. Alessandra Donadon - Legal Intelligence Platform  
+**Proprietário:** Daniel Arraes Reino (Japa)  
 **Status:** Production Ready ✅  
 **Data:** 17 de Janeiro de 2026
 
@@ -8,7 +7,7 @@
 
 ## 🎯 Visão Geral
 
-Transformamos um site institucional em uma **plataforma de inteligência jurídica de classe mundial**, posicionando a Dra. Alessandra Donadon no mesmo patamar de escritórios que utilizam sistemas como Hona e Clio.
+Transformamos um site institucional em uma **plataforma de inteligência jurídica de classe mundial**, desenvolvida por Daniel Arraes Reino (Japa).
 
 **Valor Estratégico:** R$70.000+ (White Label)
 
@@ -329,7 +328,7 @@ gunicorn core.wsgi:application --bind 0.0.0.0:8000 --workers 4
 
 ## 🏆 Conclusão
 
-A plataforma está **production-ready** e posiciona a Dra. Alessandra Donadon como referência em **Legal Tech** no Brasil.
+A plataforma está **production-ready** e posiciona o proprietário Daniel Arraes Reino (Japa) como referência em **Legal Tech** no Brasil.
 
 **Próximos Passos:**
 1. Deploy em servidor de produção
