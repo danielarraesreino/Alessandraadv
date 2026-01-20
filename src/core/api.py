@@ -5,7 +5,7 @@ from ninja.errors import ConfigError
 api = NinjaAPI(
     title="Alessandra M. Donadon API", 
     version="1.0.0", 
-    urls_namespace='main_api'
+    urls_namespace='main'
 )
 
 # Function to attach routers, ensuring it only happens once per process/reload

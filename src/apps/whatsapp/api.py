@@ -5,7 +5,11 @@ from apps.clients.models import Client
 
 logger = logging.getLogger(__name__)
 
-api = NinjaAPI(urls_namespace='whatsapp')
+api = NinjaAPI(
+    title="Alessandra M. Donadon WhatsApp API", 
+    version="1.1.0", 
+    urls_namespace='whatsapp'
+)
 
 class IncomingMessage(Schema):
     from_number: str
