@@ -413,9 +413,21 @@ def generate_document_action(request, case_id):
 
 @login_required
 def article_list(request):
-    """Lista de artigos do In Brief."""
+    """Lista de artigos do In Brief com métricas rápidas."""
     articles = Article.objects.all().order_by('-created_at')
-    return render(request, 'admin_portal/article_list.html', {'articles': articles})
+    
+    # Métricas para o topo da página
+    total_count = articles.count()
+    published_count = articles.filter(is_published=True).count()
+    draft_count = total_count - published_count
+    
+    context = {
+        'articles': articles,
+        'total_count': total_count,
+        'published_count': published_count,
+        'draft_count': draft_count,
+    }
+    return render(request, 'admin_portal/article_list.html', context)
 
 @login_required
 def article_create(request):

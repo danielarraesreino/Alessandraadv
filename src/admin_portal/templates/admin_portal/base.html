@@ -28,6 +28,10 @@
             --color-gray: #6B6B6B;
             --color-gray-dark: #4A4A4A;
             --color-gray-light: #D1D1D1;
+            --color-success: #166534;
+            --color-success-bg: #dcfce7;
+            --color-danger: #dc2626;
+            --color-danger-bg: #fee2e2;
             --space-xs: 0.5rem;
             --space-sm: 1rem;
             --space-md: 1.5rem;
@@ -61,10 +65,14 @@
         }
 
         .sidebar-logo {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 700;
             margin-bottom: var(--space-xl);
             color: var(--color-salmon);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 1rem;
         }
 
         .sidebar-nav {
@@ -166,14 +174,22 @@
 
         /* Buttons */
         .btn {
-            padding: var(--space-sm) var(--space-lg);
+            padding: 0.75rem 1.5rem;
             border-radius: 8px;
             border: none;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
         }
 
         .btn-primary {
@@ -183,16 +199,55 @@
 
         .btn-primary:hover {
             background: var(--color-salmon-dark);
+            box-shadow: 0 10px 15px -3px rgba(232, 159, 113, 0.3);
+            transform: translateY(-2px);
         }
 
         .btn-secondary {
-            background: var(--color-gray-light);
+            background: white;
             color: var(--color-black);
+            border: 1px solid var(--color-gray-light);
         }
 
         .btn-secondary:hover {
-            background-color: var(--color-gray-light);
-            color: var(--color-black);
+            background-color: var(--color-creme);
+            border-color: var(--color-salmon);
+        }
+
+        .btn-danger {
+            background: var(--color-danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+            box-shadow: 0 10px 15px -3px rgba(220, 38, 38, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Badges */
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-success {
+            background: var(--color-success-bg);
+            color: var(--color-success);
+        }
+
+        .badge-draft {
+            background: var(--color-gray-light);
+            color: var(--color-gray-dark);
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
         }
 
         /* Utility classes for Finance */
