@@ -8,24 +8,7 @@ from django.views.generic import TemplateView
 
 from apps.portals import views as portals_views
 
-# Define Main API
-api = NinjaAPI(title="Alessandra M. Donadon API", version="1.0.0", urls_namespace='api')
-
-# Import routers
-from in_brief.api.endpoints import router as in_brief_router
-from apps.intake.api.router import router as intake_router
-from apps.integrations.api.router import router as integrations_router
-from apps.portals.api.router import router as portals_router
-
-# Attach routers with error handling for module reloads
-try:
-    api.add_router("/in-brief", in_brief_router)
-    api.add_router("/intake", intake_router)
-    api.add_router("/integrations", integrations_router)
-    api.add_router("/portals", portals_router)
-except ConfigError:
-    # Router already attached (happens during module reload in DEBUG mode)
-    pass
+from core.api import api
 
 
 from core import views
