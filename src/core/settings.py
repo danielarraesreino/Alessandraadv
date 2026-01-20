@@ -169,7 +169,8 @@ STORAGES = {
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # [NEW] Encryption Configuration
-ENCRYPTION_KEY = Fernet.generate_key() # In production, use os.getenv('ENCRYPTION_KEY')
+# CRITICAL: Use persistent key from env to avoid breaking existing encrypted data
+ENCRYPTION_KEY = os.getenv('ENCRYPTION_KEY', Fernet.generate_key().decode())
 
 # [NEW] WhatsApp Configuration
 WHATSAPP_DECISOR_NUMBER = os.getenv('WHATSAPP_DECISOR_NUMBER', "+5519993257342")

@@ -1,8 +1,9 @@
 # Plataforma de Inteligência Jurídica
 **Propriedade Intelectual:** Daniel Arraes Reino (Japa)  
-Data: 20 de Janeiro de 2026  
+Data: 20 de Janeiro de 2026 (Atualizado)  
 Desenvolvedor: Daniel Arraes Reino (Japa)  
-Status: **Phase 4 - Production Ready** ✅
+Status: **Production Ready** ✅  
+Repositório: https://github.com/danielarraesreino/Alessandraadv
 
 ---
 
@@ -122,8 +123,17 @@ class Client(models.Model):
 **Chave de Criptografia:**
 ```python
 # settings.py
-ENCRYPTION_KEY = os.getenv('ENCRYPTION_KEY')  # Fernet key
+# CRITICAL: Use persistent key from environment to avoid data loss
+ENCRYPTION_KEY = os.getenv('ENCRYPTION_KEY', Fernet.generate_key().decode())
 ```
+
+**Gerar chave de criptografia:**
+```bash
+python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+```
+
+> [!CAUTION]
+> Nunca mude a `ENCRYPTION_KEY` em produção! Isso tornará todos os dados criptografados existentes irrecuperáveis.
 
 ### Conformidade
 
@@ -299,49 +309,133 @@ Executamos teste end-to-end completo usando o **UI Agent** do Antigravity:
 
 ---
 
-## 🚀 Deploy & Produção
+## 🚀 Setup Local
 
-### Variáveis de Ambiente Requeridas
+### 1. Clonar Repositório
 
 ```bash
-# .env (produção)
-SECRET_KEY=your-django-secret-key
-DEBUG=False
-ALLOWED_HOSTS=alessandradonadon.adv.br
+git clone https://github.com/danielarraesreino/Alessandraadv.git
+cd Alessandraadv
+```
 
-# Database
+### 2. Criar Ambiente Virtual
+
+```bash
+python3.11 -m venv .venv
+source .venv/bin/activate  # Linux/Mac
+# .venv\Scripts\activate  # Windows
+```
+
+### 3. Instalar Dependências
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configurar Variáveis de Ambiente
+
+Copie o arquivo de exemplo e configure:
+
+```bash
+cp .env.example .env
+# Edite .env e configure as variáveis necessárias
+```
+
+**Gerar chave de criptografia:**
+```bash
+python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+```
+
+Adicione a chave gerada no `.env`:
+```
+ENCRYPTION_KEY=sua-chave-aqui
+```
+
+### 5. Executar Migrações
+
+```bash
+python manage.py migrate
+```
+
+### 6. Criar Superusuário (Opcional)
+
+```bash
+python manage.py createsuperuser
+```
+
+### 7. Iniciar Servidor Local
+
+```bash
+python manage.py runserver
+```
+
+Acesse: http://localhost:8000
+
+---
+
+## 🌐 Deploy em Produção
+
+### Variáveis de Ambiente (Produção)
+
+```bash
+# Django Core
+SECRET_KEY=your-production-secret-key  # Gerar com: python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+DEBUG=False
+ALLOWED_HOSTS=seu-dominio.com.br
+
+# Database (PostgreSQL)
 DATABASE_URL=postgresql://user:pass@host:5432/dbname
 
-# Encryption
+# Encryption (CRITICAL - Manter sempre a mesma!)
 ENCRYPTION_KEY=your-fernet-key
 
-# WhatsApp (Twilio)
+# WhatsApp
+WHATSAPP_DECISOR_NUMBER=+5519988014465
 TWILIO_ACCOUNT_SID=ACxxxxx
 TWILIO_AUTH_TOKEN=xxxxx
 TWILIO_WHATSAPP_NUMBER=+14155238886
 
-# Legal Ops (Clio)
+# Email (Gmail)
+EMAIL_HOST_USER=seu-email@gmail.com
+EMAIL_HOST_PASSWORD=sua-app-password
+
+# Legal Ops (Opcional)
 CLIO_API_URL=https://app.clio.com/api/v4
 CLIO_ACCESS_TOKEN=your-oauth2-token
 
-# Sentry (Monitoring)
+# Monitoring (Opcional)
 SENTRY_DSN=https://xxxxx@sentry.io/xxxxx
 ```
 
-### Comandos de Deploy
+### Deploy no Railway/Render/Heroku
+
+O projeto está configurado com `Procfile` para deploy automático:
+
+```
+web: cd src && gunicorn core.wsgi:application --bind 0.0.0.0:$PORT
+release: cd src && python ../manage.py migrate --noinput
+```
+
+**Passos:**
+1. Conecte seu repositório GitHub ao serviço de hosting
+2. Configure as variáveis de ambiente (ver seção acima)
+3. O deploy será automático a cada push para `main`
+
+### Deploy Manual (VPS)
 
 ```bash
 # 1. Coletar arquivos estáticos
-python manage.py collectstatic --noinput
+cd src
+python ../manage.py collectstatic --noinput
 
 # 2. Aplicar migrações
-python manage.py migrate
+python ../manage.py migrate
 
 # 3. Criar superuser
-python manage.py createsuperuser
+python ../manage.py createsuperuser
 
 # 4. Iniciar servidor (Gunicorn)
-gunicorn core.wsgi:application --bind 0.0.0.0:8000
+gunicorn core.wsgi:application --bind 0.0.0.0:8000 --workers 3
 ```
 
 ### Checklist Pré-Produção
@@ -422,5 +516,31 @@ WhatsApp: (19) 99325-7342
 
 ---
 
-**Última Atualização:** 17 de Janeiro de 2026, 21:52 BRT  
-**Versão:** 3.0.0 (Legal Ops Integration)
+## 🔍 Troubleshooting
+
+### Erro: ModuleNotFoundError
+```bash
+# Reinstale todas as dependências
+pip install -r requirements.txt
+```
+
+### Erro: Database locked
+```bash
+# Se usando SQLite, pare o servidor e tente novamente
+# Para produção, use PostgreSQL
+```
+
+### Runserver não inicia
+```bash
+# Verifique se todas as migrações foram aplicadas
+python manage.py migrate
+
+# Execute check para identificar problemas
+python manage.py check
+```
+
+---
+
+**Última Atualização:** 20 de Janeiro de 2026, 15:20 BRT  
+**Versão:** 4.0.0 (Production Hardening Complete)  
+**GitHub:** https://github.com/danielarraesreino/Alessandraadv

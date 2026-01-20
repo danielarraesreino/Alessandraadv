@@ -8,3 +8,17 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Environment variables (sensitive!)
+.env
+.env.local
+.env.production
+
+# Database
+*.sqlite3
+db.sqlite3
+src/db.sqlite3
+
+# Media files (uploads)
+media/
+staticfiles/
