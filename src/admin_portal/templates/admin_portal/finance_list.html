@@ -62,7 +62,7 @@
                 style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
                 <option value="">Todos os Status</option>
                 {% for code, name in STATUS_CHOICES %}
-                <option value="{{ code }}" {% if status_filter==code %}selected{% endif %}>{{ name }}</option>
+                <option value="{{ code }}" {% if status_filter == code %}selected{% endif %}>{{ name }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -72,7 +72,7 @@
                 style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
                 <option value="">Todas as Categorias</option>
                 {% for code, name in CATEGORY_CHOICES %}
-                <option value="{{ code }}" {% if category_filter==code %}selected{% endif %}>{{ name }}</option>
+                <option value="{{ code }}" {% if category_filter == code %}selected{% endif %}>{{ name }}</option>
                 {% endfor %}
             </select>
         </div>
