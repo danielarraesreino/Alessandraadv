@@ -24,9 +24,9 @@
                     <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Tipo *</label>
                     <select name="client_type" required
                         style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
-                        <option value="PF" {% if client.client_type=='PF' or not client %}selected{% endif %}>Pessoa
+                        <option value="PF" {% if client.client_type == 'PF' or not client %}selected{% endif %}>Pessoa
                             Física</option>
-                        <option value="PJ" {% if client.client_type=='PJ' %}selected{% endif %}>Pessoa Jurídica</option>
+                        <option value="PJ" {% if client.client_type == 'PJ' %}selected{% endif %}>Pessoa Jurídica</option>
                     </select>
                 </div>
 
