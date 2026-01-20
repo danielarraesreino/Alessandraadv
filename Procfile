@@ -1,2 +1,2 @@
-web: python manage.py runserver 0.0.0.0:$PORT --noreload
+web: cd src && gunicorn core.wsgi:application --bind 0.0.0.0:$PORT --log-level debug --access-logfile - --error-logfile -
 release: python manage.py migrate --noinput

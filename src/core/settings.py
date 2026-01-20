@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
+import dj_database_url
 from pathlib import Path
 from cryptography.fernet import Fernet
 
@@ -21,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-f^o7xxr(@l&obkv8+d0ivbl+l%j%gd88xz+1#2b!gxl7-o*!_%"
+SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-f^o7xxr(@l&obkv8+d0ivbl+l%j%gd88xz+1#2b!gxl7-o*!_%")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = ["*"]  # In production, specify your domains
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
 
 # Application definition
@@ -101,9 +103,6 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
-import os
-import dj_database_url
 
 DATABASES = {
     "default": dj_database_url.config(
