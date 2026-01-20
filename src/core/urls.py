@@ -9,7 +9,7 @@ from django.views.generic import TemplateView
 from apps.portals import views as portals_views
 
 # Define Main API
-api = NinjaAPI(title="Alessandra M. Donadon API", version="1.0.0")
+api = NinjaAPI(title="Alessandra M. Donadon API", version="1.0.0", urls_namespace='api')
 
 # Import routers
 from in_brief.api.endpoints import router as in_brief_router
