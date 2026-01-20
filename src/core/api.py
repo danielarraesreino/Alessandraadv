@@ -7,6 +7,7 @@ api = NinjaAPI(
     version="1.0.0", 
     urls_namespace='main'
 )
+print(">>> NINJA API INITIALIZED WITH NAMESPACE: 'main' <<<")
 
 # Function to attach routers, ensuring it only happens once per process/reload
 def setup_api():
