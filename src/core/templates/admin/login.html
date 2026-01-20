@@ -3,27 +3,6 @@
 {% load socialaccount %}
 
 {% block content %}
-<div style="margin-bottom: 20px; text-align: center;">
-    <a href="{% provider_login_url 'google' %}" class="google-btn" style="
-            display: inline-block;
-            background: #4285F4;
-            color: white;
-            width: 100%;
-            padding: 10px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-family: Roboto, sans-serif;
-            font-weight: 500;
-            box-sizing: border-box;
-        ">
-        {% trans "Entrar com Google" %}
-    </a>
-    <div style="margin: 15px 0; border-top: 1px solid #ccc; position: relative;">
-        <span
-            style="background: #fff; padding: 0 10px; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); color: #666;">
-            {% trans "OU" %}
-        </span>
-    </div>
-</div>
+{# Social login disabled until configured in admin #}
 {{ block.super }}
 {% endblock %}
