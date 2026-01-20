@@ -1,4 +1,5 @@
 {% extends "admin_portal/base.html" %}
+{% load humanize %}
 
 {% block title %}Financeiro{% endblock %}
 
@@ -61,7 +62,7 @@
                 style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
                 <option value="">Todos os Status</option>
                 {% for code, name in STATUS_CHOICES %}
-                <option value="{{ code }}" {% if status_filter == code %}selected{% endif %}>{{ name }}</option>
+                <option value="{{ code }}" {% if status_filter==code %}selected{% endif %}>{{ name }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -71,7 +72,7 @@
                 style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
                 <option value="">Todas as Categorias</option>
                 {% for code, name in CATEGORY_CHOICES %}
-                <option value="{{ code }}" {% if category_filter == code %}selected{% endif %}>{{ name }}</option>
+                <option value="{{ code }}" {% if category_filter==code %}selected{% endif %}>{{ name }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -83,7 +84,8 @@
     <table style="width: 100%; border-collapse: collapse;">
         <thead>
             <tr style="border-bottom: 2px solid var(--color-gray-light);">
-                <th style="padding: 1rem; text-align: left;">{% if tab == 'payable' %}Vencimento{% else %}Previsão/Recebimento{% endif %}</th>
+                <th style="padding: 1rem; text-align: left;">{% if tab == 'payable' %}Vencimento{% else
+                    %}Previsão/Recebimento{% endif %}</th>
                 <th style="padding: 1rem; text-align: left;">Descrição</th>
                 <th style="padding: 1rem; text-align: left;">Categoria</th>
                 <th style="padding: 1rem; text-align: left;">Valor</th>
@@ -106,7 +108,8 @@
                 <td style="padding: 1rem;">
                     <strong>{{ item.description }}</strong>
                     <div style="font-size: 0.85rem; color: var(--color-gray);">
-                        {% if tab == 'payable' %}{{ item.supplier }}{% else %}{{ item.client_name|default:item.legal_case.client.full_name }}{% endif %}
+                        {% if tab == 'payable' %}{{ item.supplier }}{% else %}{{
+                        item.client_name|default:item.legal_case.client.full_name }}{% endif %}
                     </div>
                 </td>
                 <td style="padding: 1rem;">
@@ -116,7 +119,7 @@
                     </span>
                 </td>
                 <td style="padding: 1rem; font-weight: 600;">
-                    R$ {{ item.amount }}
+                    R$ {{ item.amount|floatformat:2|intcomma }}
                 </td>
                 <td style="padding: 1rem;" id="status-{{ item.id }}">
                     {% if item.status == 'PAID' or item.status == 'RECEIVED' %}
@@ -129,7 +132,8 @@
                         style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">Pendente</span>
                     {% else %}
                     <span
-                        style="background: var(--color-gray-light); color: var(--color-gray); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">{{ item.get_status_display }}</span>
+                        style="background: var(--color-gray-light); color: var(--color-gray); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">{{
+                        item.get_status_display }}</span>
                     {% endif %}
                 </td>
                 <td style="padding: 1rem;">

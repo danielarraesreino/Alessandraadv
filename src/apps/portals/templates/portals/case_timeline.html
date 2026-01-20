@@ -15,7 +15,8 @@
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <style>
         :root {
-            --color-salmon: #E89F71;
+            --color-salmon: #DFAE9A;
+            /* Custom User Request */
             --color-salmon-dark: #D68A5C;
             --color-salmon-light: #F4C4A1;
             --color-black: #1A1A1A;
@@ -28,6 +29,12 @@
             --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
         }
 
+        /* ... existing styles ... */
+        /* Keeping everything else until the script tag */
+        /* I will use REPLACE on the whole file or chunks to be safe with the large content */
+        /* Since I cannot use "..." in replacement content generally, I will target the CSS block and the JS block separately. */
+
+        /* This tool call will ONLY update the CSS. I will do another one for the HTML/JS */
         body {
             background-color: var(--color-creme);
             font-family: 'Inter', sans-serif;
@@ -36,6 +43,9 @@
             padding: 0;
             line-height: 1.6;
         }
+
+        /* ... */
+
 
         .portal-wrapper {
             max-width: 900px;
@@ -292,131 +302,27 @@
         <!-- Vertical Timeline Area -->
         <h2 class="section-title">Evolução do Processo</h2>
         <div class="vertical-timeline" id="timeline-container"
-            hx-get="/api/portals/timeline-fragment/{{ access_token }}/" hx-trigger="load" hx-push-url="true">
-            <div style="text-align: center; padding: 2rem;">Carregando sua jornada...</div>
+            hx-get="{% url 'portals:timeline_fragment' access.access_token %}" hx-trigger="load" hx-swap="innerHTML">
+            <div style="text-align: center; padding: 2rem;">
+                <span class="htmx-indicator">Carregando sua jornada...</span>
+            </div>
         </div>
 
         <!-- Documents Area -->
         <h2 class="section-title">Acervo de Documentos</h2>
-        <div class="document-grid" id="documents-container" hx-get="/api/portals/documents-fragment/{{ access_token }}/"
-            hx-trigger="load">
+        <div class="document-grid" id="documents-container"
+            hx-get="{% url 'portals:documents_fragment' access.access_token %}" hx-trigger="load" hx-swap="innerHTML">
             <!-- Partials will be loaded here -->
         </div>
     </div>
 
     <script>
         // Lucide icons initialization
+        document.body.addEventListener('htmx:afterSwap', function (evt) {
+            lucide.createIcons();
+        });
+
         lucide.createIcons();
-
-        // Get access token from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const accessToken = urlParams.get('token');
-
-        // Human-centric stage mappings
-        const stageConfigs = {
-            'INTAKE': {
-                label: 'Acolhimento & Triagem',
-                desc: 'Recebemos seu caso e estamos analisando detalhadamente cada documento enviado para construir a melhor estratégia.',
-                icon: 'heart'
-            },
-            'ANALYSIS': {
-                label: 'Análise Estratégica',
-                desc: 'Nossa equipe está debruçada sobre os fundamentos jurídicos para garantir que seu direito seja plenamente defendido.',
-                icon: 'search'
-            },
-            'PETITION': {
-                label: 'Elaboração da Tese',
-                desc: 'Momento de escrita técnica. Estamos redigindo a peça que será apresentada ao juiz com todo o cuidado.',
-                icon: 'pen-tool'
-            },
-            'FILED': {
-                label: 'Protocolo na Justiça',
-                desc: 'Sucesso! Seu processo já foi enviado ao tribunal e agora aguarda a primeira análise do juiz.',
-                icon: 'file-check'
-            },
-            'DISCOVERY': {
-                label: 'Fase de Provas',
-                desc: 'Nesta etapa, o juiz analisa as evidências e ouve as partes envolvidas para formar seu convencimento.',
-                icon: 'layers'
-            },
-            'HEARING': {
-                label: 'Ocupação em Audiência',
-                desc: 'Agendamento de conversa direta com o juiz. Estaremos ao seu lado em cada palavra.',
-                icon: 'users'
-            },
-            'DECISION': {
-                label: 'Sentença Final',
-                desc: 'O juiz proferiu a decisão. Estamos analisando o resultado para definir os próximos passos.',
-                icon: 'gavel'
-            },
-            'APPEAL': {
-                label: 'Recurso',
-                desc: 'Estamos questionando pontos da decisão para buscar um resultado ainda mais favorável.',
-                icon: 'trending-up'
-            },
-            'CLOSED': {
-                label: 'Caso Encerrado',
-                desc: 'Seu processo chegou ao fim. Esperamos ter feito a diferença na sua trajetória.',
-                icon: 'check-circle'
-            }
-        };
-
-        // Load timeline data
-        fetch(`/api/portals/timeline/${accessToken}/`)
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('timeline-container');
-                const stages = Object.keys(stageConfigs);
-                const milestones = data.milestones || [];
-
-                // Identify current progress
-                let currentReached = false;
-
-                stages.forEach(stage => {
-                    const config = stageConfigs[stage];
-                    const milestone = milestones.find(m => m.stage === stage);
-                    const isCompleted = !!milestone;
-                    const isActive = stage === data.current_stage;
-
-                    const item = document.createElement('div');
-                    item.className = `timeline-item ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}`;
-
-                    item.innerHTML = `
-                        <div class="timeline-marker">
-                            <i data-lucide="${config.icon}" style="width: 16px; height: 16px;"></i>
-                        </div>
-                        <div class="timeline-content">
-                            <div class="timeline-title">${config.label}</div>
-                            <div class="timeline-desc">${config.desc}</div>
-                            ${isCompleted ? `<span class="timeline-date">Concluído em ${new Date(milestone.date).toLocaleDateString('pt-BR')}</span>` : ''}
-                            ${isActive ? `<span class="timeline-date" style="color: var(--color-salmon-dark); font-weight: 700;">Estamos aqui agora.</span>` : ''}
-                        </div>
-                    `;
-                    container.appendChild(item);
-                });
-                lucide.createIcons();
-            });
-
-        // Load documents
-        fetch(`/api/portals/documents/${accessToken}/`)
-            .then(response => response.json())
-            .then(documents => {
-                const container = document.getElementById('documents-container');
-                if (documents.length === 0) {
-                    container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--color-gray); padding: 2rem;">Ainda não há documentos disponíveis para visualização.</p>';
-                } else {
-                    documents.forEach(doc => {
-                        const card = document.createElement('div');
-                        card.className = 'document-card';
-                        card.innerHTML = `
-                            <span class="doc-type">${doc.document_type}</span>
-                            <span class="doc-title">${doc.title}</span>
-                            <a href="${doc.file_url}" class="btn-action" download>Visualizar Documento</a>
-                        `;
-                        container.appendChild(card);
-                    });
-                }
-            });
     </script>
 </body>
 

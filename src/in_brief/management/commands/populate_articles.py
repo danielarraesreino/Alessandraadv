@@ -1,62 +1,56 @@
 from django.core.management.base import BaseCommand
-from django.contrib.auth import get_user_model
 from in_brief.domain.models import Article, Category
-from in_brief.services.article_service import ArticleService
+from django.utils.text import slugify
+from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 class Command(BaseCommand):
-    help = 'Populates the database with initial In Brief articles'
+    help = 'Populate In Brief with initial articles'
 
-    def handle(self, *args, **kwargs):
+    def handle(self, *args, **options):
         User = get_user_model()
-        # Create a default admin user if none exists (for author attribution)
-        if not User.objects.filter(username='admin').exists():
-            author = User.objects.create_superuser('admin', 'admin@example.com', 'admin')
-            self.stdout.write(self.style.SUCCESS('Created superuser "admin"'))
-        else:
-            author = User.objects.get(username='admin')
+        author = User.objects.first()
+        if not author:
+            author = User.objects.create_superuser('admin_content', 'admin@example.com', 'password')
 
-        # Categories
-        categories_data = ['Cultural', 'Saúde', 'Financeiro']
-        categories = {}
-        for name in categories_data:
-            cat, created = Category.objects.get_or_create(name=name, slug=name.lower())
-            categories[name] = cat
-            if created:
-                self.stdout.write(f'Created category: {name}')
+        # Create Categories
+        cat_insights, _ = Category.objects.get_or_create(name='Insights Jurídicos', slug='insights')
+        cat_news, _ = Category.objects.get_or_create(name='Notícias do Escritório', slug='noticias')
 
-        # Articles
         articles_data = [
             {
-                'title': 'Entendendo a Lei Rouanet',
-                'content': 'A Lei Rouanet é o principal mecanismo de fomento à cultura no Brasil. Ela permite que empresas e cidadãos destinem parte do seu Imposto de Renda para projetos culturais aprovados...',
-                'category': 'Cultural',
-                'slug': 'entendendo-a-lei-rouanet'
+                'title': 'Lei Rouanet e Regularização Documental',
+                'summary': 'Entenda a importância da regularização documental para acesso a leis de incentivo.',
+                'content': '<p>A regularização documental é o primeiro passo para o fomento cultural. Sem Estatutos, Atas e CNPJ em dia, o acesso a leis como a Rouanet torna-se impossível. Neste artigo, exploramos o passo a passo para garantir que sua entidade esteja apta a captar recursos.</p><h3>Principais Documentos</h3><ul><li>Estatuto Social atualizado</li><li>Ata de Eleição e Posse vigente</li><li>CNPJ ativo e regular</li></ul>',
+                'category': cat_insights
             },
             {
-                'title': 'Lipedema: Direitos e Tratamentos',
-                'content': 'O lipedema é uma doença crônica reconhecida recentemente pela CID-11. Muitas pacientes enfrentam dificuldades para conseguir cobertura de tratamento pelos planos de saúde...',
-                'category': 'Saúde',
-                'slug': 'lipedema-direitos-e-tratamentos'
+                'title': 'Direitos no Tratamento do Lipedema',
+                'summary': 'Saiba como enfrentar negativas de planos de saúde para cirurgias e tratamentos.',
+                'content': '<p>O Lipedema é uma doença crônica reconhecida pela OMS, mas muitos planos de saúde ainda negam cobertura para seu tratamento cirúrgico. A jurisprudência tem avançado no sentido de garantir o direito das pacientes, considerando a cirurgia não como estética, mas como reparadora e funcional.</p>',
+                'category': cat_insights
             },
             {
-                'title': 'Superendividamento e a Defesa do Consumidor',
-                'content': 'A Lei do Superendividamento trouxe novos mecanismos para repactuação de dívidas, visando preservar o mínimo existencial do consumidor e evitar a exclusão social...',
-                'category': 'Financeiro',
-                'slug': 'superendividamento-e-defesa-do-consumidor'
+                'title': 'Superendividamento: Um Novo Começo',
+                'summary': 'A Lei 14.181/21 e a proteção do mínimo existencial para consumidores.',
+                'content': '<p>A Lei do Superendividamento trouxe mecanismos importantes para a repactuação de dívidas, garantindo que o consumidor possa reorganizar sua vida financeira sem comprometer sua subsistência. Entenda como funciona o processo de conciliação e revisão contratual.</p>',
+                'category': cat_news
             }
         ]
 
         for data in articles_data:
-            if not Article.objects.filter(slug=data['slug']).exists():
-                cat = categories[data['category']]
-                # Using Service to create (simulating app usage, though direct create is fine for seeds)
-                article = ArticleService.create_article(
+            slug = slugify(data['title'])
+            if not Article.objects.filter(slug=slug).exists():
+                article = Article.objects.create(
                     title=data['title'],
+                    slug=slug,
+                    summary=data['summary'],
                     content=data['content'],
                     author=author,
-                    category_ids=[cat.id],
-                    is_published=True
+                    is_published=True,
+                    published_at=timezone.now()
                 )
-                self.stdout.write(self.style.SUCCESS(f'Created article: {data["title"]}'))
+                article.categories.add(data['category'])
+                self.stdout.write(self.style.SUCCESS(f'Created article: {article.title}'))
             else:
-                self.stdout.write(f'Article already exists: {data["title"]}')
+                self.stdout.write(self.style.WARNING(f'Article already exists: {data["title"]}'))

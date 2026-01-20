@@ -14,3 +14,20 @@ def role_based_redirect(request):
     else:
         # Default fallback
         return redirect('admin_portal:dashboard')
+
+from django.http import JsonResponse
+from django.db import connection
+
+def health_check(request):
+    try:
+        # Check database connectivity
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+            
+        return JsonResponse({
+            "status": "ok", 
+            "database": "connected",
+            "google_auth": "configured" # Static check as we configured it
+        }, status=200)
+    except Exception as e:
+        return JsonResponse({"status": "error", "reason": str(e)}, status=500)

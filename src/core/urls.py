@@ -19,10 +19,12 @@ api.add_router("/intake", intake_router)
 api.add_router("/integrations", integrations_router)
 api.add_router("/portals", portals_router)
 
+from core import views
 from core.views import role_based_redirect
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
+    path("health/", views.health_check, name="health_check"),
     path("role-redirect/", role_based_redirect, name="role_redirect"),
     path("admin/", admin.site.urls),
     path("api/", api.urls), # Main API
@@ -35,4 +37,5 @@ urlpatterns = [
     ])),
     path("portal/", include("apps.portals.urls")),
     path("ckeditor/", include("ckeditor_uploader.urls")),
+    path('accounts/', include('allauth.urls')), # [NEW] Allauth URLs
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

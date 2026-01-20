@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from django.http import Http404
+from .domain.models import Article
 
 def index(request):
-    """List of articles (currently redirected from home)"""
-    return render(request, 'home.html')
+    """List of published articles."""
+    articles = Article.objects.filter(is_published=True).order_by('-published_at')
+    return render(request, 'in_brief/article_list.html', {'articles': articles})
 
 def article_detail(request, slug):
     """

@@ -1,37 +1,79 @@
 {% extends 'base.html' %}
-
-{% block title %}In Brief - Alessandra M. Donadon{% endblock %}
+{% load static %}
 
 {% block content %}
-<section class="in-brief-header" style="text-align: center; margin-bottom: 3rem;">
-    <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--color-black);">In Brief</h1>
-    <p style="color: var(--color-text-muted);">Atualizações jurídicas e insights do escritório.</p>
+<!-- Header Section -->
+<section class="section-full section-white" style="padding-top: 8rem; padding-bottom: 4rem;">
+    <div class="container-fluid animate-fade-up" style="text-align: center;">
+        <span
+            style="color: var(--color-salmon-dark); letter-spacing: 2px; font-size: 0.9rem; text-transform: uppercase; font-weight: 600;">Insights
+            & Atualizações</span>
+        <h1 style="font-size: 4rem; margin-top: 1rem; margin-bottom: 2rem; font-family: 'Playfair Display', serif;">In
+            Brief</h1>
+        <div style="width: 60px; height: 4px; background: var(--color-salmon); margin: 0 auto 2rem;"></div>
+        <p
+            style="font-size: 1.25rem; color: var(--color-gray-dark); max-width: 800px; margin: 0 auto; line-height: 1.6;">
+            Conhecimento estratégico sobre Direito, Saúde e Cultura. <br>
+            Acompanhe nossas análises sobre as transformações jurídicas que impactam sua vida.
+        </p>
+    </div>
 </section>
 
-<div class="article-grid"
-    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
-    {% for article in articles %}
-    <article class="card"
-        style="background: var(--bg-card); padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-        <div style="margin-bottom: 0.5rem;">
-            {% for cat in article.categories.all %}
-            <span
-                style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--color-text-muted);">{{
-                cat.name }}</span>
+<!-- Articles Grid -->
+<section class="section-full section-creme">
+    <div class="container-fluid">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 3rem;">
+            {% for article in articles %}
+            <article class="animate-fade-up"
+                style="background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05); transition: transform 0.3s ease;">
+                <div style="padding: 3rem;">
+                    <div
+                        style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+                        <span
+                            style="background: var(--color-creme); color: var(--color-salmon-dark); padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 600; list-style: none;">
+                            {{ article.categories.first.name|default:"Artigo" }}
+                        </span>
+                        <span style="color: var(--color-gray); font-size: 0.9rem;">
+                            {{ article.published_at|date:"d M, Y" }}
+                        </span>
+                    </div>
+
+                    <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem; line-height: 1.3;">
+                        <a href="{% url 'in_brief:article_detail' article.slug %}"
+                            style="text-decoration: none; color: var(--color-black); transition: color 0.3s;">
+                            {{ article.title }}
+                        </a>
+                    </h2>
+
+                    <p
+                        style="color: var(--color-gray-dark); margin-bottom: 2rem; line-height: 1.6; font-size: 1.05rem;">
+                        {{ article.summary }}
+                    </p>
+
+                    <a href="{% url 'in_brief:article_detail' article.slug %}"
+                        style="text-decoration: none; color: var(--color-salmon); font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid transparent; transition: border-color 0.3s;">
+                        Ler análise completa &rarr;
+                    </a>
+                </div>
+            </article>
+            {% empty %}
+            <div style="text-align: center; grid-column: 1 / -1; padding: 4rem;">
+                <p style="color: var(--color-gray); font-size: 1.2rem;">Não há artigos publicados no momento.</p>
+            </div>
             {% endfor %}
         </div>
-        <h2 style="font-size: 1.25rem; margin: 0.5rem 0; font-weight: 600;">
-            <a href="#" style="text-decoration: none; color: var(--color-text-main);">{{ article.title }}</a>
-        </h2>
-        <p style="font-size: 0.95rem; color: #555; line-height: 1.5;">
-            {{ article.summary }}
-        </p>
-        <div style="margin-top: 1.5rem;">
-            <a href="#" class="btn-primary" style="font-size: 0.9rem;">Ler mais</a>
-        </div>
-    </article>
-    {% empty %}
-    <p>Nenhum artigo publicado ainda.</p>
-    {% endfor %}
-</div>
+    </div>
+</section>
+
+<script>
+    // Add hover effect via JS since we are using inline styles
+    document.querySelectorAll('article').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-5px)';
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+        });
+    });
+</script>
 {% endblock %}

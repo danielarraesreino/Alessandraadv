@@ -20,6 +20,34 @@
             {% endif %}
         </div>
 
+        <!-- Social Sharing -->
+        <div
+            style="margin-top: var(--space-lg); border-top: 1px solid var(--border-soft); padding-top: var(--space-md);">
+            <h4
+                style="font-size: 1rem; color: var(--color-gray); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px;">
+                Compartilhar</h4>
+            <div style="display: flex; gap: 1rem;">
+                <a href="https://wa.me/?text={{ request.build_absolute_uri|urlencode }}" target="_blank"
+                    class="btn-share"
+                    style="background: #25D366; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; transition: transform 0.2s;"
+                    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    WhatsApp
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri|urlencode }}"
+                    target="_blank" class="btn-share"
+                    style="background: #0077b5; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; transition: transform 0.2s;"
+                    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    LinkedIn
+                </a>
+                <button onclick="navigator.clipboard.writeText(window.location.href); alert('Link copiado!');"
+                    class="btn-share"
+                    style="background: var(--color-gray-light); color: var(--color-black); border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; transition: transform 0.2s;"
+                    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    Copiar Link
+                </button>
+            </div>
+        </div>
+
         <div
             style="margin-top: var(--space-xl); padding-top: var(--space-md); border-top: 1px solid var(--border-soft);">
             <a href="/" class="btn-primary"
