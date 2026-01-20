@@ -1,26 +1,18 @@
 from ninja import NinjaAPI, Schema
 from ninja.errors import ConfigError
 import logging
-import sys
+import uuid
 
 logger = logging.getLogger(__name__)
 
-# DEFENSIIVA ABSOLUTA: Usar sys como âncora global para evitar dupla instanciação
-if not hasattr(sys, '_ninja_whatsapp_api'):
-    print(">>> INSTANTIATING WHATSAPP NINJA API (FIRST TIME) <<<")
-    try:
-        sys._ninja_whatsapp_api = NinjaAPI(
-            title="Legal Intelligence Platform WhatsApp API", 
-            version="3.2.0", 
-            urls_namespace='whatsapp_final'
-        )
-    except ConfigError:
-        print(">>> CONFIG ERROR DURING WHATSAPP INSTANTIATION <<<")
-        sys._ninja_whatsapp_api = NinjaAPI(urls_namespace='whatsapp_emergency')
-else:
-    print(">>> REUSING EXISTING WHATSAPP NINJA API <<<")
+# RANDOMIZED NAMESPACE HOTFIX:
+_unique_suffix = uuid.uuid4().hex[:8]
 
-api = sys._ninja_whatsapp_api
+api = NinjaAPI(
+    title="Legal Intelligence Platform WhatsApp API", 
+    version="3.3.0", 
+    urls_namespace=f'whatsapp_{_unique_suffix}'
+)
 
 class IncomingMessage(Schema):
     from_number: str
