@@ -8,7 +8,9 @@ from apps.portals import views as portals_views
 from core.api import api
 from core import views
 from core.views import role_based_redirect
-from apps.whatsapp.api import api as whatsapp_api
+
+# Temporarily disabled to isolate 500 error
+# from apps.whatsapp.api import api as whatsapp_api
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
@@ -16,7 +18,7 @@ urlpatterns = [
     path("role-redirect/", role_based_redirect, name="role_redirect"),
     path("admin/", admin.site.urls),
     path("api/", api.urls), # Main API
-    path("api/whatsapp/", whatsapp_api.urls), # WhatsApp API Instance
+    # path("api/whatsapp/", whatsapp_api.urls), # WhatsApp API Instance
     path("in-brief/", include("in_brief.urls")),
     path("portal-admin/", include("admin_portal.urls")),
     path("portal-admin/observatory/", include("apps.observatory.urls")),
