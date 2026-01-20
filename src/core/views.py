@@ -15,10 +15,10 @@ def role_based_redirect(request):
         # Default fallback
         return redirect('admin_portal:dashboard')
 
-from django.http import JsonResponse
-from django.db import connection
-
 def health_check(request):
+    return JsonResponse({"status": "ok", "message": "Django is up!"}, status=200)
+
+def db_health_check(request):
     try:
         # Check database connectivity
         with connection.cursor() as cursor:

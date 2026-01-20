@@ -18,6 +18,7 @@ from core.views import role_based_redirect
 urlpatterns = [
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
     path("health/", views.health_check, name="health_check"),
+    path("db-health/", views.db_health_check, name="db_health_check"),
     path("role-redirect/", role_based_redirect, name="role_redirect"),
     path("admin/", admin.site.urls),
     path("api/", api.urls), # Main API
