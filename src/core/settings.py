@@ -59,11 +59,11 @@ INSTALLED_APPS = [
     'apps.intake',
     'apps.legal_cases',
     'apps.finance',
-#    'apps.whatsapp',
-#    'apps.integrations',
-#    'apps.portals',
-#    'admin_portal',
-#    'apps.observatory',
+    'apps.whatsapp',
+    'apps.integrations',
+    'apps.portals',
+    'admin_portal',
+    'apps.observatory',
 ]
 
 MIDDLEWARE = [

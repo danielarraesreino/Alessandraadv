@@ -12,7 +12,7 @@ def get_api():
     if _api is None:
         try:
             _api = NinjaAPI(
-                title="Alessandra M. Donadon WhatsApp API", 
+                title="Legal Intelligence Platform WhatsApp API", 
                 version="1.1.0", 
                 urls_namespace='whatsapp'
             )
