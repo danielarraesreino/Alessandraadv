@@ -140,5 +140,38 @@ def run():
         else:
             print(f"Updated article: {title}")
 
+        # Assign Image
+        # Map titles/categories or just check known filenames
+        image_name = None
+        if "Rouanet" in title:
+            image_name = "rouanet.png"
+        elif "Lipedema" in title and "O plano de saúde não pode ignorar" in title: # Specific article
+            image_name = "lipedema.png"
+        elif "GOLPES BANCÁRIOS" in title:
+             image_name = "golpes.png"
+
+        if image_name:
+            # Look in src/core/static/images/articles/ OR media/articles/
+            # In production (Procfile), we copy to media/articles/
+            # Here we check local path relative to script script
+            
+            # Paths to check
+            candidate_paths = [
+                os.path.join(os.path.dirname(__file__), f"../src/core/static/images/articles/{image_name}"),
+                os.path.join(os.path.dirname(__file__), f"../media/articles/{image_name}"),
+            ]
+            
+            found_img = False
+            for p in candidate_paths:
+                if os.path.exists(p):
+                    with open(p, 'rb') as f:
+                         article.image.save(image_name, File(f), save=True)
+                    print(f"  -> Assigned image: {image_name}")
+                    found_img = True
+                    break
+            
+            if not found_img:
+                print(f"  -> Warning: Image {image_name} not found in candidates.")
+
 if __name__ == "__main__":
     run()
