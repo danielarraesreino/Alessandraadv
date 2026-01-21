@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
+from django.utils.text import slugify
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Count, Q, Sum

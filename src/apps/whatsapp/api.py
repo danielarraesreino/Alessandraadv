@@ -1,4 +1,4 @@
-from ninja import Router
+from ninja import Router, Schema
 
 router = Router()
 
