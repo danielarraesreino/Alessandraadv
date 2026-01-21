@@ -3,9 +3,10 @@ from in_brief.domain.models import Article, Category
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+import os
 
 class Command(BaseCommand):
-    help = 'Populate In Brief with comprehensive institutional content'
+    help = 'Populate In Brief with refined institutional content and images'
 
     def handle(self, *args, **options):
         User = get_user_model()
@@ -22,7 +23,6 @@ class Command(BaseCommand):
         if created:
             author.set_password('admin123')
             author.save()
-            self.stdout.write(self.style.SUCCESS(f'Created author: {author.username}'))
 
         # Create Categories
         categories_data = [
@@ -30,6 +30,7 @@ class Command(BaseCommand):
             {"name": "Cultural", "slug": "cultural"},
             {"name": "Consumidor", "slug": "consumidor"},
             {"name": "Terceiro Setor", "slug": "terceiro-setor"},
+            {"name": "Empresarial", "slug": "empresarial"},
         ]
         
         cat_map = {}
@@ -39,8 +40,6 @@ class Command(BaseCommand):
                 defaults={'name': data['name']}
             )
             cat_map[data['slug']] = cat
-            if created:
-                self.stdout.write(self.style.SUCCESS(f'Created category: {cat.name}'))
 
         articles_data = [
             {
@@ -48,47 +47,88 @@ class Command(BaseCommand):
                 "slug": "lipedema-direitos-paciente",
                 "category": cat_map.get("saude"),
                 "summary": "O lipedema é uma condição crônica que afeta milhões de mulheres. Entenda seus direitos na luta contra negativas de cobertura.",
-                "content": "<h2>O que é Lipedema?</h2><p>O lipedema é uma doença crônica, progressiva e hereditária que afeta principalmente mulheres...</p>"
+                "image": "articles/lipedema.png",
+                "content": """
+                <p>Hoje eu trouxe um tema super atual e de interesse real para quem sofre com <strong>LIPEDEMA</strong>.</p>
+                <p>O plano de saúde não pode ignorar a gravidade do lipedema. Negar cirurgia ou tratamento adequado pode configurar prática abusiva!</p>
+                <p>Muitas pacientes se sentem desamparadas ao ouvir ‘não’ do plano de saúde. A boa notícia é que a Justiça tem reconhecido esse direito e garantido os tratamentos necessários.</p>
+                <p>Quer entender melhor seu caso? Fale comigo.</p>
+                """
             },
             {
-                "title": "Lei Rouanet: Como Regularizar Projetos Culturais",
+                "title": "Lei Rouanet: o que você precisa saber (e talvez ainda não saiba)!",
                 "slug": "lei-rouanet-regularizacao",
                 "category": cat_map.get("cultural"),
-                "summary": "Entenda o processo de regularização documental para acesso a incentivos culturais via Lei Rouanet.",
-                "content": "<h2>A Importância da Regularização</h2><p>A Lei Rouanet (Lei nº 8.313/91) é um dos principais mecanismos de fomento à cultura no Brasil...</p>"
+                "summary": "Muitos coletivos e associações não acessam recursos por irregularidade documental. Saiba como se regularizar.",
+                "image": "articles/rouanet.png",
+                "content": """
+                <p>Muito se fala em “mamata”, mas por favor, a Lei Rouanet não dá dinheiro a artistas milionários. Ela apenas permite que empresas e pessoas físicas destinem parte do imposto devido para financiar projetos culturais.</p>
+                <p>O problema é que muitos coletivos, movimentos sociais, associações, entre outros, não conseguem acessar esses recursos porque estão com a documentação irregular: estatuto desatualizado, atas não registradas, diretoria vencida, CNPJ irregular, e por aí vai.</p>
+                <p>Para inscrever projetos culturais é fundamental estar em dia juridicamente. Eu auxilio associações, coletivos e entidades a regularizar a parte documental e, assim, participar de editais e leis de incentivo.</p>
+                """
             },
             {
-                "title": "Superendividamento: A Lei que Protege o Consumidor",
-                "slug": "superendividamento-lei-protecao",
+                "title": "Recuperar Valores de Golpes Bancários: Um Direito do Consumidor!",
+                "slug": "golpes-bancarios-direitos",
                 "category": cat_map.get("consumidor"),
-                "summary": "A Lei do Superendividamento oferece ferramentas para reorganização financeira e preservação da dignidade.",
-                "content": "<h2>O que é Superendividamento?</h2><p>É a impossibilidade manifesta de o consumidor pagar a totalidade de suas dívidas...</p>"
+                "summary": "Vítimas de golpes bancários têm direitos. Em muitos casos, os bancos são obrigados a devolver o dinheiro.",
+                "image": "articles/golpes.png",
+                "content": """
+                <p>Cada vez mais pessoas têm sido vítimas de golpes bancários, perdendo economias construídas com muito esforço, seja por transferências indevidas, clonagem de cartão, sequestro de conta ou falsas centrais de atendimento.</p>
+                <p>O que nem todos sabem é que, em muitos casos, os bancos são obrigados a devolver o dinheiro, já que têm responsabilidade pela segurança de seus sistemas, conforme prevê o Código de Defesa do Consumidor e a jurisprudência do STJ.</p>
+                <p>Lutar contra esses abusos é também lutar por um sistema financeiro mais justo. A grande maioria das pessoas que perde dinheiro em fraudes bancárias fica com vergonha de buscar ajuda. Mas não se culpe: os bancos têm responsabilidade.</p>
+                """
             },
             {
-                "title": "Terceiro Setor: Assessoria para ONGs e Fundações",
-                "slug": "terceiro-setor-assessoria-ongs",
-                "category": cat_map.get("terceiro-setor"),
-                "summary": "Organizações do terceiro setor precisam de suporte jurídico para cumprir sua missão social com segurança.",
-                "content": "<h2>O Papel do Terceiro Setor</h2><p>ONGs desempenham papel fundamental na promoção de direitos humanos...</p>"
+                "title": "Alguém aqui está enroscado com o PRONAMPE?",
+                "slug": "pronampe-solucoes-juridicas",
+                "category": cat_map.get("empresarial"),
+                "summary": "O PRONAMPE ajudou muitos negócios, mas também trouxe dívidas difíceis de administrar. Saiba como proteger sua empresa.",
+                "image": "articles/pronampe.png",
+                "content": """
+                <p>O PRONAMPE surgiu como uma promessa de auxílio às micro e pequenas empresas no enfrentamento da crise econômica, mas também trouxe dívidas difíceis de administrar.</p>
+                <p>Tem uma jogada quase imperceptível aí, que está fazendo com que os bancos encham ainda os “bolsinhos”! Se você está sofrendo execução judicial, atrasado com parcelas, ou querendo reaver possíveis valores pagos a maior, nós podemos ajudar.</p>
+                <p>Podemos te ajudar a proteger sua empresa e encontrar a melhor solução jurídica.</p>
+                """
+            },
+            {
+                "title": "Lei do Superendividamento: Prevenção e Tratamento",
+                "slug": "lei-superendividamento-prevencao",
+                "category": cat_map.get("consumidor"),
+                "summary": "A Lei 14.181/21 protege o consumidor e permite a reorganização de compromissos financeiros.",
+                "image": "articles/superendividamento.png",
+                "content": """
+                <p>Ao contrário do que muita gente pensa, a Lei do Superendividamento não protege apenas quem tem empréstimos consignados. As dívidas que podem ser discutidas são quaisquer compromissos financeiros decorrentes de relação de consumo.</p>
+                <p>Se as dívidas estão comprometendo seus rendimentos de forma que está ficando difícil viver, podemos ver se sua situação se enquadra nessa Lei, ou se podemos rever os juros, as garantias, enfim, adequar sua dívida.</p>
+                """
+            },
+            {
+                "title": "O Plano de Saúde está te dando dor de cabeça?",
+                "slug": "direitos-saude-medico",
+                "category": cat_map.get("saude"),
+                "summary": "Não liberação de exames, reajustes abusivos ou falta de medicamentos do SUS? Entenda seus direitos.",
+                "image": "articles/direito_saude.png",
+                "content": """
+                <p>Seu plano de saúde não libera o exame ou tratamento que seu médico recomendou? O reajuste veio acima do esperado? Estão cobrando multa por cancelamento? E o SUS que era para fornecer aquele medicamento, e até agora, nada?</p>
+                <p>Se estiver precisando de uma ajudinha jurídica em Direito da Saúde ou Direito Médico, podem falar comigo, sou advogada especialista na área. Eu posso ver se o seu convênio está agindo correto ou não.</p>
+                """
             }
         ]
 
         for data in articles_data:
-            article, created = Article.objects.get_or_create(
+            article, created = Article.objects.update_or_create(
                 slug=data['slug'],
                 defaults={
                     'title': data['title'],
                     'content': data['content'],
                     'summary': data['summary'],
                     'author': author,
+                    'image': data['image'],
                     'is_published': True,
                     'published_at': timezone.now()
                 }
             )
             
-            if created:
-                if data.get('category'):
-                    article.categories.add(data['category'])
-                self.stdout.write(self.style.SUCCESS(f'Created article: {article.title}'))
-            else:
-                self.stdout.write(self.style.WARNING(f'Article already exists: {article.title}'))
+            if data.get('category'):
+                article.categories.add(data['category'])
+            self.stdout.write(self.style.SUCCESS(f'Updated/Created article: {article.title}'))

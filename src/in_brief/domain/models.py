@@ -17,6 +17,7 @@ class Article(models.Model):
     slug = models.SlugField(unique=True)
     content = RichTextUploadingField()
     summary = models.TextField(blank=True)
+    image = models.ImageField(upload_to='articles/', null=True, blank=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     categories = models.ManyToManyField(Category, related_name="articles")
     created_at = models.DateTimeField(auto_now_add=True)

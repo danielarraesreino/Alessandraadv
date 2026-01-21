@@ -2,59 +2,92 @@
 {% load static %}
 
 {% block content %}
-<section class="section section-white">
+<section class="section section-white" style="padding-top: 8rem; padding-bottom: 6rem;">
     <div class="container" style="max-width: 800px;">
+        <nav style="margin-bottom: 2rem;">
+            <a href="{% url 'in_brief:index' %}"
+                style="text-decoration: none; color: var(--color-gray); font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; transition: color 0.3s;"
+                onmouseover="this.style.color='var(--color-salmon)'" onmouseout="this.style.color='var(--color-gray)'">
+                &larr; Voltar para In Brief
+            </a>
+        </nav>
+
         <span
-            style="color: var(--color-gold-dark); font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">In
-            Brief</span>
-        <h1 style="font-size: var(--font-size-3xl); margin: var(--space-sm) 0;">{{ article.title }}</h1>
-        <div style="width: 60px; height: 4px; background: var(--color-salmon); margin-bottom: var(--space-md);"></div>
+            style="color: var(--color-salmon); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem;">
+            {{ article.categories.first.name|default:"Artigo" }}
+        </span>
+
+        <h1 style="font-size: 3.5rem; margin: 1rem 0 2rem; font-family: 'Playfair Display', serif; line-height: 1.2;">{{
+            article.title }}</h1>
+
+        <div
+            style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 3rem; color: var(--color-gray-dark); font-size: 0.95rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span
+                    style="width: 30px; height: 30px; background: var(--color-creme); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-salmon); font-weight: bold; font-size: 0.8rem;">AD</span>
+                <span>Dra. Alessandra Donadon</span>
+            </div>
+            <div style="width: 1px; height: 15px; background: var(--color-gray-light);"></div>
+            <span>{{ article.published_at|date:"d \d\e F \d\e Y" }}</span>
+        </div>
+
+        {% if article.image %}
+        <div
+            style="margin-bottom: 4rem; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+            <img src="{{ article.image.url }}" alt="{{ article.title }}"
+                style="width: 100%; height: auto; display: block;">
+        </div>
+        {% endif %}
 
         <div class="article-content"
-            style="font-size: var(--font-size-lg); line-height: 1.8; color: var(--color-gray-dark);">
+            style="font-size: 1.15rem; line-height: 1.8; color: var(--color-black); font-family: 'Inter', sans-serif;">
             {% if article.content %}
             <div class="rich-text-content">
                 {{ article.content|safe }}
             </div>
             {% else %}
             <p><em>Conteúdo completo do artigo será disponibilizado em breve.</em></p>
-            <p>Estamos finalizando a curadoria deste material para entregar a melhor informação jurídica para você.</p>
             {% endif %}
         </div>
 
         <!-- Social Sharing -->
-        <div
-            style="margin-top: var(--space-lg); border-top: 1px solid var(--border-soft); padding-top: var(--space-md);">
+        <div style="margin-top: 5rem; border-top: 1px solid var(--border-soft); padding-top: 3rem;">
             <h4
-                style="font-size: 1rem; color: var(--color-gray); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px;">
+                style="font-size: 1rem; color: var(--color-black); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">
                 Compartilhar</h4>
-            <div style="display: flex; gap: 1rem;">
-                <a href="https://wa.me/?text={{ request.build_absolute_uri|urlencode }}" target="_blank"
-                    class="btn-share"
-                    style="background: #25D366; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; transition: transform 0.2s;"
-                    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                <a href="https://wa.me/?text={{ article.title|urlencode }}%20{{ request.build_absolute_uri|urlencode }}"
+                    target="_blank"
+                    style="background: #25D366; color: white; padding: 0.75rem 1.5rem; border-radius: 50px; text-decoration: none; font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 0.6rem; transition: transform 0.2s;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     WhatsApp
                 </a>
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri|urlencode }}"
-                    target="_blank" class="btn-share"
-                    style="background: #0077b5; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; transition: transform 0.2s;"
-                    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    target="_blank"
+                    style="background: #0077b5; color: white; padding: 0.75rem 1.5rem; border-radius: 50px; text-decoration: none; font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 0.6rem; transition: transform 0.2s;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     LinkedIn
                 </a>
-                <button onclick="navigator.clipboard.writeText(window.location.href); alert('Link copiado!');"
-                    class="btn-share"
-                    style="background: var(--color-gray-light); color: var(--color-black); border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; transition: transform 0.2s;"
-                    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                <button
+                    onclick="navigator.clipboard.writeText(window.location.href); alert('Link copiado com sucesso!');"
+                    style="background: var(--color-creme); color: var(--color-salmon-dark); border: none; padding: 0.75rem 1.5rem; border-radius: 50px; cursor: pointer; font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 0.6rem; transition: transform 0.2s;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     Copiar Link
                 </button>
             </div>
         </div>
 
-        <div
-            style="margin-top: var(--space-xl); padding-top: var(--space-md); border-top: 1px solid var(--border-soft);">
-            <a href="/" class="btn-primary"
-                style="background: white; color: var(--color-black); border: 1px solid var(--border-soft);">
-                &larr; Voltar para Home
+        <div style="margin-top: 4rem; text-align: center;">
+            <p style="color: var(--color-gray); font-style: italic; font-size: 0.9rem; margin-bottom: 2.5rem;">
+                Este artigo possui caráter meramente informativo e não substitui consulta jurídica especializada.
+            </p>
+            <a href="/"
+                style="text-decoration: none; color: var(--color-black); font-weight: 600; border-bottom: 2px solid var(--color-salmon); padding-bottom: 5px; transition: all 0.3s;"
+                onmouseover="this.style.color='var(--color-salmon)'" onmouseout="this.style.color='var(--color-black)'">
+                Retornar ao Início
             </a>
         </div>
     </div>
