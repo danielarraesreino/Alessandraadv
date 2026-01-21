@@ -5,52 +5,90 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 
 class Command(BaseCommand):
-    help = 'Populate In Brief with initial articles'
+    help = 'Populate In Brief with comprehensive institutional content'
 
     def handle(self, *args, **options):
         User = get_user_model()
-        author = User.objects.first()
-        if not author:
-            author = User.objects.create_superuser('admin_content', 'admin@example.com', 'password')
+        author, created = User.objects.get_or_create(
+            username='alessandra',
+            defaults={
+                'email': 'amdonadonadvocacia@adv.oabsp.org.br',
+                'first_name': 'Alessandra',
+                'last_name': 'Donadon',
+                'is_staff': True,
+                'is_superuser': True
+            }
+        )
+        if created:
+            author.set_password('admin123')
+            author.save()
+            self.stdout.write(self.style.SUCCESS(f'Created author: {author.username}'))
 
         # Create Categories
-        cat_insights, _ = Category.objects.get_or_create(name='Insights Jurídicos', slug='insights')
-        cat_news, _ = Category.objects.get_or_create(name='Notícias do Escritório', slug='noticias')
+        categories_data = [
+            {"name": "Saúde", "slug": "saude"},
+            {"name": "Cultural", "slug": "cultural"},
+            {"name": "Consumidor", "slug": "consumidor"},
+            {"name": "Terceiro Setor", "slug": "terceiro-setor"},
+        ]
+        
+        cat_map = {}
+        for data in categories_data:
+            cat, created = Category.objects.get_or_create(
+                slug=data['slug'],
+                defaults={'name': data['name']}
+            )
+            cat_map[data['slug']] = cat
+            if created:
+                self.stdout.write(self.style.SUCCESS(f'Created category: {cat.name}'))
 
         articles_data = [
             {
-                'title': 'Lei Rouanet e Regularização Documental',
-                'summary': 'Entenda a importância da regularização documental para acesso a leis de incentivo.',
-                'content': '<p>A regularização documental é o primeiro passo para o fomento cultural. Sem Estatutos, Atas e CNPJ em dia, o acesso a leis como a Rouanet torna-se impossível. Neste artigo, exploramos o passo a passo para garantir que sua entidade esteja apta a captar recursos.</p><h3>Principais Documentos</h3><ul><li>Estatuto Social atualizado</li><li>Ata de Eleição e Posse vigente</li><li>CNPJ ativo e regular</li></ul>',
-                'category': cat_insights
+                "title": "Lipedema: Direitos do Paciente Frente aos Planos de Saúde",
+                "slug": "lipedema-direitos-paciente",
+                "category": cat_map.get("saude"),
+                "summary": "O lipedema é uma condição crônica que afeta milhões de mulheres. Entenda seus direitos na luta contra negativas de cobertura.",
+                "content": "<h2>O que é Lipedema?</h2><p>O lipedema é uma doença crônica, progressiva e hereditária que afeta principalmente mulheres...</p>"
             },
             {
-                'title': 'Direitos no Tratamento do Lipedema',
-                'summary': 'Saiba como enfrentar negativas de planos de saúde para cirurgias e tratamentos.',
-                'content': '<p>O Lipedema é uma doença crônica reconhecida pela OMS, mas muitos planos de saúde ainda negam cobertura para seu tratamento cirúrgico. A jurisprudência tem avançado no sentido de garantir o direito das pacientes, considerando a cirurgia não como estética, mas como reparadora e funcional.</p>',
-                'category': cat_insights
+                "title": "Lei Rouanet: Como Regularizar Projetos Culturais",
+                "slug": "lei-rouanet-regularizacao",
+                "category": cat_map.get("cultural"),
+                "summary": "Entenda o processo de regularização documental para acesso a incentivos culturais via Lei Rouanet.",
+                "content": "<h2>A Importância da Regularização</h2><p>A Lei Rouanet (Lei nº 8.313/91) é um dos principais mecanismos de fomento à cultura no Brasil...</p>"
             },
             {
-                'title': 'Superendividamento: Um Novo Começo',
-                'summary': 'A Lei 14.181/21 e a proteção do mínimo existencial para consumidores.',
-                'content': '<p>A Lei do Superendividamento trouxe mecanismos importantes para a repactuação de dívidas, garantindo que o consumidor possa reorganizar sua vida financeira sem comprometer sua subsistência. Entenda como funciona o processo de conciliação e revisão contratual.</p>',
-                'category': cat_news
+                "title": "Superendividamento: A Lei que Protege o Consumidor",
+                "slug": "superendividamento-lei-protecao",
+                "category": cat_map.get("consumidor"),
+                "summary": "A Lei do Superendividamento oferece ferramentas para reorganização financeira e preservação da dignidade.",
+                "content": "<h2>O que é Superendividamento?</h2><p>É a impossibilidade manifesta de o consumidor pagar a totalidade de suas dívidas...</p>"
+            },
+            {
+                "title": "Terceiro Setor: Assessoria para ONGs e Fundações",
+                "slug": "terceiro-setor-assessoria-ongs",
+                "category": cat_map.get("terceiro-setor"),
+                "summary": "Organizações do terceiro setor precisam de suporte jurídico para cumprir sua missão social com segurança.",
+                "content": "<h2>O Papel do Terceiro Setor</h2><p>ONGs desempenham papel fundamental na promoção de direitos humanos...</p>"
             }
         ]
 
         for data in articles_data:
-            slug = slugify(data['title'])
-            if not Article.objects.filter(slug=slug).exists():
-                article = Article.objects.create(
-                    title=data['title'],
-                    slug=slug,
-                    summary=data['summary'],
-                    content=data['content'],
-                    author=author,
-                    is_published=True,
-                    published_at=timezone.now()
-                )
-                article.categories.add(data['category'])
+            article, created = Article.objects.get_or_create(
+                slug=data['slug'],
+                defaults={
+                    'title': data['title'],
+                    'content': data['content'],
+                    'summary': data['summary'],
+                    'author': author,
+                    'is_published': True,
+                    'published_at': timezone.now()
+                }
+            )
+            
+            if created:
+                if data.get('category'):
+                    article.categories.add(data['category'])
                 self.stdout.write(self.style.SUCCESS(f'Created article: {article.title}'))
             else:
-                self.stdout.write(self.style.WARNING(f'Article already exists: {data["title"]}'))
+                self.stdout.write(self.style.WARNING(f'Article already exists: {article.title}'))

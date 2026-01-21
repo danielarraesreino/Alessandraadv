@@ -91,9 +91,19 @@ def leads_kanban(request):
 
 @login_required
 def lead_detail(request, lead_id):
-    """Detalhes de um lead específico."""
+    """Detalhes de um lead específico com cálculo de score se for 0."""
     lead = get_object_or_404(Lead, id=lead_id)
     
+    # Simulação de cálculo de score se ainda estiver zerado
+    if lead.score == 0:
+        score = 50  # Base
+        if lead.case_type in ['LIPEDEMA', 'HEALTH']: score += 20
+        if lead.case_type == 'SUPER': score += 15
+        if lead.location and 'Campinas' in lead.location: score += 10
+        
+        lead.score = min(score, 100)
+        lead.save()
+
     context = {
         'lead': lead,
     }

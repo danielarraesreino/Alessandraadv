@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
+from django.templatetags.static import static as static_url
 
 from apps.portals import views as portals_views
 from core.api import api
@@ -11,8 +12,10 @@ from core.views import role_based_redirect
 
 
 urlpatterns = [
+    path("favicon.ico", RedirectView.as_view(url=static_url("favicon.png"))),
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
     path("contato/", TemplateView.as_view(template_name="contact.html"), name="contact"),
+    path("politica-de-privacidade/", views.privacy_policy, name="privacy_policy"),
     path("health/", views.health_check, name="health_check"),
     path("role-redirect/", role_based_redirect, name="role_redirect"),
     path("admin/", admin.site.urls),

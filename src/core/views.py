@@ -1,7 +1,11 @@
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.db import connection
 from django.contrib.auth.decorators import login_required
+
+def privacy_policy(request):
+    """LGPD Privacy Policy page."""
+    return render(request, 'privacy_policy.html')
 
 @login_required
 def role_based_redirect(request):
