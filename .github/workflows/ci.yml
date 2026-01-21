@@ -35,4 +35,4 @@ jobs:
         DEBUG: "True"
       run: |
         python manage.py check
-        python manage.py test src/apps/intake/tests.py
+        python manage.py test apps.intake.tests
