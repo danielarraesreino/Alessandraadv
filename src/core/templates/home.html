@@ -432,30 +432,22 @@
     <div class="container-fluid">
         <div
             style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--color-black);">
-            <div class="animate-fade-up delay-100"
-                style="padding: 2rem; border-right: 1px solid var(--color-black); transition: background 0.3s;"
+            {% for article in latest_articles %}
+            <div class="animate-fade-up delay-{{ forloop.counter }}00"
+                style="padding: 2rem; {% if not forloop.last %}border-right: 1px solid var(--color-black);{% endif %} transition: background 0.3s;"
                 onmouseover="this.style.background='white'" onmouseout="this.style.background='transparent'">
-                <div style="color: var(--color-gray); margin-bottom: 1rem; font-size: 0.9rem;">Cultural</div>
-                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;"><a href="/in-brief/lei-rouanet"
-                        style="text-decoration: none; color: black;">Lei Rouanet</a></h3>
-                <p style="color: var(--color-gray-dark);">O impacto da regularização documental no acesso a recursos.
+                <div style="color: var(--color-gray); margin-bottom: 1rem; font-size: 0.9rem;">{{ article.categories.first.name|default:"Artigo" }}</div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;"><a href="{% url 'in_brief:article_detail' article.slug %}"
+                        style="text-decoration: none; color: black;">{{ article.title }}</a></h3>
+                <p style="color: var(--color-gray-dark);">
+                    {{ article.summary }}
                 </p>
             </div>
-            <div class="animate-fade-up delay-200"
-                style="padding: 2rem; border-right: 1px solid var(--color-black); transition: background 0.3s;"
-                onmouseover="this.style.background='white'" onmouseout="this.style.background='transparent'">
-                <div style="color: var(--color-gray); margin-bottom: 1rem; font-size: 0.9rem;">Saúde</div>
-                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;"><a href="/in-brief/lipedema"
-                        style="text-decoration: none; color: black;">Lipedema</a></h3>
-                <p style="color: var(--color-gray-dark);">Direitos do paciente frente às negativas dos convênios.</p>
+            {% empty %}
+            <div style="grid-column: 1/-1; padding: 2rem; text-align: center;">
+                <p>Nenhum artigo recente encontrado.</p>
             </div>
-            <div class="animate-fade-up delay-300" style="padding: 2rem; transition: background 0.3s;"
-                onmouseover="this.style.background='white'" onmouseout="this.style.background='transparent'">
-                <div style="color: var(--color-gray); margin-bottom: 1rem; font-size: 0.9rem;">Consumidor</div>
-                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;"><a href="/in-brief/superendividamento"
-                        style="text-decoration: none; color: black;">Dívidas</a></h3>
-                <p style="color: var(--color-gray-dark);">A Lei do Superendividamento como ferramenta de dignidade.</p>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>

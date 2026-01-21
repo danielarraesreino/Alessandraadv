@@ -22,3 +22,9 @@ def role_based_redirect(request):
 def health_check(request):
     """Simple health check endpoint."""
     return JsonResponse({"status": "ok", "message": "Legal Intelligence Platform is online"}, status=200)
+
+from in_brief.models import Article
+
+def home(request):
+    latest_articles = Article.objects.filter(is_published=True).order_by('-published_at')[:3]
+    return render(request, 'home.html', {'latest_articles': latest_articles})

@@ -13,7 +13,7 @@ from core.views import role_based_redirect
 
 urlpatterns = [
     path("favicon.ico", RedirectView.as_view(url="/static/favicon.png")),
-    path("", TemplateView.as_view(template_name="home.html"), name="home"),
+    path("", views.home, name="home"),
     path("contato/", TemplateView.as_view(template_name="contact.html"), name="contact"),
     path("politica-de-privacidade/", views.privacy_policy, name="privacy_policy"),
     path("health/", views.health_check, name="health_check"),
