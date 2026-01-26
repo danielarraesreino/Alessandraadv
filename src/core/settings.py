@@ -174,13 +174,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # CRITICAL: Use persistent key from env to avoid breaking existing encrypted data
 ENCRYPTION_KEY = os.getenv('ENCRYPTION_KEY', Fernet.generate_key().decode())
 
-# [NEW] WhatsApp Configuration
-WHATSAPP_DECISOR_NUMBER = os.getenv('WHATSAPP_DECISOR_NUMBER', "+5519993257342")
-# Para usar Twilio, configure:
-TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
-TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
-TWILIO_WHATSAPP_NUMBER = os.getenv('TWILIO_WHATSAPP_NUMBER')
-
 # [NEW] Legal Ops Integration (Baterias do Django - Pivado do Clio/Jestor)
 LEGAL_OPS_PROVIDER = 'native'  # Pivado: agora o CRM é nativo
 # Clio/Jestor mantidos apenas como referência caso volte atrás

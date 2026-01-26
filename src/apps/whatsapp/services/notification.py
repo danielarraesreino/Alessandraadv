@@ -48,6 +48,31 @@ class WhatsAppNotificationService:
             return self._send_twilio(message)
         elif self.provider == 'evolution':
             return self._send_evolution(message)
+
+    def send_error_notification(self, error_id: str, error_type: str, path: str, user: str) -> bool:
+        """
+        Envia alerta imediato de erro crítico do sistema.
+        
+        Ação vinculada à Missão 1: Notificação Proativa.
+        """
+        message = f"""
+*ALERTA DE SISTEMA: ERRO CRÍTICO*
+ID do Erro: {error_id}
+Tipo: {error_type}
+Caminho: {path}
+Usuário: {user}
+
+_Este alerta foi gerado automaticamente pelo Portal Dra. Alessandra._
+"""
+        if self.provider == 'mock':
+            return self._send_mock(message, type('MockLead', (), {'id': 'SYSTEM_ERROR'}))
+        
+        if self.provider == 'twilio':
+            return self._send_twilio(message)
+        elif self.provider == 'evolution':
+            return self._send_evolution(message)
+        
+        return False
     
     def _format_lead_message(self, lead) -> str:
         """Formata a mensagem de notificação com linguagem profissional."""

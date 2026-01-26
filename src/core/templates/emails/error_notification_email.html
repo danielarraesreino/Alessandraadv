@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerta de Erro - Sistema Dra. Alessandra</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #212121;
+            background-color: #F5F5F5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background: #C62828;
+            color: white;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .icon {
+            flex-shrink: 0;
+        }
+
+        .content {
+            padding: 32px 24px;
+        }
+
+        .metadata-section {
+            margin-bottom: 24px;
+        }
+
+        .metadata-section h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1A1A1A;
+            margin: 0 0 12px 0;
+            border-bottom: 2px solid #EEEEEE;
+            padding-bottom: 8px;
+        }
+
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .metadata-label {
+            font-weight: 500;
+            color: #616161;
+        }
+
+        .metadata-value {
+            color: #212121;
+            word-break: break-word;
+        }
+
+        .traceback {
+            background: #1A1A1A;
+            color: #E0E0E0;
+            padding: 16px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .footer {
+            background: #F5F5F5;
+            padding: 20px 24px;
+            text-align: center;
+            font-size: 13px;
+            color: #616161;
+            border-top: 1px solid #EEEEEE;
+        }
+
+        .footer strong {
+            color: #1A1A1A;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header with Alert Icon -->
+        <div class="header">
+            <div class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                    stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                    </path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+            </div>
+            <h1>Alerta de Sistema: Erro Crítico</h1>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Error Overview -->
+            <div class="metadata-section">
+                <h2>Identificação do Erro</h2>
+                <div class="metadata-grid">
+                    <div class="metadata-label">ID do Erro:</div>
+                    <div class="metadata-value"><strong>{{ metadata.error_id }}</strong></div>
+
+                    <div class="metadata-label">Tipo:</div>
+                    <div class="metadata-value">{{ metadata.error_type }}</div>
+
+                    <div class="metadata-label">Timestamp:</div>
+                    <div class="metadata-value">{{ metadata.timestamp }}</div>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div class="metadata-section">
+                <h2>Mensagem</h2>
+                <div class="metadata-value">{{ metadata.error_message }}</div>
+            </div>
+
+            <!-- Request Context -->
+            <div class="metadata-section">
+                <h2>Contexto da Requisição</h2>
+                <div class="metadata-grid">
+                    <div class="metadata-label">Path:</div>
+                    <div class="metadata-value">{{ metadata.path }}</div>
+
+                    <div class="metadata-label">Method:</div>
+                    <div class="metadata-value">{{ metadata.method }}</div>
+
+                    <div class="metadata-label">Usuário:</div>
+                    <div class="metadata-value">{{ metadata.user }}</div>
+
+                    <div class="metadata-label">IP Address:</div>
+                    <div class="metadata-value">{{ metadata.ip_address }}</div>
+
+                    <div class="metadata-label">User Agent:</div>
+                    <div class="metadata-value">{{ metadata.user_agent }}</div>
+                </div>
+            </div>
+
+            <!-- Traceback -->
+            <div class="metadata-section">
+                <h2>Traceback Completo</h2>
+                <div class="traceback">{{ metadata.traceback }}</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            Este alerta foi gerado automaticamente pelo <strong>Portal de Inteligência Jurídica da Dra. Alessandra
+                Donadon</strong>.<br>
+            Responda imediatamente para garantir a continuidade do serviço.
+        </div>
+    </div>
+</body>
+
+</html>

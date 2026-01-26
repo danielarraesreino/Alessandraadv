@@ -314,6 +314,9 @@
             hx-get="{% url 'portals:documents_fragment' access.access_token %}" hx-trigger="load" hx-swap="innerHTML">
             <!-- Partials will be loaded here -->
         </div>
+
+        <!-- Mission 4: Calculator -->
+        {% include "portals/fragments/calculator.html" %}
     </div>
 
     <script>
@@ -324,6 +327,9 @@
 
         lucide.createIcons();
     </script>
+    {% if show_onboarding %}
+    {% include "portals/fragments/onboarding_modals.html" %}
+    {% endif %}
 </body>
 
 </html>

@@ -64,8 +64,8 @@
 <!-- Essência - Fluid Split -->
 <section class="section-full section-white">
     <div class="container-fluid">
-        <div
-            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); align-items: center; gap: var(--space-xl);">
+        <div class="essencia-grid"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); align-items: center; gap: var(--space-xl);">
             <div class="animate-fade-up">
                 <h2 style="margin-bottom: 2rem;">Nossa Essência</h2>
                 <p style="font-size: 1.2rem; color: var(--color-gray-dark); margin-bottom: 1.5rem;">
@@ -434,8 +434,8 @@
             todos os artigos &rarr;</a>
     </div>
     <div class="container-fluid">
-        <div
-            style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--color-black);">
+        <div class="in-brief-grid"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 0; border-top: 1px solid var(--color-black);">
             {% for article in latest_articles %}
             <div class="animate-fade-up delay-{{ forloop.counter }}00 {% if not forloop.last %}article-separator{% endif %}"
                 style="padding: 2rem; transition: background 0.3s;" onmouseover="this.style.background='white'"
@@ -447,7 +447,8 @@
                         onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                 </div>
                 {% endif %}
-                <div style="color: var(--color-gray); margin-bottom: 1rem; font-size: 0.9rem;">{{ article.categories.first.name|default:"Artigo" }}</div>
+                <div style="color: var(--color-gray); margin-bottom: 1rem; font-size: 0.9rem;">{{
+                    article.categories.first.name|default:"Artigo" }}</div>
                 <h3 style="font-size: 1.5rem; margin-bottom: 1rem;"><a
                         href="{% url 'in_brief:article_detail' article.slug %}"
                         style="text-decoration: none; color: black;">{{ article.title }}</a></h3>
@@ -463,6 +464,32 @@
         </div>
     </div>
 </section>
+
+<style>
+    /* In Brief Responsive Grid */
+    @media (min-width: 900px) {
+        .in-brief-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+        }
+    }
+
+    @media (max-width: 899px) {
+        .in-brief-grid {
+            grid-template-columns: 1fr !important;
+        }
+
+        .article-separator {
+            border-right: none !important;
+            border-bottom: 1px solid var(--color-black);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .article-separator:last-of-type {
+            border-bottom: none;
+        }
+    }
+</style>
 
 <!-- Programa de Estágio -->
 <section class="section-full section-white">

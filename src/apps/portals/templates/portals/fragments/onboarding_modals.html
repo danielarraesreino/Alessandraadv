@@ -1,0 +1,40 @@
+<!-- Mission 3: Onboarding Modals (HTMX + Alpine.js) -->
+<div id="onboarding-overlay" x-data="{ step: 1, open: true }" x-show="open"
+    style="display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 9000; justify-content: center; align-items: center;">
+
+    <!-- Slide 1: Case Journey -->
+    <div class="onboarding-card" x-show="step === 1"
+        style="background: #FFFFFF; padding: 3.5rem; border-radius: 4px; max-width: 600px; width: 90%; position: relative; border-left: 6px solid #DFAE9A;">
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; color: #1A1A1A; margin-bottom: 1.5rem;">
+            Bem-vindo à sua Jornada</h2>
+        <p
+            style="font-family: 'Inter', sans-serif; font-size: 1.1rem; color: #616161; line-height: 1.8; margin-bottom: 2.5rem;">
+            No seu portal, você encontrará a **Case Journey** (Jornada do Caso). Esta linha do tempo permite acompanhar
+            em tempo real cada etapa estratégica do seu processo, desde a triagem até a resolução final.
+        </p>
+        <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+            <button @click="step = 2"
+                style="background: #1A1A1A; color: #FFFFFF; font-family: 'Inter', sans-serif; font-weight: 600; padding: 1rem 2rem; border: none; border-radius: 4px; cursor: pointer; transition: all 0.2s ease;">
+                Próximo
+            </button>
+        </div>
+    </div>
+
+    <!-- Slide 2: Document Management -->
+    <div class="onboarding-card" x-show="step === 2"
+        style="background: #FFFFFF; padding: 3.5rem; border-radius: 4px; max-width: 600px; width: 90%; position: relative; border-left: 6px solid #DFAE9A;">
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; color: #1A1A1A; margin-bottom: 1.5rem;">
+            Gestão de Documentos</h2>
+        <p
+            style="font-family: 'Inter', sans-serif; font-size: 1.1rem; color: #616161; line-height: 1.8; margin-bottom: 2.5rem;">
+            Você pode baixar documentos anexados pela Dra. Alessandra ou enviar novos arquivos diretamente pela aba
+            **Documentos**. Clique no ícone de download para salvar arquivos com segurança em seu dispositivo.
+        </p>
+        <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+            <button @click="open = false"
+                style="background: #1A1A1A; color: #FFFFFF; font-family: 'Inter', sans-serif; font-weight: 600; padding: 1rem 2rem; border: none; border-radius: 4px; cursor: pointer; transition: all 0.2s ease;">
+                Explorar Portal
+            </button>
+        </div>
+    </div>
+</div>

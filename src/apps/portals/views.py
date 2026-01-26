@@ -57,11 +57,19 @@ def portal_timeline(request):
         messages.error(request, "Sua sessão expirou ou o token é inválido.")
         return redirect('client_login')
     
+    # Onboarding logic (Mission 3)
+    show_onboarding = False
+    onboarding_key = f"onboarding_shown_{access.access_token}"
+    if not request.session.get(onboarding_key):
+        show_onboarding = True
+        request.session[onboarding_key] = True
+        
     context = {
         'access': access,
         'client': access.client,
         'legal_case': access.legal_case,
         'timeline': access.legal_case.timeline if hasattr(access.legal_case, 'timeline') else None,
+        'show_onboarding': show_onboarding,
     }
     
     return render(request, 'portals/case_timeline.html', context)

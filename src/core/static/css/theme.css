@@ -284,8 +284,11 @@ nav a[href*="wa.me"]:hover {
     /* High Alpha/Transparency as requested */
     backdrop-filter: blur(12px);
     padding: 5rem;
-    max-width: 750px;
+    max-width: min(750px, 90vw);
+    /* Fluid max-width */
     margin-left: 10%;
+    margin-right: 10%;
+    /* Balance both sides */
     border-left: 2px solid var(--color-salmon);
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05);
 }
@@ -343,24 +346,96 @@ nav a[href*="wa.me"]:hover {
     color: var(--color-gray);
 }
 
-/* Responsive */
+/* Responsive - Mobile First Philosophy */
 @media (max-width: 900px) {
+    :root {
+        --section-padding: 4rem;
+        --font-size-3xl: 2.5rem;
+        --font-size-4xl: 3rem;
+    }
+
     .card-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
     }
 
     .hero-content {
-        margin: 2rem;
+        margin: 1rem;
         padding: 2rem;
+        max-width: 100% !important;
     }
 
     h1 {
-        font-size: 3rem;
+        font-size: 2.5rem;
+    }
+
+    h2 {
+        font-size: 2rem;
     }
 
     .container-fluid {
         padding-left: 1.5rem;
         padding-right: 1.5rem;
+    }
+
+    /* Force all inline grid styles to be mobile-responsive */
+    div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+
+    /* Bio section sticky positioning breaks on mobile */
+    div[style*="position: sticky"] {
+        position: relative !important;
+        top: auto !important;
+        margin-bottom: 2rem;
+    }
+
+    /* Navigation mobile adjustment */
+    nav {
+        flex-wrap: wrap;
+        gap: 1.5rem !important;
+        justify-content: center;
+    }
+
+    /* Remove article separators on mobile */
+    .article-separator {
+        border-right: none !important;
+        border-bottom: 1px solid var(--color-black);
+        padding-bottom: 2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --section-padding: 3rem;
+    }
+
+    .hero-content {
+        margin: 0.5rem;
+        padding: 1.5rem;
+    }
+
+    .hero blockquote {
+        font-size: 1.5rem !important;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    .container-fluid {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Ensure images don't exceed viewport */
+    img {
+        max-width: 100%;
+        height: auto;
     }
 }
 

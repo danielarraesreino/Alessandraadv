@@ -1,0 +1,72 @@
+<div id="deadline-calculator" class="calculator-container"
+    style="background: #FFFFFF; padding: 2.5rem; border-radius: 8px; border: 1px solid #EEEEEE; box-shadow: 0 4px 12px rgba(0,0,0,0.04); margin-top: 4rem;">
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #1A1A1A; margin-bottom: 1rem;">
+        Calculadora de Prazos Processuais</h2>
+    <p
+        style="font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #616161; font-style: italic; margin-bottom: 2rem;">
+        "Esta ferramenta foi desenvolvida para garantir a segurança jurídica e precisão estratégica que os 25 anos de
+        experiência da Dra. Alessandra exigem."
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+        <div>
+            <label
+                style="display: block; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; color: #1A1A1A; margin-bottom: 0.5rem; text-transform: uppercase;">Data
+                de Início (Publicação)</label>
+            <input type="date" id="start-date"
+                style="width: 100%; padding: 1rem; border: 1px solid #E0E0E0; border-radius: 4px; font-family: 'Inter', sans-serif;">
+        </div>
+        <div>
+            <label
+                style="display: block; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; color: #1A1A1A; margin-bottom: 0.5rem; text-transform: uppercase;">Prazo
+                em Dias Úteis</label>
+            <input type="number" id="deadline-days" placeholder="Ex: 15"
+                style="width: 100%; padding: 1rem; border: 1px solid #E0E0E0; border-radius: 4px; font-family: 'Inter', sans-serif;">
+        </div>
+    </div>
+
+    <button onclick="calculateDeadline()"
+        style="background: #1A1A1A; color: #FFFFFF; font-family: 'Inter', sans-serif; font-weight: 600; padding: 1rem 2.5rem; border: none; border-radius: 4px; cursor: pointer; transition: all 0.2s ease; width: 100%;">
+        Calcular Prazo
+    </button>
+
+    <div id="calculator-result"
+        style="margin-top: 2rem; display: none; padding: 1.5rem; background: #FAF7F2; border-radius: 4px; border-left: 4px solid #DFAE9A; text-align: center;">
+        <span style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #616161;">O prazo final estimado
+            é:</span>
+        <div id="result-date"
+            style="font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: #1A1A1A; margin-top: 0.5rem;">
+        </div>
+    </div>
+</div>
+
+<script>
+    function calculateDeadline() {
+        const startVal = document.getElementById('start-date').value;
+        const daysVal = parseInt(document.getElementById('deadline-days').value);
+
+        if (!startVal || isNaN(daysVal)) {
+            alert('Por favor, preencha a data e o número de dias.');
+            return;
+        }
+
+        let currentDate = new Date(startVal);
+        let addedDays = 0;
+
+        while (addedDays < daysVal) {
+            currentDate.setDate(currentDate.getDate() + 1);
+            let dayOfWeek = currentDate.getDay();
+            if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Not Sunday (0) and not Saturday (6)
+                addedDays++;
+            }
+        }
+
+        // Adjusting JS logic for the calculator
+        const resultDiv = document.getElementById('calculator-result');
+        const resultDate = document.getElementById('result-date');
+
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        resultDate.innerText = currentDate.toLocaleDateString('pt-BR', options);
+        resultDiv.style.display = 'block';
+    }
+</script>
