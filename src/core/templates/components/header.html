@@ -18,7 +18,24 @@
         </button>
 
         <!-- Navigation Links -->
+        <!-- Navigation Links -->
         <nav id="main-nav">
+            {% if user.is_staff %}
+            <!-- Quick Access Menu (Staff Only) -->
+            <div class="staff-links" style="display: flex; gap: 1.5rem; align-items: center;">
+                <a href="/admin/"
+                    style="font-family: 'Playfair Display', serif; font-weight: 700; color: var(--color-primary);">Painel
+                    Master</a>
+                <a href="/portal-admin/"
+                    style="font-family: 'Playfair Display', serif; font-weight: 700; color: var(--color-primary);">Gestão
+                    Operacional</a>
+                <a href="{% url 'account_logout' %}"
+                    style="font-family: 'Playfair Display', serif; font-weight: 700; color: var(--color-error, #C62828);">Sair</a>
+                <span class="staff-separator"
+                    style="height: 20px; width: 1px; background-color: var(--color-gray-300, #E0E0E0); display: inline-block;"></span>
+            </div>
+            {% endif %}
+
             <a href="/" onclick="window.location.href='/'; return false;">Home</a>
             <a href="/in-brief" onclick="window.location.href='/in-brief'; return false;">In Brief</a>
             <a href="{% url 'client_login' %}" class="area-cliente-btn"
