@@ -36,12 +36,10 @@
             </div>
             {% endif %}
 
-            <a href="/" onclick="window.location.href='/'; return false;">Home</a>
-            <a href="/in-brief" onclick="window.location.href='/in-brief'; return false;">In Brief</a>
-            <a href="{% url 'client_login' %}" class="area-cliente-btn"
-                onclick="window.location.href='{% url 'client_login' %}'; return false;">Área do Cliente</a>
-            <a href="{% url 'contact' %}"
-                onclick="window.location.href='{% url 'contact' %}'; return false;">Contato</a>
+            <a href="/" class="nav-link">Home</a>
+            <a href="/in-brief" class="nav-link">In Brief</a>
+            <a href="{% url 'client_login' %}" class="area-cliente-btn">Área do Cliente</a>
+            <a href="{% url 'contact' %}" class="nav-link">Contato</a>
         </nav>
     </div>
 </header>
