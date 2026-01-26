@@ -1,6 +1,6 @@
 <footer id="contato">
-    <div class="container-fluid"
-        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem;">
+    <div class="container-fluid footer-grid"
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 4rem;">
         <div>
             <h2 style="color: var(--color-creme); font-size: 3rem; margin-bottom: 2rem;">Vamos escrever<br><span
                     style="color: var(--color-salmon);">sua história?</span></h2>
@@ -37,7 +37,7 @@
         </div>
 
         <!-- HTMX Robô de Intake - Placeholder Inclusion -->
-        <div id="intake-container">
+        <div id="intake-container" style="width: 100%; max-width: 100%;">
             {% include "intake/bot_fragment.html" %}
         </div>
     </div>

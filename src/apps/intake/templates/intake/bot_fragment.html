@@ -1,23 +1,29 @@
 {% load static %}
-<div id="intake-bot" style="background: white; padding: 2rem; border-radius: 20px; box-shadow: var(--shadow-elevated);">
+<!-- Intake Bot - Phase 4 Fluid Layout (100% width) -->
+<div id="intake-bot"
+    style="background: white; padding: 2rem; border-radius: 20px; box-shadow: var(--shadow-elevated); width: 100%; max-width: 100%; box-sizing: border-box;">
     <div id="bot-content">
-        <h3 style="margin-bottom: 2rem; font-size: 1.5rem;">Olá! Como a Dra. Alessandra pode te ajudar hoje?</h3>
+        <h3 style="margin-bottom: 2rem; font-size: 1.5rem; font-family: 'Playfair Display', serif;">Olá! Como a Dra.
+            Alessandra pode te ajudar hoje?</h3>
 
         <form hx-post="/api/intake/step-1/" hx-target="#bot-content" hx-swap="innerHTML" hx-ext="json-enc">
             {% csrf_token %}
             <div style="margin-bottom: 1.5rem;">
-                <label for="intake_name" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Seu
+                <label for="intake_name"
+                    style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-family: 'Inter', sans-serif;">Seu
                     Nome:</label>
                 <input type="text" id="intake_name" name="name" required autocomplete="name"
-                    style="width: 100%; padding: 0.8rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
+                    style="width: 100%; max-width: 100%; padding: 0.8rem; border: 1px solid var(--color-gray-light); border-radius: 8px; box-sizing: border-box; font-family: 'Inter', sans-serif;">
             </div>
 
             <div style="margin-bottom: 2rem;">
-                <label for="intake_case_type" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Qual o
+                <label for="intake_case_type"
+                    style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-family: 'Inter', sans-serif;">Qual
+                    o
                     assunto do seu
                     caso?</label>
                 <select id="intake_case_type" name="case_type" required autocomplete="off"
-                    style="width: 100%; padding: 0.8rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
+                    style="width: 100%; max-width: 100%; padding: 0.8rem; border: 1px solid var(--color-gray-light); border-radius: 8px; box-sizing: border-box; font-family: 'Inter', sans-serif;">
                     <option value="">Selecione...</option>
                     <option value="LIPEDEMA">Lipedema / Saúde</option>
                     <option value="SUPER">Superendividamento</option>
@@ -26,7 +32,8 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">Continuar
+            <button type="submit" class="btn-primary"
+                style="width: 100%; justify-content: center; font-family: 'Inter', sans-serif; font-weight: 600;">Continuar
                 &rarr;</button>
         </form>
     </div>
