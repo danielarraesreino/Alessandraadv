@@ -36,8 +36,10 @@
                     style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 3rem; color: var(--color-gray-dark); font-size: 0.95rem;">
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <span
-                            style="width: 30px; height: 30px; background: var(--color-creme); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-salmon); font-weight: bold; font-size: 0.8rem;">AD</span>
-                        <span>Dra. Alessandra Donadon</span>
+                            style="width: 30px; height: 30px; background: var(--color-creme); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-salmon); font-weight: bold; font-size: 0.7rem; text-transform: uppercase;">
+                            {% if article.author.username == 'suporte' %}IT{% else %}AD{% endif %}
+                        </span>
+                        <span>{{ article.author.get_full_name|default:article.author.username }}</span>
                     </div>
                     <div style="width: 1px; height: 15px; background: var(--color-gray-light);"></div>
                     <span>{{ article.published_at|date:"d \d\e F \d\e Y" }}</span>
