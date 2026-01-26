@@ -256,6 +256,8 @@ nav a[href*="wa.me"]:hover {
     position: relative;
     background-color: var(--color-creme);
     padding: 0;
+    z-index: 1;
+    /* CRITICAL: Stay below menu (9000) */
 }
 
 .hero-bg-container {
@@ -266,6 +268,7 @@ nav a[href*="wa.me"]:hover {
     height: 100%;
     overflow: hidden;
     z-index: 1;
+    /* Stay below menu */
 }
 
 .hero-bg {
@@ -275,11 +278,14 @@ nav a[href*="wa.me"]:hover {
     opacity: 0.5;
     /* More Alpha as requested */
     mix-blend-mode: multiply;
+    z-index: 1;
+    /* Ensure hero images never overlap menu */
 }
 
 .hero-content {
     position: relative;
     z-index: 2;
+    /* Above hero-bg but still way below menu (9000) */
     background: rgba(253, 251, 247, 0.5);
     /* High Alpha/Transparency as requested */
     backdrop-filter: blur(12px);
