@@ -11,8 +11,10 @@
 
     <main>
         <!-- Header Section -->
-        <section class="section-full section-white" style="padding-top: 8rem; padding-bottom: 4rem;">
-            <div class="container-fluid animate-fade-up" style="text-align: center;">
+        <section class="section-full section-white"
+            style="padding-top: 8rem; padding-bottom: 4rem; width: 100%; display: flex; justify-content: center;">
+            <div class="container-fluid animate-fade-up"
+                style="text-align: center; max-width: 1200px; width: 100%; margin: 0 auto;">
                 <span
                     style="color: var(--color-salmon-dark); letter-spacing: 2px; font-size: 0.9rem; text-transform: uppercase; font-weight: 600;">Insights
                     & Atualizações</span>
@@ -25,6 +27,8 @@
                     Conhecimento estratégico sobre Direito, Saúde e Cultura. <br>
                     Acompanhe nossas análises sobre as transformações jurídicas que impactam sua vida.
                 </p>
+                <p style="font-size: 0.8rem; color: red; margin-top: 1rem;">DEBUG: Total Articles: {{ debug_count }} |
+                    Variable: {{ articles }}</p>
             </div>
         </section>
 

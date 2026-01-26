@@ -10,8 +10,10 @@
     {% include "components/header.html" %}
 
     <main>
-        <section class="section section-white" style="padding-top: 8rem; padding-bottom: 6rem;">
-            <div class="container" style="max-width: 800px;">
+        <section class="section section-white"
+            style="padding-top: 8rem; padding-bottom: 6rem; width: 100%; display: flex; justify-content: center;">
+            <div class="container"
+                style="max-width: 800px; width: 100%; margin: 0 auto; padding-left: 20px; padding-right: 20px;">
                 <nav style="margin-bottom: 2rem;">
                     <a href="{% url 'in_brief:index' %}"
                         style="text-decoration: none; color: var(--color-gray); font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; transition: color 0.3s;"

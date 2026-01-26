@@ -9,4 +9,4 @@ def index(request):
 def article_detail(request, slug):
     """Display a specific article based on slug from database."""
     article = get_object_or_404(Article, slug=slug, is_published=True)
-    return render(request, 'in_brief/article_detail.html', {'article': article, 'debug_var': 'DEBUG_SUCCESS'})
+    return render(request, 'in_brief/article_detail.html', {'article': article})
