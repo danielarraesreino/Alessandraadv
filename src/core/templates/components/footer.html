@@ -42,8 +42,9 @@
         </div>
     </div>
 
-    <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 3rem; opacity: 0.6; grayscale(100%); transition: opacity 0.3s; padding: 2rem 0;"
-        onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+    <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 3rem; opacity: 0.6; filter: grayscale(100%); transition: all 0.3s; padding: 2rem 0;"
+        onmouseover="this.style.opacity='1'; this.style.filter='grayscale(0%)'"
+        onmouseout="this.style.opacity='0.6'; this.style.filter='grayscale(100%)'">
         <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
             <svg width="30" height="30" viewBox="0 0 24 24" fill="var(--color-salmon)">
                 <path
