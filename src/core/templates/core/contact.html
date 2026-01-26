@@ -1,112 +1,89 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
 
-<head>
-    {% include "components/head.html" %}
-</head>
+{% block content %}
+<!-- Hero Section -->
+<section class="section-full section-white"
+    style="padding-top: 8rem; padding-bottom: 4rem; width: 100%; display: flex; justify-content: center;">
+    <div class="container-fluid" style="text-align: center; max-width: 1200px; width: 100%; margin: 0 auto;">
+        <span
+            style="color: var(--color-salmon-dark); letter-spacing: 2px; font-size: 0.9rem; text-transform: uppercase; font-weight: 600;">Fale
+            Conosco</span>
+        <h1 style="font-size: 4rem; margin-top: 1rem; margin-bottom: 2rem; font-family: 'Playfair Display', serif;">
+            Entre em Contato
+        </h1>
+        <div style="width: 60px; height: 4px; background: var(--color-salmon); margin: 0 auto 2rem;"></div>
+        <p
+            style="font-size: 1.25rem; color: var(--color-gray-dark); max-width: 800px; margin: 0 auto; line-height: 1.6;">
+            Estamos prontos para ouvir sua história e defender seus direitos com estratégia e humanidade.
+        </p>
+    </div>
+</section>
 
-<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-    {% include "components/header.html" %}
+<!-- Content Grid -->
+<section class="section-full section-creme" style="padding-bottom: 6rem;">
+    <div class="container-fluid" style="max-width: 1200px; margin: 0 auto;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 4rem;">
 
-    <main>
-        <!-- Hero Section -->
-        <section class="section-full section-white"
-            style="padding-top: 8rem; padding-bottom: 4rem; width: 100%; display: flex; justify-content: center;">
-            <div class="container-fluid" style="text-align: center; max-width: 1200px; width: 100%; margin: 0 auto;">
-                <span
-                    style="color: var(--color-salmon-dark); letter-spacing: 2px; font-size: 0.9rem; text-transform: uppercase; font-weight: 600;">Fale
-                    Conosco</span>
-                <h1
-                    style="font-size: 4rem; margin-top: 1rem; margin-bottom: 2rem; font-family: 'Playfair Display', serif;">
-                    Entre em Contato
-                </h1>
-                <div style="width: 60px; height: 4px; background: var(--color-salmon); margin: 0 auto 2rem;"></div>
-                <p
-                    style="font-size: 1.25rem; color: var(--color-gray-dark); max-width: 800px; margin: 0 auto; line-height: 1.6;">
-                    Estamos prontos para ouvir sua história e defender seus direitos com estratégia e humanidade.
-                </p>
-            </div>
-        </section>
+            <!-- Contact Info -->
+            <div>
+                <h2 style="font-size: 2rem; margin-bottom: 2rem; font-family: 'Playfair Display', serif;">
+                    Informações</h2>
 
-        <!-- Content Grid -->
-        <section class="section-full section-creme" style="padding-bottom: 6rem;">
-            <div class="container-fluid" style="max-width: 1200px; margin: 0 auto;">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 4rem;">
+                <div style="margin-bottom: 2.5rem;">
+                    <h3
+                        style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--color-salmon-dark); text-transform: uppercase;">
+                        Escritório</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: var(--color-gray-dark);">
+                        <strong>Alessandra M. Donadon Advocacia</strong><br>
+                        OAB/SP 354.212<br>
+                        <em>Justiça Humanizada e Estratégica</em>
+                    </p>
+                </div>
 
-                    <!-- Contact Info -->
-                    <div>
-                        <h2 style="font-size: 2rem; margin-bottom: 2rem; font-family: 'Playfair Display', serif;">
-                            Informações</h2>
+                <div style="margin-bottom: 2.5rem;">
+                    <h3
+                        style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--color-salmon-dark); text-transform: uppercase;">
+                        Endereço</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: var(--color-gray-dark);">
+                        Av. Washington Luís, nº 1800,<br>
+                        Alameda das Tangerinas, nº 378.<br>
+                        Campinas, São Paulo.
+                    </p>
+                </div>
 
-                        <div style="margin-bottom: 2.5rem;">
-                            <h3
-                                style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--color-salmon-dark); text-transform: uppercase;">
-                                Escritório</h3>
-                            <p style="font-size: 1.1rem; line-height: 1.8; color: var(--color-gray-dark);">
-                                <strong>Alessandra M. Donadon Advocacia</strong><br>
-                                OAB/SP 354.212<br>
-                                <em>Justiça Humanizada e Estratégica</em>
-                            </p>
-                        </div>
-
-                        <div style="margin-bottom: 2.5rem;">
-                            <h3
-                                style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--color-salmon-dark); text-transform: uppercase;">
-                                Endereço</h3>
-                            <p style="font-size: 1.1rem; line-height: 1.8; color: var(--color-gray-dark);">
-                                Av. Washington Luís, nº 1800,<br>
-                                Alameda das Tangerinas, nº 378.<br>
-                                Campinas, São Paulo.
-                            </p>
-                        </div>
-
-                        <div style="margin-bottom: 2.5rem;">
-                            <h3
-                                style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--color-salmon-dark); text-transform: uppercase;">
-                                Canais Diretos</h3>
-                            <p style="font-size: 1.1rem; line-height: 2;">
-                                <a href="https://wa.me/5519988014465" target="_blank"
-                                    style="text-decoration: none; color: var(--color-black); display: flex; align-items: center; gap: 0.5rem;">
-                                    <span style="color: var(--color-salmon);">●</span> WhatsApp: (19) 98801-4465
-                                </a>
-                                <a href="mailto:amdonadonadvocacia@adv.oabsp.org.br"
-                                    style="text-decoration: none; color: var(--color-black); display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
-                                    <span style="color: var(--color-salmon);">●</span> Email:
-                                    amdonadonadvocacia@adv.oabsp.org.br
-                                </a>
-                                <a href="https://www.linkedin.com/in/alessandradonadon/" target="_blank"
-                                    style="text-decoration: none; color: var(--color-black); display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
-                                    <span style="color: var(--color-salmon);">●</span> LinkedIn: Alessandra Donadon
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Map -->
-                    <div
-                        style="border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-medium); min-height: 400px;">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3673.957647970894!2d-47.06059292396259!3d-22.95173327922247!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c8ce3ae5f0c0ad%3A0xe85e2528732f913d!2sAv.%20Washington%20Lu%C3%ADs%2C%201800%20-%20Vila%20Marieta%2C%20Campinas%20-%20SP%2C%2013042-105!5e0!3m2!1sen!2sbr!4v1706225000000!5m2!1sen!2sbr"
-                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade">
-                        </iframe>
-                    </div>
-
+                <div style="margin-bottom: 2.5rem;">
+                    <h3
+                        style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--color-salmon-dark); text-transform: uppercase;">
+                        Canais Diretos</h3>
+                    <p style="font-size: 1.1rem; line-height: 2;">
+                        <a href="https://wa.me/5519988014465" target="_blank"
+                            style="text-decoration: none; color: var(--color-black); display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="color: var(--color-salmon);">●</span> WhatsApp: (19) 98801-4465
+                        </a>
+                        <a href="mailto:amdonadonadvocacia@adv.oabsp.org.br"
+                            style="text-decoration: none; color: var(--color-black); display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+                            <span style="color: var(--color-salmon);">●</span> Email:
+                            amdonadonadvocacia@adv.oabsp.org.br
+                        </a>
+                        <a href="https://www.linkedin.com/in/alessandradonadon/" target="_blank"
+                            style="text-decoration: none; color: var(--color-black); display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+                            <span style="color: var(--color-salmon);">●</span> LinkedIn: Alessandra Donadon
+                        </a>
+                    </p>
                 </div>
             </div>
-        </section>
-    </main>
 
-    {% include "components/footer.html" %}
-    {% include "components/scripts.html" %}
+            <!-- Map -->
+            <div style="border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-medium); min-height: 400px;">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3673.957647970894!2d-47.06059292396259!3d-22.95173327922247!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c8ce3ae5f0c0ad%3A0xe85e2528732f913d!2sAv.%20Washington%20Lu%C3%ADs%2C%201800%20-%20Vila%20Marieta%2C%20Campinas%20-%20SP%2C%2013042-105!5e0!3m2!1sen!2sbr!4v1706225000000!5m2!1sen!2sbr"
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
 
-    <a href="https://wa.me/5519988014465" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
-            <path
-                d="M12.031 2c-5.511 0-9.993 4.481-9.993 9.993 0 1.763.461 3.475 1.332 4.978L2 22l5.148-1.351c1.455.794 3.09 1.211 4.757 1.211 5.511 0 9.993-4.482 9.993-9.993 0-5.512-4.482-9.993-9.993-9.993zM12.031 20.125c-1.552 0-3.041-.399-4.343-1.156l-.31-.184-3.228.847.861-3.14-.202-.321c-.822-1.31-1.256-2.83-1.256-4.388 0-4.469 3.636-8.106 8.106-8.106 4.471 0 8.106 3.637 8.106 8.106 0 4.47-3.635 8.102-8.106 8.102zM16.711 14.505c-.258-.129-1.521-.75-1.758-.836s-.41-.129-.582.129-.668.836-.819 1.011-.301.194-.559.065-1.09-.402-2.076-1.279c-.767-.684-1.284-1.53-1.434-1.789s-.016-.399.112-.527c.116-.115.258-.301.387-.451.129-.15.172-.258.258-.43s.043-.323-.021-.452c-.065-.129-.582-1.4-.798-1.92s-.421-.43-.582-.43-.323-.016-.516-.016-.516.065-.785.344-.1.355.021.516c.121.161.258.334.387.527s.129.28.194.43.043.258-.021.43c-.065.172-1.29 5.591-1.29 5.591.065-.129.344.602.818 1.161s1.075 1.011 2.581 1.634c.258.108.516.194.774.28 2.065.667 2.387.645 2.624.516.237-.129.753-.452.861-.882s.108-.796.065-.882c-.043-.086-.151-.129-.409-.258z" />
-        </svg>
-    </a>
-</body>
-
-</html>
+        </div>
+    </div>
+</section>
+{% endblock %}
