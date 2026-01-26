@@ -56,41 +56,74 @@
             </button>
 
             <!-- Navigation Links -->
-            <nav id="main-nav" style="display: flex; gap: 3rem; align-items: center;">
-                <a href="/" style="text-decoration: none; color: var(--color-black);">Home</a>
-                <a href="/in-brief" style="text-decoration: none; color: var(--color-black);">In Brief</a>
-                <a href="{% url 'client_login' %}"
-                    style="display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--color-salmon); padding: 0.6rem 1.5rem; border-radius: 50px; color: var(--color-salmon); text-decoration: none; font-weight: 500; transition: all 0.3s ease;">
-                    Área do Cliente
-                </a>
-                <a href="{% url 'contact' %}" style="text-decoration: none;">Contato</a>
+            <nav id="main-nav">
+                <a href="/">Home</a>
+                <a href="/in-brief">In Brief</a>
+                <a href="{% url 'client_login' %}" class="area-cliente-btn">Área do Cliente</a>
+                <a href="{% url 'contact' %}">Contato</a>
             </nav>
         </div>
     </header>
 
+    <!-- Overlay -->
+    <div id="menu-overlay"></div>
+
     <style>
-        /* Hamburger Menu Styles - Phase 4 Compliant */
+        /* Hamburger Menu Styles - SIMPLIFIED */
         .hamburger-menu {
             display: none;
             background: transparent;
             border: none;
             cursor: pointer;
             padding: 0.5rem;
-            transition: transform 0.3s ease;
         }
 
-        .hamburger-menu:hover {
-            transform: scale(1.05);
+        /* Navigation Base Styles */
+        #main-nav {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
         }
 
-        .hamburger-menu:active {
-            transform: scale(0.95);
+        #main-nav a {
+            text-decoration: none;
+            color: var(--color-black);
+            position: relative;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            font-weight: 500;
         }
 
-        /* Mobile Navigation Styles */
+        #main-nav a.area-cliente-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--color-salmon);
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            color: var(--color-salmon);
+            font-weight: 500;
+        }
+
+        /* Overlay - hidden by default */
+        #menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 8000;
+        }
+
+        /* Mobile Styles */
         @media (max-width: 900px) {
             .hamburger-menu {
                 display: block;
+                z-index: 10000;
             }
 
             #main-nav {
@@ -102,93 +135,64 @@
                 background: var(--color-creme);
                 flex-direction: column;
                 justify-content: flex-start;
+                align-items: flex-start;
                 padding: 6rem 2rem 2rem 2rem;
+                gap: 0;
                 box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-                transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-                z-index: 9999;
-                gap: 2rem !important;
-                align-items: flex-start !important;
-                pointer-events: none;
-                /* Disable pointer events when closed */
+                transition: right 0.3s ease-in-out;
+                z-index: 9000;
             }
 
             #main-nav.active {
                 right: 0;
-                pointer-events: auto;
-                /* Enable pointer events when open */
             }
 
             #main-nav a {
                 width: 100%;
-                padding: 1rem 0;
+                padding: 1.5rem 0;
                 border-bottom: 1px solid var(--color-gray-light);
-                font-size: 1.1rem;
-                position: relative;
-                z-index: 10000;
-                /* Ensure links are above everything */
-                cursor: pointer;
-                display: block;
+                font-size: 1rem;
             }
 
-            #main-nav a[href*="client_login"] {
+            #main-nav a.area-cliente-btn {
                 text-align: center;
-                border-bottom: none;
+                border: 1px solid var(--color-salmon);
+                border-radius: 50px;
                 margin-top: 1rem;
             }
-        }
 
-        /* Mobile Menu Overlay */
-        #menu-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 9000;
-            /* BELOW menu (9999) to not block clicks */
-            backdrop-filter: blur(2px);
-            pointer-events: auto;
-            /* Ensure it can be clicked to close menu */
-        }
-
-        #menu-overlay.active {
-            display: block;
+            #menu-overlay.active {
+                display: block;
+            }
         }
     </style>
 
     <script>
-        // Hamburger Menu Toggle - Vanilla JS (No emojis, professional)
+        // SIMPLIFIED MENU TOGGLE - NO COMPLEXITY
         document.addEventListener('DOMContentLoaded', function () {
-            const menuToggle = document.getElementById('menu-toggle');
-            const mainNav = document.getElementById('main-nav');
-            let overlay = document.getElementById('menu-overlay');
+            const toggle = document.getElementById('menu-toggle');
+            const nav = document.getElementById('main-nav');
+            const overlay = document.getElementById('menu-overlay');
 
-            // Create overlay if it doesn't exist - INSERT AT BEGINNING OF BODY
-            if (!overlay) {
-                overlay = document.createElement('div');
-                overlay.id = 'menu-overlay';
-                // Insert at beginning of body to ensure correct z-index stacking
-                document.body.insertBefore(overlay, document.body.firstChild);
-            }
-
-            if (menuToggle) {
-                menuToggle.addEventListener('click', function () {
-                    mainNav.classList.toggle('active');
+            if (toggle && nav && overlay) {
+                // Toggle menu
+                toggle.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    nav.classList.toggle('active');
                     overlay.classList.toggle('active');
                 });
 
-                // Close menu when clicking overlay
+                // Close on overlay click
                 overlay.addEventListener('click', function () {
-                    mainNav.classList.remove('active');
+                    nav.classList.remove('active');
                     overlay.classList.remove('active');
                 });
 
-                // Close menu when clicking a nav link
-                mainNav.querySelectorAll('a').forEach(link => {
+                // Close on link click
+                const links = nav.querySelectorAll('a');
+                links.forEach(function (link) {
                     link.addEventListener('click', function () {
-                        mainNav.classList.remove('active');
+                        nav.classList.remove('active');
                         overlay.classList.remove('active');
                     });
                 });
