@@ -100,6 +100,46 @@ Me chame no whatsapp (19) 98801.4465 ou pelo link""",
 Me contem, seu plano de saúde está te dando dor de cabeça? Não libera o exame ou tratamento que seu médico recomendou? O reajuste veio acima do esperado? Estão cobrando multa por cancelamento? E o SUS que era para fornecer aquele medicamento, e até agora, nada?
 Se estiver precisando de uma ajudinha jurídica em Direito da Saúde ou Direito Médico, podem falar comigo, sou advogada especialista na área, inscrita na OAB/SP 165.917. Eu posso ver se o seu convênio está agindo correto ou não... Podem me chamar por aqui ou pelo zapzap (19) 98801-4465""",
                 'image_filename': 'direito_saude.png'
+            },
+            {
+                'slug': 'soberania-digital-elite-profissional',
+                'title': 'Além do Software de Prateleira: Por que a Elite Profissional Exige Soberania Digital',
+                'summary': 'O caso Dra. Alessandra Donadon: Como transformamos a exigência extrema por segurança em um ativo digital proprietário.',
+                'content': """
+<p style="font-size: 1.1rem; color: var(--color-gray); margin-bottom: 2rem;">
+    <em>Por Daniel Arraes Reino - Arquiteto de Soluções Digitais</em><br>
+    26 de Janeiro de 2026
+</p>
+
+<p>No mercado atual, a maioria dos profissionais aceita o "padrão da indústria": fragmentar os dados vitais de seus clientes em dezenas de softwares de terceiros. É a solução fácil, rápida e, infelizmente, perigosa.</p>
+
+<p>Quando iniciei o projeto para o escritório da Dra. Alessandra M. Donadon, ficou claro imediatamente que o "padrão" não seria suficiente. A Dra. Alessandra é conhecida por um nível de exigência técnica e ética que não admite concessões. Ela não queria apenas um "site bonito"; ela precisava de um porto seguro digital que refletisse a seriedade de sua prática jurídica.</p>
+
+<p>Os desafios de atender a um cliente com esse perfil são imensos, mas o resultado redefine o que é possível em tecnologia jurídica. Decidimos trilhar o caminho mais árduo e recompensador: a <strong>Soberania de Dados</strong>.</p>
+
+<h3>O Perigo da Fragmentação vs. A Força do Ecossistema Próprio</h3>
+
+<p>Ao usar ferramentas genéricas ("SaaS de prateleira"), seus dados e os segredos de seus clientes residem em servidores compartilhados que você não conhece, sob termos de uso que mudam sem aviso.</p>
+
+<p>Para este projeto, centralizamos tudo em uma plataforma proprietária. Neste ecossistema, nós controlamos cada bit de informação. Não é um software alugado; é um ativo digital construído sob medida para as necessidades exatas do escritório, resultando em uma estrutura blindada:</p>
+
+<ul>
+    <li><strong>Criptografia de Nível Militar (Encrypted DB):</strong> O banco de dados não é apenas um depósito de informações; é uma fortaleza. Implementamos algoritmos avançados onde, sem a chave mestra, a informação sensível dos clientes é absolutamente ilegível.</li>
+    <li><strong>Túnel de Conexão Certificada (SSL Secure):</strong> Cada interação no Portal do Cliente ou no Simulador de Prazos trafega por um túnel criptografado exclusivo, eliminando riscos de interceptação.</li>
+    <li><strong>Privacy by Design (LGPD Nativa):</strong> Diferente da maioria dos sistemas que foram "adaptados" às pressas para a LGPD, esta plataforma foi arquitetada sob a égide da lei desde a primeira linha de código. A privacidade não é uma funcionalidade adicional; é a fundação do sistema.</li>
+</ul>
+
+<h3>A Tecnologia como Diferencial Competitivo</h3>
+
+<p>Tenho um orgulho imenso da entrega técnica desta solução. Trabalhar com clientes que demandam excelência absoluta nos força a elevar nosso próprio padrão. O resultado — essa interface limpa, intuitiva e extremamente robusta que você vê hoje — é fruto de uma arquitetura pensada para resistir ao tempo e às ameaças modernas.</p>
+
+<p>Esta plataforma prova que quando o Direito de alto nível encontra a Tecnologia de ponta, a experiência do cliente é transformada.</p>
+
+<p>Meu nome está no rodapé deste projeto como uma assinatura de qualidade. Este é, sem dúvida, um dos sistemas mais seguros, bem estruturados e resilientes que já tive o privilégio de arquitetar.</p>
+
+<p>Se você é um profissional que entende que os dados do seu negócio não podem ficar reféns de terceiros, precisamos conversar.</p>
+""",
+                'image_filename': 'soberania_digital_vault.jpg'
             }
         ]
 
