@@ -108,10 +108,14 @@
                 z-index: 9999;
                 gap: 2rem !important;
                 align-items: flex-start !important;
+                pointer-events: none;
+                /* Disable pointer events when closed */
             }
 
             #main-nav.active {
                 right: 0;
+                pointer-events: auto;
+                /* Enable pointer events when open */
             }
 
             #main-nav a {
@@ -119,6 +123,11 @@
                 padding: 1rem 0;
                 border-bottom: 1px solid var(--color-gray-light);
                 font-size: 1.1rem;
+                position: relative;
+                z-index: 10000;
+                /* Ensure links are above everything */
+                cursor: pointer;
+                display: block;
             }
 
             #main-nav a[href*="client_login"] {
