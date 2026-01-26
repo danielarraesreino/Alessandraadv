@@ -1,0 +1,22 @@
+{% load static %}
+<!-- HTMX Core & CSRF Setup -->
+<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+<script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+<!-- Alpine.js -->
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script>
+    document.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    });
+
+    // Service Worker Registration for Push Notifications
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/static/sw.js')
+            .then(function (registration) {
+                console.log('Service Worker Registered');
+            })
+            .catch(function (error) {
+                console.log('Service Worker Registration Failed:', error);
+            });
+    }
+</script>

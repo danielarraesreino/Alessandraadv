@@ -1,0 +1,19 @@
+{% load static %}
+<header>
+    <div class="container-fluid"
+        style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; padding-bottom: 1rem;">
+        <a href="/" class="logo" style="text-decoration: none; display: flex; align-items: center;">
+            <img src="{% static 'images/logo.png' %}" alt="Alessandra M. Donadon Advocacia"
+                style="height: 70px; width: auto;">
+        </a>
+        <nav style="display: flex; gap: 3rem; align-items: center;">
+            <a href="/" style="text-decoration: none; color: var(--color-black);">Home</a>
+            <a href="/in-brief" style="text-decoration: none; color: var(--color-black);">In Brief</a>
+            <a href="{% url 'client_login' %}"
+                style="display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--color-salmon); padding: 0.6rem 1.5rem; border-radius: 50px; color: var(--color-salmon); text-decoration: none; font-weight: 500; transition: all 0.3s ease;">
+                Área do Cliente
+            </a>
+            <a href="{% url 'contact' %}" style="text-decoration: none;">Contato</a>
+        </nav>
+    </div>
+</header>
