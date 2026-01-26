@@ -146,8 +146,11 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            z-index: 9998;
+            z-index: 9000;
+            /* BELOW menu (9999) to not block clicks */
             backdrop-filter: blur(2px);
+            pointer-events: auto;
+            /* Ensure it can be clicked to close menu */
         }
 
         #menu-overlay.active {
@@ -162,11 +165,12 @@
             const mainNav = document.getElementById('main-nav');
             let overlay = document.getElementById('menu-overlay');
 
-            // Create overlay if it doesn't exist
+            // Create overlay if it doesn't exist - INSERT AT BEGINNING OF BODY
             if (!overlay) {
                 overlay = document.createElement('div');
                 overlay.id = 'menu-overlay';
-                document.body.appendChild(overlay);
+                // Insert at beginning of body to ensure correct z-index stacking
+                document.body.insertBefore(overlay, document.body.firstChild);
             }
 
             if (menuToggle) {
