@@ -59,8 +59,9 @@ class Command(BaseCommand):
             client=client_record,
             title='Processo de Demonstração - Fase 4',
             defaults={
-                'case_number': '12345.678/2026',
-                'status': 'ACTIVE'
+                'process_number': '12345.678/2026',
+                'status': 'ACTIVE',
+                'area': 'CIVIL'
             }
         )
         
