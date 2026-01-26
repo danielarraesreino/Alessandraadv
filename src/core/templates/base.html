@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alessandra M. Donadon Advocacia | Estratégia e Humanidade</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/theme.css' %}">
     <link rel="icon" type="image/png" href="{% static 'favicon.png' %}">
@@ -46,12 +46,11 @@
 
             <!-- Hamburger Menu Button (Mobile Only) -->
             <button id="menu-toggle" class="hamburger-menu" aria-label="Toggle Navigation">
-                <!-- SVG Hamburger Icon - Phase 4 Compliant (stroke 2px, #1A1A1A) -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                <!-- SVG Hamburger Icon - Phase 4 Compliant (stroke 2px, #1A1A1A) - MINIMALIST -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
                     stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                    <line x1="4" y1="7" x2="20" y2="7"></line>
+                    <line x1="4" y1="17" x2="20" y2="17"></line>
                 </svg>
             </button>
 
@@ -144,11 +143,12 @@
                 gap: 0;
                 box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
                 transition: right 0.3s ease-in-out;
-                z-index: 9000;
+                z-index: 11000;
+                /* Must be higher than header's 10000 to show up properly */
             }
 
             #main-nav.active {
-                right: 0;
+                right: 0 !important;
             }
 
             #main-nav a {

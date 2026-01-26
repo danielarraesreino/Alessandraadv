@@ -52,7 +52,10 @@
     --transition-slow: 0.8s ease;
 }
 
-html {
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
     scroll-behavior: smooth;
 }
 
@@ -142,6 +145,8 @@ h3 {
     margin-left: auto;
     margin-right: auto;
     max-width: var(--container-width);
+    overflow-x: hidden;
+    /* Prevent child overflow */
 }
 
 .section-full {
@@ -192,12 +197,13 @@ nav a[href*="wa.me"]:hover,
 
 /* Header - Fluid & Transparent */
 header {
-    background: rgba(253, 251, 247, 0.9);
+    background: rgba(253, 251, 247, 0.95);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(223, 174, 154, 0.2);
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 10000;
+    /* Precedência absoluta */
     transition: all var(--transition-base);
 }
 
@@ -350,6 +356,31 @@ nav a[href*="wa.me"]:hover {
 
 .footer-form ::placeholder {
     color: var(--color-gray);
+}
+
+/* Phase 4 Form Inputs */
+.form-input {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 1rem !important;
+    border: 1px solid var(--color-gray-light) !important;
+    border-radius: 4px !important;
+    font-family: var(--font-secondary) !important;
+    font-size: 16px !important;
+    background: var(--color-creme-light) !important;
+    transition: border-color 0.3s ease !important;
+    box-sizing: border-box !important;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-salmon);
+}
+
+.intake-container {
+    width: 100% !important;
+    max-width: 100% !important;
 }
 
 /* Responsive - Mobile First Philosophy */
