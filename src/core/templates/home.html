@@ -387,8 +387,8 @@
     <div class="container-fluid animate-fade-up">
         <h2 style="text-align: center; margin-bottom: 4rem;">Na Mídia</h2>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-            <a href="https://portalporque.com.br" target="_blank" style="text-decoration: none; color: inherit;"
-                class="media-card">
+            <a href="https://www.google.com/search?q=site%3Aportalporque.com.br+Campinas+podas+%C3%A1rvores"
+                target="_blank" style="text-decoration: none; color: inherit;" class="media-card">
                 <div
                     style="background: var(--color-creme); padding: 2rem; border-radius: 8px; border: 1px solid var(--color-gray-light);">
                     <span style="color: var(--color-salmon); font-weight: 600; font-size: 0.9rem;">PORTAL PORQUE</span>
@@ -396,16 +396,16 @@
                     </h3>
                 </div>
             </a>
-            <a href="https://tab.uol.com.br" target="_blank" style="text-decoration: none; color: inherit;"
-                class="media-card">
+            <a href="https://www.google.com/search?q=site%3Atab.uol.com.br+comunidades+religiosas+den%C3%BAncias"
+                target="_blank" style="text-decoration: none; color: inherit;" class="media-card">
                 <div
                     style="background: var(--color-creme); padding: 2rem; border-radius: 8px; border: 1px solid var(--color-gray-light);">
                     <span style="color: var(--color-salmon); font-weight: 600; font-size: 0.9rem;">TAB UOL</span>
                     <h3 style="margin-top: 1rem; font-size: 1.25rem;">Denúncias envolvendo comunidades religiosas</h3>
                 </div>
             </a>
-            <a href="https://www.migalhas.com.br" target="_blank" style="text-decoration: none; color: inherit;"
-                class="media-card">
+            <a href="https://www.google.com/search?q=site%3Amigalhas.com.br+casos+jur%C3%ADdicos+hist%C3%B3ricos"
+                target="_blank" style="text-decoration: none; color: inherit;" class="media-card">
                 <div
                     style="background: var(--color-creme); padding: 2rem; border-radius: 8px; border: 1px solid var(--color-gray-light);">
                     <span style="color: var(--color-salmon); font-weight: 600; font-size: 0.9rem;">PORTAL
@@ -443,8 +443,10 @@
                         onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                 </div>
                 {% endif %}
-                <div style="color: var(--color-gray); margin-bottom: 1rem; font-size: 0.9rem;">{{ article.categories.first.name|default:"Artigo" }}</div>
-                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;"><a href="{% url 'in_brief:article_detail' article.slug %}"
+                <div style="color: var(--color-gray); margin-bottom: 1rem; font-size: 0.9rem;">{{
+                    article.categories.first.name|default:"Artigo" }}</div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;"><a
+                        href="{% url 'in_brief:article_detail' article.slug %}"
                         style="text-decoration: none; color: black;">{{ article.title }}</a></h3>
                 <p style="color: var(--color-gray-dark);">
                     {{ article.summary }}
