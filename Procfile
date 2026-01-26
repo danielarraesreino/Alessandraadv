@@ -1,1 +1,2 @@
-web: python manage.py migrate --noinput && python manage.py collectstatic --noinput && cd src && gunicorn core.wsgi:application --bind 0.0.0.0:$PORT --timeout 120 --log-level debug --access-logfile - --error-logfile -
+release: python manage.py migrate --noinput && python manage.py populate_articles
+web: python manage.py collectstatic --noinput && cd src && gunicorn core.wsgi:application --bind 0.0.0.0:$PORT --timeout 120
