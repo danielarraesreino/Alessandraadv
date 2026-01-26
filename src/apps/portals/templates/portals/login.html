@@ -2,61 +2,110 @@
 {% load static %}
 
 {% block content %}
-<section class="section-full section-white"
-    style="min-height: 80vh; display: flex; align-items: center; justify-content: center;">
-    <div class="container-fluid" style="max-width: 500px; width: 100%;">
+<section class="section-full section-white" style="min-height: 80vh; display: flex; align-items: center;">
+    <div class="container-fluid">
+        <!-- Dashboard Grid Layout -->
         <div
-            style="background: var(--color-creme); padding: 3rem; border-radius: 20px; box-shadow: var(--shadow-elevated); text-align: center; border: 1px solid var(--color-salmon-light);">
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; align-items: start;">
 
-            <h1 style="margin-bottom: 1rem; font-size: 2.5rem;">Área do Cliente</h1>
-            <p style="color: var(--color-gray-dark); margin-bottom: 2.5rem;">Acompanhe a sua jornada jurídica com
-                transparência e segurança.</p>
-
-            {% if messages %}
-            <div style="margin-bottom: 2rem;">
-                {% for message in messages %}
-                <div class="alert {% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}">
-                    {{ message.message }}
-                </div>
-                {% endfor %}
+            <!-- Left Module: Deadline Calculator -->
+            <div class="animate-fade-up delay-100"
+                style="background: var(--color-creme); padding: 2rem; border-radius: 20px; border: 1px solid var(--border-soft);">
+                <h3
+                    style="font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--color-black); text-align: center;">
+                    Simulador de Prazos</h3>
+                {% include "widgets/deadline_calculator.html" %}
             </div>
-            {% endif %}
 
-            <form method="POST" style="display: grid; gap: 1.5rem; text-align: left;">
-                {% csrf_token %}
-                <div>
-                    <label for="access_token"
-                        style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Token
-                        de Acesso</label>
-                    <input type="text" id="access_token" name="access_token" required
-                        placeholder="Cole aqui o token recebido pelo WhatsApp"
-                        style="width: 100%; padding: 1rem; border: 2px solid var(--color-gray-light); border-radius: 12px; font-size: 1.1rem; text-align: center; font-family: 'Inter', sans-serif;">
+            <!-- Center Module: Client Access (Login) -->
+            <div class="animate-fade-up"
+                style="background: white; padding: 3rem; border-radius: 20px; box-shadow: var(--shadow-elevated); text-align: center; border: 1px solid var(--color-salmon-light); position: relative; z-index: 10;">
+
+                <h1 style="margin-bottom: 1rem; font-size: 2.5rem; font-family: 'Playfair Display', serif;">Área do
+                    Cliente</h1>
+                <h2 style="color:red">DEBUG: Articles Count: {{ latest_articles.count }} | Test: {{ "HELLO" }}</h2>
+                <p style="color: var(--color-gray-dark); margin-bottom: 2.5rem;">
+                    Acompanhe sua jornada jurídica com transparência e segurança.
+                </p>
+
+                {% if messages %}
+                <div style="margin-bottom: 2rem;">
+                    {% for message in messages %}
+                    <div class="alert {% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}">
+                        {{ message.message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form method="POST" style="display: grid; gap: 1.5rem; text-align: left;">
+                    {% csrf_token %}
+                    <div>
+                        <label for="access_token"
+                            style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Token
+                            de Acesso</label>
+                        <input type="text" id="access_token" name="access_token" required autocomplete="off"
+                            placeholder="Insira seu token aqui"
+                            style="width: 100%; padding: 1rem; border: 2px solid var(--color-gray-light); border-radius: 12px; font-size: 1.1rem; text-align: center; font-family: 'Inter', sans-serif;">
+                    </div>
+
+                    <button type="submit" class="btn-primary"
+                        style="width: 100%; justify-content: center; padding: 1rem; font-size: 1rem; cursor: pointer;">
+                        Acessar Processo
+                    </button>
+                </form>
+
+                <div style="margin-top: 2rem; font-size: 0.85rem; color: var(--color-gray);">
+                    <p>Precisa de ajuda?</p>
+                    <a href="https://wa.me/5519988014465" target="_blank"
+                        style="color: var(--color-salmon); font-weight: 600; text-decoration: none;">Falar com suporte
+                        &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Right Module: In Brief Updates -->
+            <div class="animate-fade-up delay-200"
+                style="background: var(--color-creme); padding: 2rem; border-radius: 20px; border: 1px solid var(--border-soft);">
+                <h3
+                    style="font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--color-black); text-align: center;">
+                    Últimas do In Brief</h3>
+
+                <div style="display: grid; gap: 1.5rem;">
+                    {% for article in latest_articles %}
+                    <a href="{% url 'in_brief:article_detail' article.slug %}"
+                        style="text-decoration: none; color: inherit; display: block; background: white; padding: 1rem; border-radius: 12px; transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(5px)'"
+                        onmouseout="this.style.transform='translateX(0)'">
+                        <span
+                            style="font-size: 0.75rem; text-transform: uppercase; color: var(--color-salmon-dark); font-weight: 600;">{{
+                            article.categories.first.name|default:"Artigo" }}</span>
+                        <h4 style="font-size: 1rem; margin: 0.5rem 0; font-family: 'Playfair Display', serif;">{{
+                            article.title }}</h4>
+                        <span style="font-size: 0.8rem; color: var(--color-gray);">Ler mais &rarr;</span>
+                    </a>
+                    {% empty %}
+                    <p style="text-align: center; color: var(--color-gray);">Nenhuma atualização recente.</p>
+                    {% endfor %}
                 </div>
 
-                <button type="submit" class="btn-primary"
-                    style="width: 100%; justify-content: center; padding: 1.25rem; font-size: 1.1rem; border: none; cursor: pointer;">
-                    Acessar meu Processo
-                </button>
-            </form>
-
-            <div style="margin-top: 3rem; font-size: 0.85rem; color: var(--color-gray);">
-                <p>Esqueceu ou não recebeu seu token?</p>
-                <a href="https://wa.me/5519988014465" target="_blank"
-                    style="color: var(--color-salmon); font-weight: 600; text-decoration: none;">Entre em contato
-                    conosco &rarr;</a>
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <a href="{% url 'in_brief:index' %}"
+                        style="text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid currentColor; color: var(--color-black);">Ver
+                        todas as publicações</a>
+                </div>
             </div>
+
         </div>
     </div>
 </section>
 
 <style>
-    /* Ensure styles from core are consistent */
     .btn-primary {
         display: inline-flex;
         align-items: center;
         background-color: var(--color-black);
         color: var(--color-creme);
-        padding: 1rem 2.5rem;
+        padding: 1rem 2rem;
         border-radius: 50px;
         text-decoration: none;
         font-weight: 600;
@@ -68,7 +117,6 @@
         background-color: var(--color-salmon);
         border-color: var(--color-salmon);
         color: var(--color-black);
-        transform: translateY(-2px);
     }
 
     .alert {

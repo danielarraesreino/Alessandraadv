@@ -29,7 +29,11 @@ def client_login(request):
         except ClientPortalAccess.DoesNotExist:
             messages.error(request, "Token inválido ou expirado. Entre em contato com o escritório.")
             
-    return render(request, 'portals/login.html')
+            
+    # Fetch latest articles for the sidebar
+    from in_brief.models import Article
+    latest_articles = Article.objects.filter(is_published=True).order_by('-published_at')[:3]
+    return render(request, 'portals/login.html', {'latest_articles': latest_articles})
 
 
 def portal_timeline(request):
