@@ -57,16 +57,20 @@
 
             <!-- Navigation Links -->
             <nav id="main-nav">
-                <a href="/">Home</a>
-                <a href="/in-brief">In Brief</a>
-                <a href="{% url 'client_login' %}" class="area-cliente-btn">Área do Cliente</a>
-                <a href="{% url 'contact' %}">Contato</a>
+                <a href="/" onclick="window.location.href='/'; return false;">Home</a>
+                <a href="/in-brief" onclick="window.location.href='/in-brief'; return false;">In Brief</a>
+                <a href="{% url 'client_login' %}" class="area-cliente-btn"
+                    onclick="window.location.href='{% url 'client_login' %}'; return false;">Área do Cliente</a>
+                <a href="{% url 'contact' %}"
+                    onclick="window.location.href='{% url 'contact' %}'; return false;">Contato</a>
             </nav>
         </div>
     </header>
 
     <!-- Overlay -->
-    <div id="menu-overlay"></div>
+    <div id="menu-overlay"
+        onclick="document.getElementById('main-nav').classList.remove('active'); this.classList.remove('active');">
+    </div>
 
     <style>
         /* Hamburger Menu Styles - SIMPLIFIED */
