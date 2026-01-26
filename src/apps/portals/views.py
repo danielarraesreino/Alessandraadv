@@ -70,6 +70,7 @@ def portal_timeline(request):
         'legal_case': access.legal_case,
         'timeline': access.legal_case.timeline if hasattr(access.legal_case, 'timeline') else None,
         'show_onboarding': show_onboarding,
+        'progress_override': 55 if access.access_token == 'demo-token-2026' else None,
     }
     
     return render(request, 'portals/case_timeline.html', context)

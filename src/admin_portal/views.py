@@ -245,9 +245,15 @@ def case_detail(request, case_id):
     if hasattr(case, 'timeline'):
         timeline = case.timeline
     
+    # Tentar pegar acesso ao portal
+    from apps.portals.models import ClientPortalAccess
+    portal_access = ClientPortalAccess.objects.filter(legal_case=case, is_active=True).first()
+    
     context = {
         'case': case,
         'timeline': timeline,
+        'portal_access': portal_access,
+        'portal_token': portal_access.access_token if portal_access else None,
     }
     
     return render(request, 'admin_portal/case_detail.html', context)
@@ -420,6 +426,32 @@ def generate_document_action(request, case_id):
     except Exception as e:
         messages.error(request, f"Erro ao gerar documento: {e}")
         return redirect('admin_portal:case_detail', case_id=case_id)
+
+@login_required
+def generate_portal_access(request, case_id):
+    """Gera um novo token de acesso para o portal do cliente."""
+    case = get_object_or_404(LegalCase, id=case_id)
+    
+    from apps.portals.models import ClientPortalAccess
+    import uuid
+    
+    # Verificar se já existe acesso
+    access, created = ClientPortalAccess.objects.get_or_create(
+        client=case.client,
+        legal_case=case,
+        defaults={
+            'access_token': str(uuid.uuid4()).replace('-', ''),
+            'is_active': True
+        }
+    )
+    
+    if created:
+        messages.success(request, "Acesso ao portal gerado com sucesso!")
+    else:
+        # Se já existir, podemos regenerar se necessário ou apenas avisar
+        messages.info(request, "Este caso já possui acesso ativo ao portal.")
+        
+    return redirect('admin_portal:case_detail', case_id=case.id)
 
 # ============ ARTICLES VIEWS ============
 
