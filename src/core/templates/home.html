@@ -25,6 +25,10 @@
             opacity: 0.5;
             /* Restore the design's semi-transparency */
         }
+
+        .article-separator {
+            border-right: 1px solid var(--color-black);
+        }
     </style>
 
     <script>
@@ -433,9 +437,9 @@
         <div
             style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--color-black);">
             {% for article in latest_articles %}
-            <div class="animate-fade-up delay-{{ forloop.counter }}00"
-                style="padding: 2rem; {% if not forloop.last %}border-right: 1px solid var(--color-black);{% endif %} transition: background 0.3s;"
-                onmouseover="this.style.background='white'" onmouseout="this.style.background='transparent'">
+            <div class="animate-fade-up delay-{{ forloop.counter }}00 {% if not forloop.last %}article-separator{% endif %}"
+                style="padding: 2rem; transition: background 0.3s;" onmouseover="this.style.background='white'"
+                onmouseout="this.style.background='transparent'">
                 {% if article.image %}
                 <div style="height: 200px; overflow: hidden; margin-bottom: 1.5rem; border-radius: 4px;">
                     <img src="{{ article.image.url }}" alt="{{ article.title }}"
