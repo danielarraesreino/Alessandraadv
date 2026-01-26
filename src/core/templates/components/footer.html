@@ -77,7 +77,45 @@
             onmouseover="this.style.color='var(--color-salmon)'" onmouseout="this.style.color='inherit'">Política de
             Privacidade
             (LGPD)</a> |
-        <span title="quer descobrir o 1% do que a IA não faz pela sua ideia louca? pergunta pra mim!"
-            style="cursor:help;">Dev Info</span>
+        <span id="dev-info-trigger"
+            title="quer descobrir o 1% do que a IA não faz pela sua ideia louca? pergunta pra mim!"
+            style="cursor:help; {% if request.is_daniel %}color: var(--color-salmon); font-weight: bold; text-decoration: underline;{% endif %}"
+            onclick="{% if request.is_daniel %}showDevConsole(){% endif %}">
+            Dev Info
+        </span>
+    </div>
+
+    {% if request.is_daniel %}
+    <!-- Daniel's Master Logic Console -->
+    <div id="dev-console"
+        style="display: none; position: fixed; bottom: 80px; right: 20px; width: 350px; background: #0a0a0a; color: #00ff00; font-family: 'Courier New', Courier, monospace; border: 2px solid var(--color-salmon); padding: 1.5rem; border-radius: 8px; z-index: 10000; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
+        <div
+            style="display: flex; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem;">
+            <span style="color: var(--color-salmon); font-weight: bold;">DANIEL CONTROL PANEL v4.0</span>
+            <span style="cursor: pointer;"
+                onclick="document.getElementById('dev-console').style.display='none'">[X]</span>
+        </div>
+        <div style="font-size: 0.8rem; line-height: 1.6;">
+            <div>> USER: {{ request.user.username }}</div>
+            <div>> STATUS: <span style="color: #00ff00;">AUTHORIZED</span></div>
+            <div>> ENV: {{ request.META.RAILWAY_ENVIRONMENT_NAME|default:"local" }}</div>
+            <div style="margin-top: 1rem; color: #aaa;">-- DIAGNOSTICS --</div>
+            <div>DB_STATUS: <span style="color: #00ff00;">CONNECTED</span></div>
+            <div>ACTIVE_MIGRATIONS: <span style="color: #00ff00;">0 PENDING</span></div>
+            <div style="margin-top: 0.5rem;">
+                <button onclick="window.location.reload()"
+                    style="background: #333; color: white; border: none; padding: 4px 8px; cursor: pointer; font-family: inherit;">RELOAD_ASSETS</button>
+                <a href="/admin/"
+                    style="background: var(--color-salmon); color: black; text-decoration: none; padding: 4px 8px; font-size: 0.7rem; font-weight: bold; margin-left: 5px;">GO_TO_CORE_ADMIN</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showDevConsole() {
+            const console = document.getElementById('dev-console');
+            console.style.display = console.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+    {% endif %}
     </div>
 </footer>

@@ -28,3 +28,8 @@ from in_brief.models import Article
 def home(request):
     latest_articles = Article.objects.filter(is_published=True).order_by('-published_at')[:3]
     return render(request, 'home.html', {'latest_articles': latest_articles})
+
+def error_500(request):
+    """Custom 500 error page with diagnostic ID."""
+    error_id = getattr(request, 'error_id', 'LOG_GENERIC_FAILURE')
+    return render(request, '500.html', {'error_id': error_id}, status=500)

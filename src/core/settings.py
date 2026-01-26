@@ -78,6 +78,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
     "allauth.account.middleware.AccountMiddleware", # Required by allauth
+    "apps.integrations.middleware.TechnicalSupportMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
