@@ -48,7 +48,7 @@
                 {% if article.image %}
                 <div
                     style="margin-bottom: 4rem; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                    <img src="{{ article.image.url }}" alt="{{ article.title }}"
+                    <img src="{% static article.image.name %}" alt="{{ article.title }}"
                         style="width: 100%; height: auto; display: block;">
                 </div>
                 {% endif %}
