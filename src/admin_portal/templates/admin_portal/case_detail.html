@@ -98,10 +98,18 @@
                     Editar Caso
                 </a>
 
+                {% if not portal_access %}
                 <a href="{% url 'admin_portal:generate_access' case.id %}" class="btn btn-primary"
-                    style="text-align: center; background-color: var(--color-black); color: var(--color-white);">
+                    style="text-align: center; background-color: #1A1A1A; color: #FFFFFF; border: 1px solid #1A1A1A;">
                     Gerar Acesso ao Portal
                 </a>
+                {% else %}
+                <a href="{% url 'admin_portal:revoke_access' case.id %}" class="btn btn-primary"
+                    style="text-align: center; background-color: #C62828; color: #FFFFFF; border: 1px solid #C62828;"
+                    onclick="return confirm('Tem certeza que deseja revogar o acesso deste cliente? O link anterior deixará de funcionar.');">
+                    Revogar Acesso
+                </a>
+                {% endif %}
 
                 <a href="{% url 'admin_portal:generate_document' case.id %}" class="btn btn-primary"
                     style="text-align: center; background-color: var(--color-salmon); border-color: var(--color-salmon); color: var(--color-creme);">

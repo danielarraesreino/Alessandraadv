@@ -44,12 +44,12 @@
                     <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Área de Atuação *</label>
                     <select name="area" required
                         style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
-                        <option value="CIVIL" {% if case.area == 'CIVIL' or not case %}selected{% endif %}>Cível</option>
-                        <option value="BUSINESS" {% if case.area == 'BUSINESS' %}selected{% endif %}>Empresarial</option>
-                        <option value="HEALTH" {% if case.area == 'HEALTH' %}selected{% endif %}>Saúde (Lipedema)</option>
-                        <option value="THIRD_SECTOR" {% if case.area == 'THIRD_SECTOR' %}selected{% endif %}>Terceiro
+                        <option value="CIVIL" {% if case.area=='CIVIL' or not case %}selected{% endif %}>Cível</option>
+                        <option value="BUSINESS" {% if case.area=='BUSINESS' %}selected{% endif %}>Empresarial</option>
+                        <option value="HEALTH" {% if case.area=='HEALTH' %}selected{% endif %}>Saúde (Lipedema)</option>
+                        <option value="THIRD_SECTOR" {% if case.area=='THIRD_SECTOR' %}selected{% endif %}>Terceiro
                             Setor (Lei Rouanet)</option>
-                        <option value="OTHER" {% if case.area == 'OTHER' %}selected{% endif %}>Outros</option>
+                        <option value="OTHER" {% if case.area=='OTHER' %}selected{% endif %}>Outros</option>
                     </select>
                 </div>
 
@@ -57,11 +57,11 @@
                     <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Status *</label>
                     <select name="status" required
                         style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px;">
-                        <option value="ANALYSIS" {% if case.status == 'ANALYSIS' or not case %}selected{% endif %}>Em
+                        <option value="ANALYSIS" {% if case.status=='ANALYSIS' or not case %}selected{% endif %}>Em
                             Análise</option>
-                        <option value="ACTIVE" {% if case.status == 'ACTIVE' %}selected{% endif %}>Ativo</option>
-                        <option value="SUSPENDED" {% if case.status == 'SUSPENDED' %}selected{% endif %}>Suspenso</option>
-                        <option value="ARCHIVED" {% if case.status == 'ARCHIVED' %}selected{% endif %}>Arquivado</option>
+                        <option value="ACTIVE" {% if case.status=='ACTIVE' %}selected{% endif %}>Ativo</option>
+                        <option value="SUSPENDED" {% if case.status=='SUSPENDED' %}selected{% endif %}>Suspenso</option>
+                        <option value="ARCHIVED" {% if case.status=='ARCHIVED' %}selected{% endif %}>Arquivado</option>
                     </select>
                 </div>
 
@@ -79,6 +79,18 @@
                     <textarea name="description" rows="6" placeholder="Detalhes do caso, anotações importantes..."
                         style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-gray-light); border-radius: 8px; font-family: inherit;">{{ case.description|default:'' }}</textarea>
                 </div>
+
+                {% if case %}
+                <div
+                    style="display: flex; align-items: center; gap: 0.5rem; background: var(--color-gray-50); padding: 1rem; border-radius: 8px; border: 1px solid var(--color-gray-200);">
+                    <input type="checkbox" name="notify_client" id="notify_client"
+                        style="width: 18px; height: 18px; cursor: pointer;">
+                    <label for="notify_client"
+                        style="cursor: pointer; font-weight: 500; font-size: 0.95rem; margin: 0;">
+                        Enviar notificação de atualização para o cliente?
+                    </label>
+                </div>
+                {% endif %}
 
                 <div style="display: flex; gap: var(--space-md); margin-top: var(--space-md);">
                     <button type="submit" class="btn btn-primary">

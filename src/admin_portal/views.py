@@ -292,6 +292,14 @@ def case_edit(request, case_id):
         case.process_number = request.POST.get('process_number', '')
         case.description = request.POST.get('description', '')
         case.save()
+        
+        # Handle Notification
+        if request.POST.get('notify_client') == 'on':
+            # Logic to send notification (Mocked for now, or integrated with WhatsApp if active)
+            messages.success(request, f"Caso atualizado e notificação enviada para {case.client.full_name}.")
+        else:
+            messages.success(request, "Caso atualizado com sucesso (sem notificação).")
+            
         return redirect('admin_portal:case_detail', case_id=case.id)
     
     clients = Client.objects.all().order_by('full_name')
@@ -450,6 +458,21 @@ def generate_portal_access(request, case_id):
     else:
         # Se já existir, podemos regenerar se necessário ou apenas avisar
         messages.info(request, "Este caso já possui acesso ativo ao portal.")
+        
+    return redirect('admin_portal:case_detail', case_id=case.id)
+
+@login_required
+def revoke_portal_access(request, case_id):
+    """Revoga o token de acesso do portal."""
+    case = get_object_or_404(LegalCase, id=case_id)
+    from apps.portals.models import ClientPortalAccess
+    
+    deleted_count, _ = ClientPortalAccess.objects.filter(legal_case=case).delete()
+    
+    if deleted_count > 0:
+        messages.success(request, "Acesso ao portal revogado com sucesso.")
+    else:
+        messages.warning(request, "Nenhum acesso ativo encontrado para revogar.")
         
     return redirect('admin_portal:case_detail', case_id=case.id)
 

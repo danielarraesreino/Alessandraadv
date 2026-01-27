@@ -21,6 +21,7 @@ urlpatterns = [
     path('cases/<int:case_id>/edit/', views.case_edit, name='case_edit'),
     path('cases/create/', views.case_create, name='case_create'),
     path('cases/<int:case_id>/generate-access/', views.generate_portal_access, name='generate_access'),
+    path('cases/<int:case_id>/revoke-access/', views.revoke_portal_access, name='revoke_access'),
     
     # Finance
     path('finance/', views.finance_list, name='finance_list'),
