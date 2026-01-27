@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-f^o7xxr(@l&obkv8+d0ivbl+l%j%gd88xz+1#2b!gxl7-o*!_%")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "True") == "True"
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".railway.app", ".up.railway.app", "web-production-36079.up.railway.app"]
 CSRF_TRUSTED_ORIGINS = ["https://*.railway.app", "https://*.up.railway.app", "https://web-production-36079.up.railway.app"]
